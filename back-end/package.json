@@ -1,0 +1,23 @@
+{
+  "name": "back-end",
+  "version": "1.0.0",
+  "description": "back-end projet madu grp 4",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ayshiff/madu_gr_4.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ayshiff/madu_gr_4/issues"
+  },
+  "homepage": "https://github.com/ayshiff/madu_gr_4#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "typescript": "^3.7.5"
+  }
+}
