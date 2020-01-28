@@ -1,0 +1,6 @@
+---
+
+- name: Install docker
+  hosts: tag_
+  roles:
+    - { role: installdocker }
