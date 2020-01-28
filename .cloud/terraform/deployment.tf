@@ -14,8 +14,8 @@ resource "aws_security_group" "ssh_security_group" {
 
   ingress {
     from_port = 22
-    protocol = "tcp"
     to_port = 22
+    protocol = "tcp"
   }
 
   egress {
