@@ -12,12 +12,13 @@ describe("<App />", () => {
   let wrapper: any;
   const props: any = {};
 
-  it("defines the component", () => {
+  it("defines the component", done => {
     wrapper = shallow(
       <Provider store={mockStore()}>
         <App {...props} dispatch={mockDispatchfn} />
       </Provider>
     );
     expect(wrapper).toBeDefined();
+    done();
   });
 });
