@@ -9,7 +9,7 @@ export class CompanyController {
   constructor(private readonly companyService: CompanyService) {}
 
   @Post()
-  @UseGuards(AuthGuard('jwt'))
+  // @UseGuards(AuthGuard('jwt'))
   async create(@Body() createCompanyDto: CreateCompanyDto) {
     this.companyService.create(createCompanyDto);
   }
