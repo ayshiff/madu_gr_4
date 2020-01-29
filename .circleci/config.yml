@@ -10,12 +10,11 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/node:lts
+      - image: circleci/node:9.7
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
       # - image: circleci/mongo:3.4.4
-
     working_directory: ~/madu_gr_4/client
     steps:
       - checkout:
@@ -28,15 +27,15 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: yarn install --frozen-lockfile
+      - run: yarn install
 
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-
       # run tests and coverage !
-      - run: yarn lint
+
+      - run: yarn eslint
 
       - run: yarn prettier
 
@@ -75,6 +74,7 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
+
 workflows:
   version: 2
   build_and_test:
