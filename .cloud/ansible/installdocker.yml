@@ -1,6 +1,6 @@
 ---
 
 - name: Install docker
-  hosts: tag_
+  hosts: tag_Name_serveur_madu
   roles:
-    - { role: installdocker }
+    - { role: installdocker, become: yes }
