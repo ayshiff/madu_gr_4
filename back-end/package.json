@@ -18,6 +18,7 @@
   "homepage": "https://github.com/ayshiff/madu_gr_4#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "puppeteer": "^2.1.0",
     "typescript": "^3.7.5"
   }
 }
