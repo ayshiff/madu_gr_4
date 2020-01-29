@@ -15,24 +15,31 @@ jobs:
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
       # - image: circleci/mongo:3.4.4
+
     working_directory: ~/madu_gr_4/client
     steps:
       - checkout:
           path: ~/madu_gr_4
       # Download and cache dependencies
+
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
-      - run: npm install
+
+      - run: yarn install --frozen-lockfile
+
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
+
       # run tests and coverage !
-      - run: npm run lint
-      - run: npm run prettier
+      - run: yarn lint
+
+      - run: yarn prettier
+
       - run: COVERALLS_REPO_TOKEN=$COVERALLS_REPO_TOKEN npm run coverage
 
   service1:
