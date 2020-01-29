@@ -10,7 +10,7 @@ const getApp = () => {
   const currentPath = window.document.location.pathname;
 
   if (currentPath === "/") {
-    window.history.replaceState(null, "/poi");
+    window.history.replaceState(null, null, "/poi");
     return TestApp;
   }
 
