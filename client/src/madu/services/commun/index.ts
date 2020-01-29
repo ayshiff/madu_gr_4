@@ -133,4 +133,3 @@ export const prependUri = (prefix: string) => <T>(router: Router<T>): Router<T> 
             [key]: (...args: string[]): string => prefix + route.apply(null, args),
         };
     }, {}) as Router<T>;
-s;
