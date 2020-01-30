@@ -35,3 +35,11 @@
   user:
     name: "{{ server_user_name }}"
     groups: docker
+
+- name: Create directory for deployment
+  file:
+    path: /home/ubuntu/site
+    state: directory
+    owner: ubuntu
+    group: docker
+    mode: '0755'
