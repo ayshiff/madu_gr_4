@@ -18,6 +18,7 @@ export class UsersService {
   async create(createUserDto: CreateUserDto): Promise<User> {
     let createdUser = new this.userModel(createUserDto);
     createdUser.id = uuidv4();
+    createdUser.roles = ['user'];
     createdUser.password = await bcrypt.hashSync(
       createdUser.password,
       parseInt(this.configService.get<string>('SALT_ROUNDS'))
