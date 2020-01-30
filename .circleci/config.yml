@@ -10,7 +10,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/node:9.7
+      - image: circleci/node:lts
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
@@ -20,20 +20,28 @@ jobs:
       - checkout:
           path: ~/madu_gr_4
       # Download and cache dependencies
+
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
-      - run: npm install
+
+      - run: yarn install
+
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
       # run tests and coverage !
-      - run: npm run lint
-      - run: npm run prettier
-      - run: COVERALLS_REPO_TOKEN=$COVERALLS_REPO_TOKEN npm run coverage
+
+      - run: yarn eslint
+
+      - run: yarn prettier
+
+      - run:
+          name: abort if uncommitted files (coming from `yarn install` or `prettier`)
+          command: git diff-index --quiet HEAD --
 
   service1:
     docker:
@@ -64,6 +72,7 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
+
 workflows:
   version: 2
   build_and_test:
