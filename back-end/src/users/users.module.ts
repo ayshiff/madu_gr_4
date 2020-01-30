@@ -7,7 +7,19 @@ import { CompanyModule } from 'src/company/company.module';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
+    MongooseModule.forFeatureAsync([
+      {
+        name: 'User',
+        useFactory: () => {
+          const schema = UserSchema;
+          schema.pre(/^find/, function(next) {
+            this.select({ _id: 0, __v: 0 });
+            next();
+          });
+          return schema;
+        },
+      },
+    ]),
     CompanyModule
   ],
   providers: [UsersService],
