@@ -3,7 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UsersService } from './users.service';
 import { UserSchema } from './schemas/user.schema';
 import { UserController } from './user.controller';
-import { CompanyModule } from 'src/company/company.module';
+import { CustomValidationPipe } from './pipes/CustomValidationPipe';
 
 @Module({
   imports: [
@@ -19,11 +19,10 @@ import { CompanyModule } from 'src/company/company.module';
           return schema;
         },
       },
-    ]),
-    CompanyModule
+    ])
   ],
-  providers: [UsersService],
+  providers: [UsersService, CustomValidationPipe],
   controllers: [UserController],
-  exports: [UsersService]
+  exports: [UsersService, CustomValidationPipe]
 })
 export class UsersModule {}

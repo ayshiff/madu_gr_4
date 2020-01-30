@@ -12,7 +12,4 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   password: string;
-
-  @IsString()
-  company_id: string;
 }
