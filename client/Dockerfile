@@ -1,14 +1,14 @@
-FROM node:12 as build
+FROM node:lts as build
 
 WORKDIR /home/node
 
 COPY package.json .
 
-RUN npm install
+RUN yarn install
 
 COPY . .
 
-RUN npm run build
+RUN yarn run build
 
 FROM nginx:alpine
 
