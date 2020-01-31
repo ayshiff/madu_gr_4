@@ -31,7 +31,8 @@
     },
     "jest": {
         "collectCoverageFrom": [
-            "./src/madu/stores/**/*.{js,jsx,ts,tsx}"
+            "./src/madu/stores/**/*.{js,jsx,ts,tsx}",
+            "!./src/madu/stores/index.ts"
         ]
     },
     "eslintConfig": {
