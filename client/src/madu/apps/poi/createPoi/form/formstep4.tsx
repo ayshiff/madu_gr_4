@@ -51,7 +51,6 @@ const FormStep4 = () => {
                  <TextArea/>
                 </Form.Item>                                                
             </Form>            
-            {/* <TextArea rows={4} col={4}/>             */}
         </div>
     )
 }
