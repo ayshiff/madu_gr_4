@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Company } from './interfaces/company.interface';
 import { CreateCompanyDto } from "./dto/create-company.dto";
@@ -15,11 +15,23 @@ export class CompanyService {
     return createdCompany.save();
   }
 
+  async update(company: Company, createCompanyDto: CreateCompanyDto): Promise<Company> {
+    return this.companyModel.updateOne(company, createCompanyDto);
+  }
+
+  async delete(company: Company): Promise<Company> {
+    return this.companyModel.deleteOne(company);
+  }
+
   async findAll(): Promise<Company[]> {
     return this.companyModel.find().exec();
   }
 
   async findByUuid(uuid: string): Promise<Company> {
-    return this.companyModel.findOne({id: uuid});
+    const company = await this.companyModel.findOne({id: uuid});
+    if (company === null) {
+      throw new NotFoundException('Company not found');
+    }
+    return company;
   }
 }

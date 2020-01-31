@@ -6,7 +6,7 @@ import { CompanyModule } from './company/company.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 
-// todo serialization (delete _id from view)
+// todo dump db, tests, swagger
 @Module({
   imports: [
     MongooseModule.forRoot('mongodb://localhost/madu'),

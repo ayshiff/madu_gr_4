@@ -15,18 +15,29 @@ export class UsersService {
     @InjectModel('User') private readonly userModel: Model<User>
   ) {}
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
+  async create(createUserDto: CreateUserDto, company_id: string): Promise<User> {
     let createdUser = new this.userModel(createUserDto);
     createdUser.id = uuidv4();
-    createdUser.password = await bcrypt.hashSync(
-      createdUser.password,
-      parseInt(this.configService.get<string>('SALT_ROUNDS'))
-    );
+    createdUser.company_id = company_id;
+    createdUser.roles = ['user'];
+    if (createUserDto.manager) {
+      createdUser.roles.push('manager');
+    }
+    if (createdUser.password) {
+      createdUser.password = await bcrypt.hashSync(
+        createdUser.password,
+        parseInt(this.configService.get<string>('SALT_ROUNDS'))
+      );
+    }
     return createdUser.save();
   }
 
   async findAll(): Promise<User[]> {
-    return this.userModel.find().exec();
+    return this.userModel.find({}, {password: 0}).exec();
+  }
+
+  async findAllByCompany(company_id: string): Promise<User[]> {
+    return this.userModel.find({company_id: company_id}, {password: 0, company_id: 0}).exec();
   }
 
   async findByEmail(email: string): Promise<User | undefined> {

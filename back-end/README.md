@@ -73,3 +73,13 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
   Nest is [MIT licensed](LICENSE).
+
+
+## Documentation
+
+- swagger
+
+While the application is running, open your browser and navigate to http://localhost:3000/.
+- Compodoc
+
+You can generate your documentation using the below command ``` npx compodoc -p tsconfig.json -s ``` . Then, open your browser and navigate to http://localhost:8080.

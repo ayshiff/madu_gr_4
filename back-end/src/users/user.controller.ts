@@ -1,22 +1,24 @@
-import { Controller, Post, Body, Get, UsePipes } from '@nestjs/common';
+import { Controller, Get, Request, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { CreateUserDto } from "./dto/create-user.dto";
 import { UsersService } from "./users.service";
 import { User } from './interfaces/user.interface';
-import { CustomValidationPipe } from './pipes/CustomEmailValidationPipe';
+// import { Roles } from 'src/auth/decorator/roles.decorator';
+// import { RolesGuard } from 'src/auth/guards/roles.guard';
 
-@Controller('user')
+@Controller('users')
+// @UseGuards(AuthGuard('jwt'), RolesGuard)
 export class UserController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
-  @UsePipes(CustomValidationPipe)
-  async create(@Body() createUserDto: CreateUserDto) {
-    this.usersService.create(createUserDto);
-  }
-
   @Get()
+  // @Roles('admin')
   async findAll(): Promise<User[]> {
     return this.usersService.findAll();
+  }
+
+  @Get('profile')
+  // @Roles('user')
+  getProfile(@Request() req) {
+    return req.user;
   }
 }
