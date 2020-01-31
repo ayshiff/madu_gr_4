@@ -38,13 +38,19 @@ const CustomModal = styled(Modal)`
     }
 `;
 
-const PanelHeader = ({ callback }) => {
+const CustomCollapse = styled(Collapse)`
+    margin-bottom: ${rem(12)};
+`;
+
+const PanelHeader = ({ callback, onDelete, data, index }) => {
     const [value, setvalue] = useState(false);
     const [activeEdit, setActiveEdit] = useState(false);
 
     useEffect(() => {
-        callback(activeEdit);
-    }, [activeEdit]);
+        if (activeEdit) {
+            callback(activeEdit);
+        }
+    }, [activeEdit]); // eslint-disable-line no-use-before-define
 
     const onEdit = event => {
         const collapseActive = document.querySelector(".ant-collapse-content-active");
@@ -67,9 +73,10 @@ const PanelHeader = ({ callback }) => {
         e.stopPropagation();
         setvalue(false);
     };
+
     return (
         <PanelHeaderContainer>
-            <div>title</div>
+            <div>{data.title}</div>
             <ButtonWrapper>
                 <CustomIcon type="edit" style={{ fontSize: rem(18) }} onClick={e => onEdit(e)} />
                 <CustomIcon
@@ -81,7 +88,10 @@ const PanelHeader = ({ callback }) => {
             <CustomModal
                 title="Êtes-vous sûr de vouloir supprimer la catégorie social ?"
                 visible={value}
-                onOk={hideModal}
+                onOk={e => {
+                    hideModal(e);
+                    onDelete(index);
+                }}
                 onCancel={e => hideModal(e)}
                 okText="Supprimer"
                 cancelText="Annuler"
@@ -92,17 +102,24 @@ const PanelHeader = ({ callback }) => {
     );
 };
 
-export const CollapseComponent = () => {
+export const CollapseComponent = ({ datas, onDelete }) => {
     const [activeEdit, setActiveEdit] = useState(false);
     const callback = value => {
         setActiveEdit(value);
     };
 
-    return (
-        <Collapse>
-            <Panel header={<PanelHeader callback={callback} />} key="1">
+    return datas.map((data, i) => (
+        <CustomCollapse key={i}>
+            <Panel
+                header={
+                    <PanelHeader callback={callback} data={data} index={i} onDelete={onDelete} />
+                }
+                key={i}
+            >
                 <RadiosComponent activeEdit={activeEdit} setActiveEdit={setActiveEdit} />
             </Panel>
-        </Collapse>
-    );
+        </CustomCollapse>
+    ));
 };
+{
+}
