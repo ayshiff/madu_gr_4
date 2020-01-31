@@ -21,10 +21,11 @@ export const FormStep2 = () => {
                     <Radio.Button value="b">€€</Radio.Button>
                     <Radio.Button value="c">€€€</Radio.Button>
                     <Radio.Button value="d">€€€€</Radio.Button>
-                </Radio.Group>            
-            </Form.Item>            
+                </Radio.Group>
+            </Form.Item>
+            <Form.Item label="Upload"></Form.Item>
             <Form.Item label="Description">
-            <TextArea rows={4} />
+                <TextArea rows={4} />
             </Form.Item>
         </Form>
     );
