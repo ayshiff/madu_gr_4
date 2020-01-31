@@ -18,16 +18,14 @@ const FormStep4 = () => {
         wrapperCol: { span: 4 },
     };
 
-    const { TextArea } = Input;
-
     return (
         <div>
             <Form {...layout} name="nest-messages">
-                <Form.Item label="Type d'établissement">
+                <Form.Item label="Choisir template">
                     <Select
                         showSearch
                         style={{ width: 200 }}
-                        placeholder="Choisir template"
+                        placeholder=" "
                         optionFilterProp="children"
                     >
                         <Option value="jack">Template 1</Option>
@@ -35,7 +33,7 @@ const FormStep4 = () => {
                         <Option value="tom">Template 3</Option>
                     </Select>
                 </Form.Item>
-                <Form.Item label="Type d'établissement">
+                <Form.Item label="Envoi du quest">
                     <Radio.Group onChange={e => setValue(e.target.value)} value={value}>
                         <Radio style={radioStyle} value={1}>
                             Remplir directement le questionnR
@@ -45,9 +43,6 @@ const FormStep4 = () => {
                             {value === 2 ? <Input style={{ width: 100, marginLeft: 10 }} /> : null}
                         </Radio>
                     </Radio.Group>
-                </Form.Item>
-                <Form.Item label="Type d'établissement">
-                    <TextArea />
                 </Form.Item>
             </Form>
         </div>
