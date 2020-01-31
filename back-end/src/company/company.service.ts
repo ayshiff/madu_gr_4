@@ -9,14 +9,6 @@ const uuidv4 = require('uuid/v4');
 export class CompanyService {
   constructor(@InjectModel('Company') private readonly companyModel: Model<Company>) {}
 
-  async findByIdOr404(id: string): Promise<Company> {
-    const company = await this.findByUuid(id);
-    if (company === null) {
-      throw new NotFoundException('Company not found');
-    }
-    return company;
-  }
-
   async create(createCompanyDto: CreateCompanyDto): Promise<Company> {
     let createdCompany = new this.companyModel(createCompanyDto);
     createdCompany.id = uuidv4();
