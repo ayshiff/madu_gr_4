@@ -9,6 +9,15 @@ describe("TemplateStore", () => {
         });
     });
 
+    describe("add()", () => {
+        it("should add a template to the store", () => {
+            const store = new TemplateStore();
+            store.add(templateStoreMock1);
+            expect(store.templates).toHaveLength(1);
+            expect(store.templates).toEqual([templateStoreMock1]);
+        });
+    });
+
     describe("reset()", () => {
         it("should reset the state", () => {
             const store = new TemplateStore();

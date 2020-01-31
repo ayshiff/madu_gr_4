@@ -21,12 +21,9 @@ class PointOfInterestStore {
     };
 
     @action edit = (pointOfInterest: IPointOfInterest) => {
-        const editedPointOfInterests = this.pointOfInterests.map((point: IPointOfInterest) => {
-            if (point.id === pointOfInterest.id) {
-                return pointOfInterest;
-            }
-            return point;
-        });
+        const editedPointOfInterests = this.pointOfInterests.map((point: IPointOfInterest) =>
+            point.id === pointOfInterest.id ? pointOfInterest : point
+        );
         this.pointOfInterests = editedPointOfInterests;
     };
 

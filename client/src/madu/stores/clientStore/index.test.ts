@@ -9,6 +9,15 @@ describe("ClientStore", () => {
         });
     });
 
+    describe("add()", () => {
+        it("should add a client to the store", () => {
+            const store = new ClientStore();
+            store.add(clientStoreMock1);
+            expect(store.clients).toHaveLength(1);
+            expect(store.clients).toEqual([clientStoreMock1]);
+        });
+    });
+
     describe("reset()", () => {
         it("should reset the state", () => {
             const store = new ClientStore();

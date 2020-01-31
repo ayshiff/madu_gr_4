@@ -18,13 +18,10 @@ class ClientStore {
     };
 
     @action edit = (client: IClient) => {
-        const editedPointOfInterests = this.clients.map((point: IClient) => {
-            if (point.id === client.id) {
-                return client;
-            }
-            return point;
-        });
-        this.clients = editedPointOfInterests;
+        const editedClient = this.clients.map((clientRef: IClient) =>
+            clientRef.id === client.id ? client : clientRef
+        );
+        this.clients = editedClient;
     };
 
     @action remove = (id: string) => {

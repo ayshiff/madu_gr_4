@@ -9,6 +9,15 @@ describe("PointOfInterestStore", () => {
         });
     });
 
+    describe("add()", () => {
+        it("should add a point of interest to the store", () => {
+            const store = new PointOfInterestStore();
+            store.add(pointOfInterestMock1);
+            expect(store.pointOfInterests).toHaveLength(1);
+            expect(store.pointOfInterests).toEqual([pointOfInterestMock1]);
+        });
+    });
+
     describe("reset()", () => {
         it("should reset the state", () => {
             const store = new PointOfInterestStore();

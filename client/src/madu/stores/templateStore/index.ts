@@ -20,13 +20,10 @@ class TemplateStore {
     };
 
     @action editTemplate = (template: ITemplate) => {
-        const editedPointOfInterests = this.templates.map((point: ITemplate) => {
-            if (point.id === template.id) {
-                return template;
-            }
-            return point;
-        });
-        this.templates = editedPointOfInterests;
+        const editedTemplate = this.templates.map((templateRef: ITemplate) =>
+            templateRef.id === template.id ? template : templateRef
+        );
+        this.templates = editedTemplate;
     };
 
     @action remove = (id: string) => {
