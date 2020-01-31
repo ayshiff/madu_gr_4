@@ -9,7 +9,7 @@ import 'antd/dist/antd.css';
 const { Header, Sider, Content } = Layout;
 
 
-export function CreatePoi() {
+export const  CreatePoi = () => {
   const [current, setCurrent] = useState(0);
 
   const { Step } = Steps;
@@ -33,13 +33,20 @@ export function CreatePoi() {
       content: <FormStep4/>,
     },
   ];
+
+  const titleStyle = {
+    marginLeft: '20px',
+    fontWeight: 500,
+    fontSize: '28px'
+  }
+
 console.log(steps[current]);
 
     return (
         <Layout>
         <Sider trigger={null} collapsible >
           <div className="logo" />
-          <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+          <Menu theme="dark" mode="inline" defaultSelectedKeys={['2']}>
             <Menu.Item key="1">
               <Icon type="user" />
               <span>P.O.I</span>
@@ -56,7 +63,7 @@ console.log(steps[current]);
         </Sider>
         <Layout>
           <Header style={{ background: '#fff', padding: 0 }}>
-            <h1>Créer P.O.I</h1>
+            <h1 style={ titleStyle }>Créer P.O.I</h1>
           </Header>
           <Content
             style={{
@@ -67,16 +74,16 @@ console.log(steps[current]);
             }} 
           >
             <div>
-              <Steps current={current}>
+              <Steps current={current} style={{ marginTop: '20px' }}>
                 {steps.map(item => (
-                  <Step key={item.title} title={item.title} description={item.content}/>
+                  <Step key={item.title}  />
               ))}
               </Steps>
-              <div className="steps-content">{steps[current].content}</div>
+              <div className="steps-content" style={{ marginTop: '100px', marginBottom: '100px' }}>{steps[current].content}</div>
               {/* <div className="steps-content">{
                 createForm( current )
               }</div> */}
-              <div className="steps-action">
+              <div className="steps-action" style={{ display: 'flex', justifyContent: 'flex-end' }}>
                 {current < steps.length - 1 && (
                   <Button type="primary" onClick={e => { e.preventDefault(); setCurrent(current + 1)}}>
                     Next

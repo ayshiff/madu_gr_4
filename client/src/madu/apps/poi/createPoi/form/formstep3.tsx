@@ -15,12 +15,14 @@ export const FormStep3 = () => {
 
     return(
         <div>
-            <Radio.Group onChange={onChange} defaultValue="a">
-                <Radio.Button value="a">Restaurant</Radio.Button>
-                <Radio.Button value="b">Boutique</Radio.Button>
-                <Radio.Button value="c">Expérience</Radio.Button>
-            </Radio.Group>
             <Form {...layout} name="nest-messages" >
+                <Form.Item label="Type d'établissement" >
+                <Radio.Group onChange={onChange} defaultValue="a">
+                    <Radio.Button value="a">Restaurant</Radio.Button>
+                    <Radio.Button value="b">Boutique</Radio.Button>
+                    <Radio.Button value="c">Expérience</Radio.Button>
+                </Radio.Group>
+                </Form.Item>
                 <Form.Item label="Type d'établissement" >
                     <Input />
                 </Form.Item>
