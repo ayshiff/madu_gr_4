@@ -10,9 +10,14 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing:border-box;
   }
   body {
-    color: #fff;
+    height:100%;
     text-rendering: optimizeLegibility;
   };
+
+  #root {
+    height: 100%;
+  };
+
   a {
     color: initial;
   }

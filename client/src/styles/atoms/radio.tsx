@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Radio, Input } from "antd";
+import { Input } from "antd";
 import { rem } from "polished";
 
 const RadioComponent = ({ answer, activeEdit, setActiveEdit }) => {
     const [inputValue, setInputValue] = useState(answer.value);
 
-    const radioStyle = {
+    const Style = {
         display: "block",
         height: rem(30),
         lineHeight: rem(30),
@@ -17,7 +17,7 @@ const RadioComponent = ({ answer, activeEdit, setActiveEdit }) => {
     };
 
     return (
-        <Radio style={radioStyle} value={1}>
+        <div style={Style}>
             {activeEdit ? (
                 <Input
                     placeholder="value"
@@ -28,35 +28,28 @@ const RadioComponent = ({ answer, activeEdit, setActiveEdit }) => {
             ) : (
                 inputValue
             )}
-        </Radio>
+        </div>
     );
 };
 
 export const RadiosComponent = ({ activeEdit, setActiveEdit }) => {
-    const [value, setValue] = useState(1);
-
-    const onChange = e => {
-        setValue(e.target.value);
-    };
-
     const answers = [
         { value: "answer1", id: "answer1" },
         { value: "answer2", id: "answer2" },
         { value: "answer3", id: "answer3" },
-        { value: "answer4", id: "answer4" },
     ];
 
     return (
-        <Radio.Group onChange={onChange} value={value}>
+        <div>
             {answers.map(answer => (
                 <React.Fragment key={answer.id}>
                     <RadioComponent
                         activeEdit={activeEdit}
-                        answer={answer}
                         setActiveEdit={setActiveEdit}
+                        answer={answer}
                     />
                 </React.Fragment>
             ))}
-        </Radio.Group>
+        </div>
     );
 };

@@ -43,13 +43,11 @@ const CustomCollapse = styled(Collapse)`
 `;
 
 const PanelHeader = ({ callback, onDelete, data, index }) => {
-    const [value, setvalue] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
     const [activeEdit, setActiveEdit] = useState(false);
 
     useEffect(() => {
-        if (activeEdit) {
-            callback(activeEdit);
-        }
+        callback(activeEdit);
     }, [activeEdit]); // eslint-disable-line no-use-before-define
 
     const onEdit = event => {
@@ -66,12 +64,12 @@ const PanelHeader = ({ callback, onDelete, data, index }) => {
 
     const showModal = event => {
         event.stopPropagation();
-        setvalue(true);
+        setModalVisible(true);
     };
 
     const hideModal = e => {
         e.stopPropagation();
-        setvalue(false);
+        setModalVisible(false);
     };
 
     return (
@@ -87,7 +85,7 @@ const PanelHeader = ({ callback, onDelete, data, index }) => {
             </ButtonWrapper>
             <CustomModal
                 title="Êtes-vous sûr de vouloir supprimer la catégorie social ?"
-                visible={value}
+                visible={modalVisible}
                 onOk={e => {
                     hideModal(e);
                     onDelete(index);
@@ -104,16 +102,14 @@ const PanelHeader = ({ callback, onDelete, data, index }) => {
 
 export const CollapseComponent = ({ datas, onDelete }) => {
     const [activeEdit, setActiveEdit] = useState(false);
-    const callback = value => {
+    const onEdit = value => {
         setActiveEdit(value);
     };
 
     return datas.map((data, i) => (
         <CustomCollapse key={i}>
             <Panel
-                header={
-                    <PanelHeader callback={callback} data={data} index={i} onDelete={onDelete} />
-                }
+                header={<PanelHeader callback={onEdit} data={data} index={i} onDelete={onDelete} />}
                 key={i}
             >
                 <RadiosComponent activeEdit={activeEdit} setActiveEdit={setActiveEdit} />
