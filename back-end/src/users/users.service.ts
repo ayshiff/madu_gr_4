@@ -20,10 +20,15 @@ export class UsersService {
     createdUser.id = uuidv4();
     createdUser.company_id = company_id;
     createdUser.roles = ['user'];
-    createdUser.password = await bcrypt.hashSync(
-      createdUser.password,
-      parseInt(this.configService.get<string>('SALT_ROUNDS'))
-    );
+    if (createUserDto.manager) {
+      createdUser.roles.push('manager');
+    }
+    if (createdUser.password) {
+      createdUser.password = await bcrypt.hashSync(
+        createdUser.password,
+        parseInt(this.configService.get<string>('SALT_ROUNDS'))
+      );
+    }
     return createdUser.save();
   }
 
