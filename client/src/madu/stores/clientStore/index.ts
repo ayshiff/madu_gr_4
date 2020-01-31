@@ -1,6 +1,6 @@
 import { observable, action } from "mobx";
 
-interface IClient {
+export interface IClient {
     id: string;
     phone: string;
     name: string;

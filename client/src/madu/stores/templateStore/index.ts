@@ -6,7 +6,7 @@ interface IQuestion {
     coefficient: number;
 }
 
-interface ITemplate {
+export interface ITemplate {
     id: string;
     name: string;
     questions: IQuestion[];

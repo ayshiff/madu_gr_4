@@ -1,10 +1,9 @@
 import React from "react";
-import templateStore from "./templateStore/index";
-import clientStore from "./clientStore/index";
-import pointOfInterestStore from "./pointOfInterestStore/index";
 import { createContext } from "react";
+import { stores } from "../stores/index";
 
-export const stores = { templateStore, clientStore, pointOfInterestStore };
+const { templateStore, clientStore, pointOfInterestStore } = stores;
+
 export const StoreContext = createContext({});
 export const StoreProvider = StoreContext.Provider;
 

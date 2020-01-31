@@ -1,7 +1,7 @@
 import React, { lazy } from "react";
 
 import { OuterAppFrame } from "madu/startup";
-import "./app.css";
+import { stores, StoreProvider } from "./stores/index";
 
 const PoiApp = lazy(() => import("madu/apps/poi"));
 
@@ -24,10 +24,15 @@ const getApp = () => {
     }
 };
 
+// For easier debugging
+window._____APP_STATE_____ = stores;
+
 const AppExportedWithContext = ({ App }) => {
     return (
         <OuterAppFrame>
-            <App />
+            <StoreProvider value={stores}>
+                <App />
+            </StoreProvider>
         </OuterAppFrame>
     );
 };

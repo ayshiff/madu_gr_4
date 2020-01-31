@@ -1,6 +1,6 @@
 import { observable, action } from "mobx";
 
-interface IPointOfInterest {
+export interface IPointOfInterest {
     id: string;
     name: string;
     link: string;
