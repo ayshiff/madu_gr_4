@@ -52,7 +52,7 @@ export const SurveyContainer = () => {
     };
 
     return (
-        <Row style={{ height: "100%" }}>
+        <Row style={{ height: "100%", marginTop: rem(24) }}>
             <Col span={16}>
                 <TabsCustom type="card">
                     {tabs.map(tab => (

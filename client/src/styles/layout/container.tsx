@@ -1,16 +1,13 @@
 import React from "react";
-import styled from "styled-components";
-import { rem } from "polished";
+import { Row, Col } from "antd";
 
-const ContainerStyle = styled.div`
-    width: 100%;
-    height: 100%;
-    max-width: ${rem(1300)};
-    margin: 0 auto;
-    padding: ${rem(50)} ${rem(62)};
-    background: #fff;
-`;
+import { SideBar } from "styles/organisms/side-bar";
 
 export const Container = ({ children }: React.PropsWithChildren<{}>) => (
-    <ContainerStyle>{children}</ContainerStyle>
+    <Row>
+        <Col span={4}>
+            <SideBar />
+        </Col>
+        <Col span={20}>{children}</Col>
+    </Row>
 );

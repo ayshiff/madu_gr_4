@@ -6,7 +6,7 @@ import { Container } from "styles/layout/container";
 
 import { SurveyContainer } from "./view";
 
-const PoiApp = ({ match }) => (
+const SurveyApp = ({ match }) => (
     <Container>
         <Switch>
             <Route exact path={`${match.url}`} render={() => <SurveyContainer />} />
@@ -19,7 +19,7 @@ const history = createHistory();
 export default () => {
     return (
         <Router history={history}>
-            <Route path="/survey" component={PoiApp} />
+            <Route path="/survey" component={SurveyApp} />
         </Router>
     );
 };

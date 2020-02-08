@@ -15,7 +15,7 @@ export const FormStep2 = () => {
             <Form.Item label="Lien du site, réseau sociaux">
                 <Input />
             </Form.Item>
-            <Form.Item label="Upload photos">
+            <Form.Item label="Prix">
                 <Radio.Group defaultValue="a" buttonStyle="solid">
                     <Radio.Button value="a">€</Radio.Button>
                     <Radio.Button value="b">€€</Radio.Button>
@@ -23,7 +23,7 @@ export const FormStep2 = () => {
                     <Radio.Button value="d">€€€€</Radio.Button>
                 </Radio.Group>
             </Form.Item>
-            <Form.Item label="Upload"></Form.Item>
+            <Form.Item label="Upload photos"></Form.Item>
             <Form.Item label="Description">
                 <TextArea rows={4} />
             </Form.Item>

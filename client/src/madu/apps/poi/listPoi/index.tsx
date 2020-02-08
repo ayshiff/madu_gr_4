@@ -1,8 +1,8 @@
 import React from "react";
-import { Layout, Menu, Icon, Input, Button, Table, Divider } from "antd";
+import { Layout, Input, Button, Table, Divider } from "antd";
 import "antd/dist/antd.css";
 
-const { Header, Sider, Content } = Layout;
+const { Header, Content } = Layout;
 
 export const ListPoi = () => {
     const tableData = [
@@ -45,7 +45,6 @@ export const ListPoi = () => {
             title: "Nom du lieu",
             dataIndex: "nomDuLieu",
             key: "nomDuLieu",
-            // render: text => <a href="#">{text}</a>,
         },
         {
             title: "Catégorie",
@@ -57,11 +56,6 @@ export const ListPoi = () => {
             dataIndex: "questionnr",
             key: "questionnr",
         },
-        // {
-        //   title: 'Tag questionnr',
-        //   key: 'tags',
-        //   dataIndex: 'tags',
-        // },
         {
             title: "Greenscore",
             dataIndex: "greenscore",
@@ -96,23 +90,6 @@ export const ListPoi = () => {
     const { Search } = Input;
     return (
         <Layout>
-            <Sider trigger={null} collapsible>
-                <div className="logo" />
-                <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
-                    <Menu.Item key="1">
-                        <Icon type="user" />
-                        <span>P.O.I</span>
-                    </Menu.Item>
-                    <Menu.Item key="2">
-                        <Icon type="video-camera" />
-                        <span>QuestionnR</span>
-                    </Menu.Item>
-                    <Menu.Item key="3">
-                        <Icon type="upload" />
-                        <span>Clients</span>
-                    </Menu.Item>
-                </Menu>
-            </Sider>
             <Layout>
                 <Header style={headerStyle}>
                     <h1 style={titleStyle}>Liste des points d’intêret</h1>
