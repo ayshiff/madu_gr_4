@@ -1,17 +1,18 @@
 import React, { lazy } from "react";
 
 import { OuterAppFrame } from "madu/startup";
+import "./app.css";
 
-const TestApp = lazy(() => import("madu/apps/poi")); //App de test
+const SurveyApp = lazy(() => import("madu/apps/survey")); //App de test
 
-const launchers = [["/poi", TestApp]];
+const launchers = [["/survey", SurveyApp]];
 
 const getApp = () => {
     const currentPath = window.document.location.pathname;
 
     if (currentPath === "/") {
-        window.history.replaceState(null, null, "/poi");
-        return TestApp;
+        window.history.replaceState(null, null, "/survey");
+        return SurveyApp;
     }
 
     const maybeApp = launchers.find(([pathPrefix]) => currentPath.startsWith(pathPrefix));

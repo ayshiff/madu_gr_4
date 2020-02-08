@@ -1,0 +1,13 @@
+---
+
+- name: Copy docker-compose
+  copy:
+    src: ../files/docker-compose.yml
+    dest: ~/site/docker-compose.yml
+    owner: ubuntu
+    group: docker
+    mode: '0755'
+
+- name: Start service
+  docker_compose:
+    project_src: ~/site

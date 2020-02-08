@@ -1,4 +1,4 @@
-import appConfig from "yummy/app-config";
+import appConfig from "madu/app-config";
 import { Router } from "./types";
 
 type Call = () => Promise<Response>;
