@@ -5,8 +5,9 @@ import { AppController } from './app.controller';
 import { CompanyModule } from './company/company.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { PoiModule } from './poi/poi.module';
 
-// todo dump db, tests, swagger
+// todo dump db, tests
 @Module({
   imports: [
     MongooseModule.forRoot('mongodb://localhost/madu'),
@@ -15,7 +16,8 @@ import { UsersModule } from './users/users.module';
     }),
     CompanyModule,
     AuthModule,
-    UsersModule
+    UsersModule,
+    PoiModule
   ],
   controllers: [AppController]
 })
