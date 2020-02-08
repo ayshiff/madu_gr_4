@@ -1,10 +1,10 @@
-import { IsString, IsInt } from 'class-validator';
+import { IsString, IsInt, IsFQDN } from 'class-validator';
 
 export class CreateCompanyDto {
   @IsString()
   name: string;
 
-  @IsString()
+  @IsFQDN()
   domainName: string;
 
   @IsString()
