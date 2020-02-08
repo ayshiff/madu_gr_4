@@ -26,6 +26,8 @@ async function bootstrap() {
     .setTitle('Madu')
     .setDescription('The OpenAPI documentation for Madu')
     .setVersion('1.0')
+    .addTag('User')
+    .addTag('Company')
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('', app, document);

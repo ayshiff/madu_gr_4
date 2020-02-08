@@ -4,8 +4,9 @@ import { ConfigService } from '@nestjs/config';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './interfaces/user.interface';
 import { InjectModel } from '@nestjs/mongoose';
-const uuidv4 = require('uuid/v4');
-const bcrypt = require('bcrypt');
+import { UserRole } from 'src/auth/userRole.enum';
+import * as uuidv4 from 'uuid/v4';
+import { hashSync } from 'bcrypt';
 
 
 @Injectable()
@@ -19,12 +20,12 @@ export class UsersService {
     let createdUser = new this.userModel(createUserDto);
     createdUser.id = uuidv4();
     createdUser.company_id = company_id;
-    createdUser.roles = ['user'];
+    createdUser.roles = [UserRole.User];
     if (createUserDto.manager) {
-      createdUser.roles.push('manager');
+      createdUser.roles.push(UserRole.Manager);
     }
     if (createdUser.password) {
-      createdUser.password = await bcrypt.hashSync(
+      createdUser.password = await hashSync(
         createdUser.password,
         parseInt(this.configService.get<string>('SALT_ROUNDS'))
       );

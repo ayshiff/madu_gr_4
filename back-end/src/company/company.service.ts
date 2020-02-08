@@ -3,7 +3,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Company } from './interfaces/company.interface';
 import { CreateCompanyDto } from "./dto/create-company.dto";
-const uuidv4 = require('uuid/v4');
+import * as uuidv4 from 'uuid/v4';
 
 @Injectable()
 export class CompanyService {
