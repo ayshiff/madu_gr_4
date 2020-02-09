@@ -1,9 +1,11 @@
 import { Model } from 'mongoose';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Company } from './interfaces/company.interface';
 import { CreateCompanyDto } from "./dto/create-company.dto";
 import * as uuidv4 from 'uuid/v4';
+import { User } from 'src/users/interfaces/user.interface';
+import { UserRole } from 'src/auth/userRole.enum';
 
 @Injectable()
 export class CompanyService {
@@ -33,5 +35,11 @@ export class CompanyService {
       throw new NotFoundException('Company not found');
     }
     return company;
+  }
+
+  denyAccessByCompany(user: User, company: Company) {
+    if (!user.roles.includes(UserRole.Admin) && company._id+'' !== user.company_id+'') {
+      throw new UnauthorizedException();
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, UseGuards, UsePipes, Param, NotFoundException, Put, Delete } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, UsePipes, Param, NotFoundException, Put, Delete, Request, UnauthorizedException } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateCompanyDto } from "./dto/create-company.dto";
 import { CompanyService } from "./company.service";
@@ -50,6 +50,7 @@ export class CompanyController {
   @Roles(UserRole.Admin)
   async remove(@Param('company_id') id: string) {
     const company = await this.companyService.findByUuid(id);
+    this.usersService.deleteAllByCompany(company._id);
     this.companyService.delete(company);
   }
 
@@ -57,17 +58,20 @@ export class CompanyController {
   @Roles(UserRole.Manager)
   @UsePipes(CustomValidationPipe)
   async createUser(
+    @Request() req,
     @Param('company_id') id,
     @Body() createUserDto: CreateUserDto
   ) {
     const company = await this.companyService.findByUuid(id);
+    this.companyService.denyAccessByCompany(req.user, company);
     this.usersService.create(createUserDto, company._id);
   }
 
   @Get(':company_id/users')
   @Roles(UserRole.Manager)
-  async findAllUsers(@Param('company_id') id): Promise<User[]> {
+  async findAllUsers(@Request() req, @Param('company_id') id): Promise<User[]> {
     const company = await this.companyService.findByUuid(id);
+    this.companyService.denyAccessByCompany(req.user, company);
     return this.usersService.findAllByCompany(company._id);
   }
 }

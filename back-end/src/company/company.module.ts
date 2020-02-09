@@ -13,7 +13,7 @@ import { UsersModule } from 'src/users/users.module';
           useFactory: () => {
             const schema = CompanySchema;
             schema.pre(/^find/, function(next) {
-              this.select({ _id: 0, __v: 0 });
+              this.select({__v: 0 });
               next();
             });
             return schema;
