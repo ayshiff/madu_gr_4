@@ -25,7 +25,7 @@ import { TemplateSchema } from "./schemas/template.schema";
           useFactory: () => {
             const schema = TemplateSchema;
             schema.pre(/^find/, function(next) {
-              this.select({ _id: 0, __v: 0 });
+              this.select({ __v: 0 });
               next();
             });
             return schema;
@@ -34,6 +34,7 @@ import { TemplateSchema } from "./schemas/template.schema";
       ])
     ],
     providers: [QuestionService, TemplateService],
-    controllers: [GreenscoreController]
+    controllers: [GreenscoreController],
+    exports: [TemplateService]
   })
 export class GreenscoreModule {}

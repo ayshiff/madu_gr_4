@@ -63,7 +63,7 @@ export class CompanyController {
     @Body() createUserDto: CreateUserDto
   ) {
     const company = await this.companyService.findByUuid(id);
-    this.companyService.denyAccessByCompany(req.user, company);
+    // this.companyService.denyAccessByCompany(req.user, company);
     this.usersService.create(createUserDto, company._id);
   }
 
@@ -71,7 +71,7 @@ export class CompanyController {
   @Roles(UserRole.Manager)
   async findAllUsers(@Request() req, @Param('company_id') id): Promise<User[]> {
     const company = await this.companyService.findByUuid(id);
-    this.companyService.denyAccessByCompany(req.user, company);
+    // this.companyService.denyAccessByCompany(req.user, company);
     return this.usersService.findAllByCompany(company._id);
   }
 }

@@ -1,13 +1,18 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Poi } from './interfaces/poi.interface';
 import { CreatePoiDto } from './dto/create-poi.dto';
 import * as uuidv4 from 'uuid/v4';
+import { TemplateService } from 'src/greenscore/template.service';
+import { CreatePoiGreenscoreDto } from './dto/create-poi-greenscore.dto';
 
 @Injectable()
 export class PoiService {
-  constructor(@InjectModel('Poi') private readonly poiModel: Model<Poi>) {}
+  constructor(
+    @InjectModel('Poi') private readonly poiModel: Model<Poi>,
+    private readonly templateService: TemplateService
+  ) {}
 
   async create(createPoiDto: CreatePoiDto): Promise<Poi> {
     let createdPoi = new this.poiModel(createPoiDto);
@@ -33,5 +38,15 @@ export class PoiService {
       throw new NotFoundException('Poi not found');
     }
     return poi;
+  }
+
+  async addTemplate(poi: Poi, createPoiGreenscoreDto: CreatePoiGreenscoreDto) {
+    const template = await this.templateService.findByUuid(createPoiGreenscoreDto.template);
+    if (!template) {
+      throw new BadRequestException('Invalid template')
+    }
+    const template_id = template._id;
+    const token = createPoiGreenscoreDto.sendToPoi ? uuidv4().replace(/-/gi, '') : null;
+    await this.poiModel.updateOne({ id: poi.id }, { template_id, token });
   }
 }

@@ -4,7 +4,7 @@ export interface Poi {
   _id: mongoose.Schema.Types.ObjectId;
   id: string;
   name: string;
-  type: string;
+  poiType: string;
   street: string;
   zipCode: number;
   city: string;
@@ -56,4 +56,6 @@ export interface Poi {
   priceRange: string;
   description: string;
   website: string;
+  template_id: mongoose.Schema.Types.ObjectId;
+  token: string;
 }

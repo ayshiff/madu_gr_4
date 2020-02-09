@@ -44,7 +44,7 @@ export class CreatePoiDto {
   name: string;
 
   @IsString()
-  type: string;
+  poiType: string;
 
   @IsString()
   street: string;

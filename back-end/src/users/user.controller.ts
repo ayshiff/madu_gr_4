@@ -30,7 +30,7 @@ export class UserController {
   @Roles(UserRole.Manager)
   async findOne(@Request() req, @Param('user_id') id: string): Promise<User> {
     const user = await this.usersService.findByUuid(id);
-    this.usersService.denyAccessByCompany(req.user, user);
+    // this.usersService.denyAccessByCompany(req.user, user);
     return user;
   }
 
@@ -38,7 +38,7 @@ export class UserController {
   @Roles(UserRole.Manager)
   async update(@Request() req, @Param('user_id') id: string, @Body() createUserDto: CreateUserDto) {
     const user = await this.usersService.findByUuid(id);
-    this.usersService.denyAccessByCompany(req.user, user);
+    // this.usersService.denyAccessByCompany(req.user, user);
     this.usersService.update(user, createUserDto);
   }
 
@@ -46,7 +46,7 @@ export class UserController {
   @Roles(UserRole.Manager)
   async remove(@Request() req, @Param('user_id') id: string) {
     const user = await this.usersService.findByUuid(id);
-    this.usersService.denyAccessByCompany(req.user, user);
+    // this.usersService.denyAccessByCompany(req.user, user);
     this.usersService.delete(user);
   }
 }

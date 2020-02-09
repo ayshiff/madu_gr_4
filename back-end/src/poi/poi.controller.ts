@@ -4,6 +4,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/auth/decorator/roles.decorator';
 import { UserRole } from 'src/auth/userRole.enum';
 import { CreatePoiDto } from './dto/create-poi.dto';
+import { CreatePoiGreenscoreDto } from './dto/create-poi-greenscore.dto';
 import { Poi } from './interfaces/poi.interface';
 
 @ApiTags('Poi')
@@ -44,5 +45,12 @@ export class PoiController {
   async remove(@Param('poi_id') id: string) {
     const poi = await this.poiService.findByUuid(id);
     this.poiService.delete(poi);
+  }
+
+  @Post(':poi_id/greenscore')
+  @Roles(UserRole.Admin)
+  async addTemplate(@Param('poi_id') id: string, @Body() createPoiGreenscoreDto: CreatePoiGreenscoreDto) {
+    const poi = await this.poiService.findByUuid(id);
+    this.poiService.addTemplate(poi, createPoiGreenscoreDto);
   }
 }

@@ -3,6 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { PoiService } from './poi.service';
 import { PoiController } from './poi.controller';
 import { PoiSchema } from "./schemas/poi.schema";
+import { GreenscoreModule } from 'src/greenscore/greenscore.module';
 
 @Module({
     imports: [
@@ -18,7 +19,8 @@ import { PoiSchema } from "./schemas/poi.schema";
             return schema;
           },
         },
-      ])
+      ]),
+      GreenscoreModule
     ],
     providers: [PoiService],
     controllers: [PoiController]
