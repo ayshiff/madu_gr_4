@@ -7,6 +7,7 @@ export const PoiSchema = new mongoose.Schema({
   street: String,
   zipCode: Number,
   city: String,
+  phone: String,
   openingTime: {
     monday: [
       {

@@ -1,4 +1,4 @@
-import { IsString, IsInt, IsMilitaryTime, ValidateNested, IsUrl, Validate } from 'class-validator';
+import { IsString, IsInt, IsMilitaryTime, ValidateNested, IsUrl, Validate, IsPhoneNumber } from 'class-validator';
 import { Type } from 'class-transformer';
 
 class Week {
@@ -54,6 +54,9 @@ export class CreatePoiDto {
 
   @IsString()
   city: string;
+
+  @IsPhoneNumber('FR')
+  phone: string;
 
   @ValidateNested()
   @Type(() => Week)
