@@ -1,18 +1,31 @@
-import { Controller, Get, Request, UseGuards, Body, Post, Put, Delete, Param } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
+import { Controller, Get, Request, UseGuards, Body, Post, Put, Delete, Param, UsePipes, UnauthorizedException } from '@nestjs/common';
+// import { AuthGuard } from '@nestjs/passport';
 import { UsersService } from "./users.service";
 import { User } from './interfaces/user.interface';
 import { UserRole } from 'src/auth/userRole.enum';
 import { ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/auth/decorator/roles.decorator';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { CreateUserDto } from './dto/create-user.dto';
+import { CreateAdminDto } from './dto/create-admin.dto';
+import { CustomValidationPipe } from './pipes/CustomValidationPipe';
 
 @ApiTags('User')
 @Controller('users')
-// @UseGuards(AuthGuard('jwt'), RolesGuard)
+@UseGuards(AuthGuard, RolesGuard)
 export class UserController {
   constructor(private readonly usersService: UsersService) {}
+
+  @Post('/admin')
+  // @UsePipes(CustomValidationPipe)
+  async create(@Request() req, @Body() createAdminDto: CreateAdminDto) {
+    console.log('controller', req.user);
+    if (await this.usersService.accessOnlyOnceOrAdmin(req.user)) {
+      throw new UnauthorizedException();
+    }
+    this.usersService.createAdmin(createAdminDto);
+  }
 
   @Get()
   @Roles(UserRole.Admin)
@@ -21,7 +34,6 @@ export class UserController {
   }
 
   @Get('profile')
-  @Roles(UserRole.User)
   getProfile(@Request() req) {
     return req.user;
   }

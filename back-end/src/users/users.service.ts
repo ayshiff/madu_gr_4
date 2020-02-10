@@ -7,6 +7,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { UserRole } from 'src/auth/userRole.enum';
 import * as uuidv4 from 'uuid/v4';
 import { hashSync } from 'bcrypt';
+import { CreateAdminDto } from './dto/create-admin.dto';
 
 
 @Injectable()
@@ -23,7 +24,6 @@ export class UsersService {
     createdUser.roles = [UserRole.User];
     if (createUserDto.manager) {
       createdUser.roles.push(UserRole.Manager);
-      // createdUser.roles.push(UserRole.Admin);
     }
     if (createdUser.password) {
       createdUser.password = await hashSync(
@@ -32,6 +32,27 @@ export class UsersService {
       );
     }
     return createdUser.save();
+  }
+
+  async accessOnlyOnceOrAdmin(user?: User) {
+    return (user && !user.roles.includes(UserRole.Admin)) || (await this.findAllAdmin()).length !== 0;
+  }
+
+  async createAdmin(createAdminDto: CreateAdminDto): Promise<User> {
+    let createdUser = new this.userModel(createAdminDto);
+    createdUser.id = uuidv4();
+    createdUser.roles = [UserRole.User, UserRole.Manager, UserRole.Admin];
+    if (createdUser.password) {
+      createdUser.password = await hashSync(
+        createdUser.password,
+        parseInt(this.configService.get<string>('SALT_ROUNDS'))
+      );
+    }
+    return createdUser.save();
+  }
+
+  async findAllAdmin(): Promise<User[]> {
+    return this.userModel.find({ roles: UserRole.Admin }, {password: 0}).exec();
   }
 
   async findAll(): Promise<User[]> {
