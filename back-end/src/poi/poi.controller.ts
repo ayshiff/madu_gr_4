@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Put, Delete, Param } from '@nestjs/common';
+import { Controller, Post, Body, Get, Put, Delete, Param, UseGuards } from '@nestjs/common';
 import { PoiService } from './poi.service';
 import { ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/auth/decorator/roles.decorator';
@@ -6,10 +6,12 @@ import { UserRole } from 'src/auth/userRole.enum';
 import { CreatePoiDto } from './dto/create-poi.dto';
 import { CreatePoiGreenscoreDto } from './dto/create-poi-greenscore.dto';
 import { Poi } from './interfaces/poi.interface';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
 
 @ApiTags('Poi')
 @Controller('poi')
-// @UseGuards(AuthGuard('jwt'), RolesGuard)
+@UseGuards(AuthGuard, RolesGuard)
 export class PoiController {
   constructor(
     private readonly poiService: PoiService

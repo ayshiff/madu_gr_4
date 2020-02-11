@@ -35,7 +35,7 @@ export class UsersService {
   }
 
   async accessOnlyOnceOrAdmin(user?: User) {
-    return (user && !user.roles.includes(UserRole.Admin)) || (await this.findAllAdmin()).length !== 0;
+    return (user && user.roles.includes(UserRole.Admin)) || (await this.findAllAdmin()).length === 0;
   }
 
   async createAdmin(createAdminDto: CreateAdminDto): Promise<User> {

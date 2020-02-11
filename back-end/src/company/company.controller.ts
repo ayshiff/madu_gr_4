@@ -1,5 +1,4 @@
 import { Controller, Post, Body, Get, UseGuards, UsePipes, Param, NotFoundException, Put, Delete, Request, UnauthorizedException } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { CreateCompanyDto } from "./dto/create-company.dto";
 import { CompanyService } from "./company.service";
 import { Company } from './interfaces/company.interface';
@@ -11,10 +10,11 @@ import { CustomValidationPipe } from 'src/users/pipes/CustomValidationPipe';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { User } from 'src/users/interfaces/user.interface';
 import { ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
 
 @ApiTags('Company')
 @Controller('companies')
-// @UseGuards(AuthGuard('jwt'), RolesGuard)
+@UseGuards(AuthGuard, RolesGuard)
 export class CompanyController {
   constructor(
     private readonly companyService: CompanyService,

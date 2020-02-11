@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Put, Delete, Param } from '@nestjs/common';
+import { Controller, Post, Body, Get, Put, Delete, Param, UseGuards } from '@nestjs/common';
 import { QuestionService } from './question.service';
 import { TemplateService } from './template.service';
 import { ApiTags } from '@nestjs/swagger';
@@ -8,10 +8,12 @@ import { CreateQuestionDto } from './dto/create-question.dto';
 import { CreateTemplateDto } from './dto/create-template.dto';
 import { Question } from './interfaces/question.interface';
 import { Template } from './interfaces/template.interface';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
 
 @ApiTags('Greenscore')
 @Controller()
-// @UseGuards(AuthGuard('jwt'), RolesGuard)
+@UseGuards(AuthGuard, RolesGuard)
 export class GreenscoreController {
   constructor(
     private readonly questionService: QuestionService,

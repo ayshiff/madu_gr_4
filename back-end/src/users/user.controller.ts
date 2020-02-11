@@ -1,5 +1,4 @@
 import { Controller, Get, Request, UseGuards, Body, Post, Put, Delete, Param, UsePipes, UnauthorizedException } from '@nestjs/common';
-// import { AuthGuard } from '@nestjs/passport';
 import { UsersService } from "./users.service";
 import { User } from './interfaces/user.interface';
 import { UserRole } from 'src/auth/userRole.enum';
@@ -18,10 +17,9 @@ export class UserController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post('/admin')
-  // @UsePipes(CustomValidationPipe)
+  @UsePipes(CustomValidationPipe)
   async create(@Request() req, @Body() createAdminDto: CreateAdminDto) {
-    console.log('controller', req.user);
-    if (await this.usersService.accessOnlyOnceOrAdmin(req.user)) {
+    if (!await this.usersService.accessOnlyOnceOrAdmin(req.user)) {
       throw new UnauthorizedException();
     }
     this.usersService.createAdmin(createAdminDto);
@@ -34,6 +32,7 @@ export class UserController {
   }
 
   @Get('profile')
+  @Roles(UserRole.User)
   getProfile(@Request() req) {
     return req.user;
   }
