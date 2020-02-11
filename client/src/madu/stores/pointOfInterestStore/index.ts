@@ -1,4 +1,5 @@
 import { observable, action } from "mobx";
+import { post, ApiResponse, get } from "madu/services/commun";
 
 export interface IPointOfInterest {
     id: string;
@@ -16,21 +17,54 @@ export interface IPointOfInterest {
 class PointOfInterestStore {
     @observable pointOfInterests: IPointOfInterest[] = [];
 
+    @action get = () => {
+        const endpoint = "";
+        get(endpoint)
+            .then((data: any) => {
+                const processedData: IPointOfInterest[] = data;
+                // Process store once the call has succeed
+                this.pointOfInterests = processedData;
+            })
+            .catch(err => console.log(err));
+    };
+
     @action add = (pointOfInterest: IPointOfInterest) => {
-        this.pointOfInterests.push(pointOfInterest);
+        const payload = {};
+        const endpoint = "";
+        post(endpoint, payload)
+            .then(_data => {
+                // Process store once the call has succeed
+                this.pointOfInterests.push(pointOfInterest);
+            })
+            .catch(err => console.log(err));
     };
 
     @action edit = (pointOfInterest: IPointOfInterest) => {
-        const editedPointOfInterests = this.pointOfInterests.map((point: IPointOfInterest) =>
-            point.id === pointOfInterest.id ? pointOfInterest : point
-        );
-        this.pointOfInterests = editedPointOfInterests;
+        const payload = {};
+        const endpoint = "";
+        post(endpoint, payload)
+            .then(_data => {
+                // Process store once the call has succeed
+                const editedPointOfInterests = this.pointOfInterests.map(
+                    (point: IPointOfInterest) =>
+                        point.id === pointOfInterest.id ? pointOfInterest : point
+                );
+                this.pointOfInterests = editedPointOfInterests;
+            })
+            .catch(err => console.log(err));
     };
 
     @action remove = (id: string) => {
-        this.pointOfInterests = this.pointOfInterests.filter(
-            (point: IPointOfInterest) => point.id !== id
-        );
+        const payload = {};
+        const endpoint = "";
+        post(endpoint, payload)
+            .then(_data => {
+                // Process store once the call has succeed
+                this.pointOfInterests = this.pointOfInterests.filter(
+                    (point: IPointOfInterest) => point.id !== id
+                );
+            })
+            .catch(err => console.log(err));
     };
 
     @action reset = () => {
