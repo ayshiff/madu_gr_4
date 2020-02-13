@@ -6,6 +6,7 @@ import { CreatePoiDto } from './dto/create-poi.dto';
 import * as uuidv4 from 'uuid/v4';
 import { TemplateService } from 'src/greenscore/template.service';
 import { CreatePoiGreenscoreDto } from './dto/create-poi-greenscore.dto';
+import { AnswerPoiGreenscoreDto } from './dto/answer-poi-greenscore.dto';
 
 @Injectable()
 export class PoiService {
@@ -40,13 +41,24 @@ export class PoiService {
     return poi;
   }
 
-  async addTemplate(poi: Poi, createPoiGreenscoreDto: CreatePoiGreenscoreDto) {
+  async surveySend(poi: Poi, createPoiGreenscoreDto: CreatePoiGreenscoreDto) {
     const template = await this.templateService.findByUuid(createPoiGreenscoreDto.template);
     if (!template) {
       throw new BadRequestException('Invalid template')
     }
-    const template_id = template._id;
+    const { id, name } = template;
     const token = createPoiGreenscoreDto.sendToPoi ? uuidv4().replace(/-/gi, '') : null;
-    await this.poiModel.updateOne({ id: poi.id }, { template_id, token });
+    await this.poiModel.updateOne({ id: poi.id }, { template: { id, name }, token });
+  }
+
+  async surveyAnswer(poi: Poi, answerPoiGreenscoreDto: AnswerPoiGreenscoreDto) {
+    const template = await this.templateService.findByUuid(poi.template.id);
+    const questions = template.questions.map(question => {
+      // check answerPoiGreenscoreDto.questions[i].question_id === question.id && answerPoiGreenscoreDto.questions[i].answer_id === question.answers[j].id
+      // return {question_id, answer_id, score};
+    });
+    console.log(template);
+    console.log(answerPoiGreenscoreDto);
+    // await this.poiModel.updateOne({ id: poi.id }, { template: { questions: {  } } });
   }
 }

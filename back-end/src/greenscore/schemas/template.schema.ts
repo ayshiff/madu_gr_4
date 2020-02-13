@@ -5,10 +5,12 @@ export const TemplateSchema = new mongoose.Schema({
   name: String,
   questions:[
     {
+      id: String,
       question: String,
       questionType: String,
       answers: [
         {
+          id: String,
           answer: String,
           score: Number
         }

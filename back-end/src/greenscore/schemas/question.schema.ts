@@ -6,6 +6,7 @@ export const QuestionSchema = new mongoose.Schema({
   questionType: String,
   answers: [
     {
+      id: String,
       answer: String,
       score: Number
     }

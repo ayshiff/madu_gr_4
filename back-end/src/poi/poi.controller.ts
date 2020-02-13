@@ -5,6 +5,7 @@ import { Roles } from 'src/auth/decorator/roles.decorator';
 import { UserRole } from 'src/auth/userRole.enum';
 import { CreatePoiDto } from './dto/create-poi.dto';
 import { CreatePoiGreenscoreDto } from './dto/create-poi-greenscore.dto';
+import { AnswerPoiGreenscoreDto } from './dto/answer-poi-greenscore.dto';
 import { Poi } from './interfaces/poi.interface';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
@@ -49,10 +50,17 @@ export class PoiController {
     this.poiService.delete(poi);
   }
 
-  @Post(':poi_id/greenscore')
+  @Post(':poi_id/survey/send')
   @Roles(UserRole.Admin)
-  async addTemplate(@Param('poi_id') id: string, @Body() createPoiGreenscoreDto: CreatePoiGreenscoreDto) {
+  async surveySend(@Param('poi_id') id: string, @Body() createPoiGreenscoreDto: CreatePoiGreenscoreDto) {
     const poi = await this.poiService.findByUuid(id);
-    this.poiService.addTemplate(poi, createPoiGreenscoreDto);
+    this.poiService.surveySend(poi, createPoiGreenscoreDto);
+  }
+
+  @Post(':poi_id/survey/answer')
+  @Roles(UserRole.Admin)
+  async surveyAnswer(@Param('poi_id') id: string, @Body() answerPoiGreenscoreDto: AnswerPoiGreenscoreDto) {
+    const poi = await this.poiService.findByUuid(id);
+    this.poiService.surveyAnswer(poi, answerPoiGreenscoreDto);
   }
 }

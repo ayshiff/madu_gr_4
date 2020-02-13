@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Put, Delete, Param, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, Get, Put, Delete, Param, UseGuards, UsePipes } from '@nestjs/common';
 import { QuestionService } from './question.service';
 import { TemplateService } from './template.service';
 import { ApiTags } from '@nestjs/swagger';
@@ -10,6 +10,7 @@ import { Question } from './interfaces/question.interface';
 import { Template } from './interfaces/template.interface';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { TemplateValidationPipe } from "./validator/TemplateValidationPipe";
 
 @ApiTags('Greenscore')
 @Controller()
@@ -54,6 +55,7 @@ export class GreenscoreController {
 
   @Post('templates')
   @Roles(UserRole.Admin)
+  @UsePipes(TemplateValidationPipe)
   async createTemplate(@Body() createTemplateDto: CreateTemplateDto) {
     this.templateService.create(createTemplateDto);
   }

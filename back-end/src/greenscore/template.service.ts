@@ -4,12 +4,16 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Template } from './interfaces/template.interface';
 import { CreateTemplateDto } from './dto/create-template.dto';
 import * as uuidv4 from 'uuid/v4';
+import { QuestionService } from './question.service';
 
 @Injectable()
 export class TemplateService {
-  constructor(@InjectModel('Template') private readonly templateModel: Model<Template>) {}
+  constructor(
+    @InjectModel('Template') private readonly templateModel: Model<Template>,
+    private readonly questionService: QuestionService
+  ) {}
 
-  async create(createTemplateDto: CreateTemplateDto): Promise<Template> {
+  async create(createTemplateDto: CreateTemplateDto) {
     let createdTemplate = new this.templateModel(createTemplateDto);
     createdTemplate.id = uuidv4();
     return createdTemplate.save();

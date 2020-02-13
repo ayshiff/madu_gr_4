@@ -12,6 +12,10 @@ export class QuestionService {
   async create(createQuestionDto: CreateQuestionDto): Promise<Question> {
     let createdQuestion = new this.questionModel(createQuestionDto);
     createdQuestion.id = uuidv4();
+    createdQuestion.answers = createdQuestion.answers.map(answer => {
+      answer.id = uuidv4();
+      return answer;
+    })
     return createdQuestion.save();
   }
 

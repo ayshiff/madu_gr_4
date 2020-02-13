@@ -55,6 +55,16 @@ export const PoiSchema = new mongoose.Schema({
   priceRange: String,
   description: String,
   website: String,
-  template_id: mongoose.Schema.Types.ObjectId,
+  template: {
+    id: String,
+    name: String,
+    questions: [
+      {
+        questin: String,
+        answer: String,
+        score: Number,
+      }
+    ]
+  },
   token: String
 });

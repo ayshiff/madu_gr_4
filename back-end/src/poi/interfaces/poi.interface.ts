@@ -56,6 +56,16 @@ export interface Poi {
   priceRange: string;
   description: string;
   website: string;
-  template_id: mongoose.Schema.Types.ObjectId;
+  template: {
+    id: string,
+    name: string,
+    questions: [
+      {
+        questin: string,
+        answer: string,
+        score: number,
+      }
+    ]
+  };
   token: string;
 }
