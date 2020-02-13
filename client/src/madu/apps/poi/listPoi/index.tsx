@@ -100,7 +100,7 @@ export const ListPoi = () => {
                             style={{ width: 250 }}
                         />
                         <Button type="primary" style={{ marginRight: "20px", marginLeft: "40px" }}>
-                            + Ajouter un point d’intêret
+                            <a href="/poi/create">+ Ajouter un point d’intêret</a>
                         </Button>
                     </div>
                 </Header>

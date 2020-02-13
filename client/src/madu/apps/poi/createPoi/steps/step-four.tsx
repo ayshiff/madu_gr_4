@@ -4,7 +4,7 @@ import "antd/dist/antd.css";
 
 const { Option } = Select;
 
-const FormStep4 = () => {
+export const FormStepFour = () => {
     const [value, setValue] = useState(1);
 
     const radioStyle = {
@@ -48,5 +48,3 @@ const FormStep4 = () => {
         </div>
     );
 };
-
-export default FormStep4;

@@ -2,7 +2,7 @@ import React from "react";
 import { Form, Input, Radio } from "antd";
 import "antd/dist/antd.css";
 
-export const FormStep2 = () => {
+export const FormStepTwo = () => {
     const layout = {
         labelCol: { span: 4 },
         wrapperCol: { span: 4 },
@@ -30,5 +30,3 @@ export const FormStep2 = () => {
         </Form>
     );
 };
-
-export default FormStep2;

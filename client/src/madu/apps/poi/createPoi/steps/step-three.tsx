@@ -6,7 +6,7 @@ function onChange(e) {
     console.log(`radio checked:${e.target.value}`);
 }
 
-export const FormStep3 = () => {
+export const FormStepThree = () => {
     const layout = {
         labelCol: { span: 4 },
         wrapperCol: { span: 4 },
@@ -35,5 +35,3 @@ export const FormStep3 = () => {
         </div>
     );
 };
-
-export default FormStep3;
