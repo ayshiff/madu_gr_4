@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Radio } from "antd";
+import { Form, Input, Radio, Switch, Row, Col } from "antd";
 import "antd/dist/antd.css";
 
 export const FormStep2 = () => {
@@ -9,6 +9,7 @@ export const FormStep2 = () => {
     };
 
     const { TextArea } = Input;
+    const InputGroup = Input.Group;    
 
     return (
         <Form {...layout} name="nest-messages">
@@ -20,11 +21,23 @@ export const FormStep2 = () => {
                     <Radio.Button value="a">€</Radio.Button>
                     <Radio.Button value="b">€€</Radio.Button>
                     <Radio.Button value="c">€€€</Radio.Button>
-                    <Radio.Button value="d">€€€€</Radio.Button>
                 </Radio.Group>
             </Form.Item>
-            <Form.Item label="Upload photos"></Form.Item>
-            <Form.Item label="Description">
+            <Form.Item label="Upload photos">
+            </Form.Item>
+            <InputGroup size="default">
+                <Row gutter={4}>
+                    <Col span={4}>
+                        <h1>A emporter</h1>
+                        <Switch /> 
+                    </Col>
+                    <Col span={4}>
+                        <h1>Accessibilité fauteuil</h1>
+                        <Switch /> 
+                    </Col>
+                </Row>
+            </InputGroup>                                 
+            <Form.Item label="Tags">
                 <TextArea rows={4} />
             </Form.Item>
         </Form>

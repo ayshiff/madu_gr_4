@@ -10,32 +10,32 @@ export const ListPoi = () => {
             key: "1",
             nomDuLieu: "Wild & the Moon",
             categorie: "Restaurant",
-            questionnr: "En Attente",
-            greenscore: 72,
+            questionnr: "En attente",
+            greenscore: "72/100",
             address: "10 Downing Street",
         },
         {
             key: "2",
             nomDuLieu: "Season",
             categorie: "Restaurant",
-            questionnr: "En attente",
-            greenscore: 42,
+            questionnr: "VALIDÉ",
+            greenscore: "42/100",
             address: "10 Downing Street",
         },
         {
             key: "3",
             nomDuLieu: "Nous Valmy",
             categorie: "Boutique",
-            questionnr: "En Attente",
-            greenscore: 72,
+            questionnr: "En attente",
+            greenscore: "72/100",
             address: "10 Downing Street",
         },
         {
             key: "4",
             nomDuLieu: "Simone Lemon",
             categorie: "Experience",
-            questionnr: "En attente",
-            greenscore: 42,
+            questionnr: "VALIDÉ",
+            greenscore: "42/100",
             address: "10 Downing Street",
         },
     ];
@@ -57,6 +57,11 @@ export const ListPoi = () => {
             key: "questionnr",
         },
         {
+            title: "Suivi question",
+            dataIndex: "questiontags",
+            key: "questiontags",
+        },
+        {
             title: "Greenscore",
             dataIndex: "greenscore",
             key: "greenscore",
@@ -66,9 +71,9 @@ export const ListPoi = () => {
             key: "action",
             render: () => (
                 <span>
-                    <a>Edit</a>
+                    <a style={{color: "#1890FF"}}>Edit</a>
                     <Divider type="vertical" />
-                    <a>Delete</a>
+                    <a style={{color: "#1890FF"}}>Delete</a>
                 </span>
             ),
         },
@@ -79,18 +84,20 @@ export const ListPoi = () => {
         padding: 0,
         display: "flex",
         justifyContent: "space-between",
+        marginTop: "40px"
     };
 
     const titleStyle = {
-        marginLeft: "20px",
-        fontWeight: 500,
+        marginLeft: "24px",
+        paddingLeft: "24px",
+        fontWeight: 900,
         fontSize: "28px",
     };
 
     const { Search } = Input;
     return (
         <Layout>
-            <Layout>
+            <Layout style={{backgroundColor: "#ffffff"}}>
                 <Header style={headerStyle}>
                     <h1 style={titleStyle}>Liste des points d’intêret</h1>
                     <div>
@@ -99,7 +106,7 @@ export const ListPoi = () => {
                             onSearch={value => console.log(value)}
                             style={{ width: 250 }}
                         />
-                        <Button type="primary" style={{ marginRight: "20px", marginLeft: "40px" }}>
+                        <Button type="primary" style={{ marginRight: "50px", marginLeft: "40px" }}>
                             + Ajouter un point d’intêret
                         </Button>
                     </div>
@@ -112,7 +119,7 @@ export const ListPoi = () => {
                         minHeight: 840,
                     }}
                 >
-                    <Table columns={columns} dataSource={tableData} />
+                    <Table style={{backgroundColor: "#ffffff"}} columns={columns} dataSource={tableData} />
                 </Content>
             </Layout>
         </Layout>

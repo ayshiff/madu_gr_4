@@ -3,7 +3,6 @@ import { Layout, Button, Steps, message } from "antd";
 import FormStep1 from "./form/formstep1";
 import FormStep2 from "./form/formstep2";
 import FormStep3 from "./form/formstep3";
-import FormStep4 from "./form/formstep4";
 import "antd/dist/antd.css";
 
 const { Header, Content } = Layout;
@@ -16,51 +15,48 @@ export const CreatePoi = () => {
     const steps = [
         {
             title: "First",
+            desc: "Infos de base",
             content: <FormStep1 />,
         },
         {
             title: "Second",
+            desc: "Infos complémentaires",
             content: <FormStep2 />,
         },
         {
             title: "Third",
+            desc: "Questionnaire",            
             content: <FormStep3 />,
-        },
-        {
-            title: "Last",
-            content: <FormStep4 />,
         },
     ];
 
-    const titleStyle = {
-        marginLeft: "20px",
-        fontWeight: 500,
-        fontSize: "28px",
-    };
+    // const titleStyle = {
+    //     marginLeft: "20px",
+    //     fontWeight: 500,
+    //     fontSize: "28px",
+    // };
 
     return (
         <Layout>
             <Layout>
                 <Header style={{ background: "#fff", padding: 0 }}>
-                    <h1 style={titleStyle}>Créer P.O.I</h1>
+                    <Steps size="small" current={current} style={{ marginTop: "20px", paddingLeft: "20%", paddingRight: "20%" }}>
+                        {steps.map(item => (
+                            <Step key={item.title} title={item.title} description={item.desc}/>
+                        ))}
+                    </Steps>
                 </Header>
                 <Content
                     style={{
-                        margin: "24px 16px",
                         padding: 24,
                         background: "#fff",
                         minHeight: 840,
                     }}
                 >
                     <div>
-                        <Steps current={current} style={{ marginTop: "20px" }}>
-                            {steps.map(item => (
-                                <Step key={item.title} />
-                            ))}
-                        </Steps>
                         <div
                             className="steps-content"
-                            style={{ marginTop: "100px", marginBottom: "100px" }}
+                            style={{ marginTop: "24px" }}
                         >
                             {steps[current].content}
                         </div>
@@ -73,7 +69,7 @@ export const CreatePoi = () => {
                                     style={{ marginLeft: 8 }}
                                     onClick={() => setCurrent(current - 1)}
                                 >
-                                    Previous
+                                    Précedent
                                 </Button>
                             )}
                             {current < steps.length - 1 && (
@@ -84,7 +80,7 @@ export const CreatePoi = () => {
                                         setCurrent(current + 1);
                                     }}
                                 >
-                                    Next
+                                    Suivant
                                 </Button>
                             )}
                             {current === steps.length - 1 && (
@@ -92,7 +88,7 @@ export const CreatePoi = () => {
                                     type="primary"
                                     onClick={() => message.success("Processing complete!")}
                                 >
-                                    Done
+                                    Validé
                                 </Button>
                             )}
                         </div>
