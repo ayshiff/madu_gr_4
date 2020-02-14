@@ -14,18 +14,18 @@ export const CreatePoi = () => {
 
     const steps = [
         {
-            title: "First",
+            title: "En cours",
             desc: "Infos de base",
             content: <FormStep1 />,
         },
         {
-            title: "Second",
+            title: "En cours",
             desc: "Infos complémentaires",
             content: <FormStep2 />,
         },
         {
-            title: "Third",
-            desc: "Questionnaire",            
+            title: "En cours",
+            desc: "Questionnaire",
             content: <FormStep3 />,
         },
     ];
@@ -40,9 +40,13 @@ export const CreatePoi = () => {
         <Layout>
             <Layout>
                 <Header style={{ background: "#fff", padding: 0 }}>
-                    <Steps size="small" current={current} style={{ marginTop: "20px", paddingLeft: "20%", paddingRight: "20%" }}>
+                    <Steps
+                        size="small"
+                        current={current}
+                        style={{ marginTop: "20px", paddingLeft: "20%", paddingRight: "20%" }}
+                    >
                         {steps.map(item => (
-                            <Step key={item.title} title={item.title} description={item.desc}/>
+                            <Step key={item.title} title={item.title} description={item.desc} />
                         ))}
                     </Steps>
                 </Header>
@@ -54,10 +58,7 @@ export const CreatePoi = () => {
                     }}
                 >
                     <div>
-                        <div
-                            className="steps-content"
-                            style={{ marginTop: "24px" }}
-                        >
+                        <div className="steps-content" style={{ marginTop: "24px" }}>
                             {steps[current].content}
                         </div>
                         <div

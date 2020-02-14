@@ -71,9 +71,9 @@ export const ListPoi = () => {
             key: "action",
             render: () => (
                 <span>
-                    <a style={{color: "#1890FF"}}>Edit</a>
+                    <a style={{ color: "#1890FF" }}>Edit</a>
                     <Divider type="vertical" />
-                    <a style={{color: "#1890FF"}}>Delete</a>
+                    <a style={{ color: "#1890FF" }}>Delete</a>
                 </span>
             ),
         },
@@ -84,7 +84,7 @@ export const ListPoi = () => {
         padding: 0,
         display: "flex",
         justifyContent: "space-between",
-        marginTop: "40px"
+        marginTop: "40px",
     };
 
     const titleStyle = {
@@ -97,7 +97,7 @@ export const ListPoi = () => {
     const { Search } = Input;
     return (
         <Layout>
-            <Layout style={{backgroundColor: "#ffffff"}}>
+            <Layout style={{ backgroundColor: "#ffffff" }}>
                 <Header style={headerStyle}>
                     <h1 style={titleStyle}>Liste des points d’intêret</h1>
                     <div>
@@ -119,7 +119,11 @@ export const ListPoi = () => {
                         minHeight: 840,
                     }}
                 >
-                    <Table style={{backgroundColor: "#ffffff"}} columns={columns} dataSource={tableData} />
+                    <Table
+                        style={{ backgroundColor: "#ffffff" }}
+                        columns={columns}
+                        dataSource={tableData}
+                    />
                 </Content>
             </Layout>
         </Layout>
