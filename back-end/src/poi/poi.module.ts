@@ -7,19 +7,7 @@ import { GreenscoreModule } from 'src/greenscore/greenscore.module';
 
 @Module({
     imports: [
-      MongooseModule.forFeatureAsync([
-        {
-          name: 'Poi',
-          useFactory: () => {
-            const schema = PoiSchema;
-            schema.pre(/^find/, function(next) {
-              this.select({ _id: 0, __v: 0 });
-              next();
-            });
-            return schema;
-          },
-        },
-      ]),
+      MongooseModule.forFeature([{ name: 'Poi', schema: PoiSchema }]),
       GreenscoreModule
     ],
     providers: [PoiService],

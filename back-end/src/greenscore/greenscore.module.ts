@@ -8,30 +8,8 @@ import { TemplateSchema } from "./schemas/template.schema";
 
 @Module({
     imports: [
-      MongooseModule.forFeatureAsync([
-        {
-          name: 'Question',
-          useFactory: () => {
-            const schema = QuestionSchema;
-            schema.pre(/^find/, function(next) {
-              this.select({ _id: 0, __v: 0 });
-              next();
-            });
-            return schema;
-          },
-        },
-        {
-          name: 'Template',
-          useFactory: () => {
-            const schema = TemplateSchema;
-            schema.pre(/^find/, function(next) {
-              this.select({ __v: 0 });
-              next();
-            });
-            return schema;
-          },
-        }
-      ])
+      MongooseModule.forFeature([{ name: 'Question', schema: QuestionSchema }]),
+      MongooseModule.forFeature([{ name: 'Template', schema: TemplateSchema }])
     ],
     providers: [QuestionService, TemplateService],
     controllers: [GreenscoreController],
