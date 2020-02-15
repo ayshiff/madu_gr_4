@@ -14,11 +14,13 @@ export class CompanyService {
   async create(createCompanyDto: CreateCompanyDto): Promise<Company> {
     let createdCompany = new this.companyModel(createCompanyDto);
     createdCompany.id = uuidv4();
-    return createdCompany.save();
+    await createdCompany.save();
+    return this.findByUuid(createdCompany.id);
   }
 
   async update(company: Company, createCompanyDto: CreateCompanyDto): Promise<Company> {
-    return this.companyModel.updateOne(company, createCompanyDto);
+    await this.companyModel.updateOne(company, createCompanyDto);
+    return this.findByUuid(company.id);
   }
 
   async delete(company: Company): Promise<Company> {

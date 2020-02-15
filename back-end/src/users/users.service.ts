@@ -31,7 +31,8 @@ export class UsersService {
         parseInt(this.configService.get<string>('SALT_ROUNDS'))
       );
     }
-    return createdUser.save();
+    await createdUser.save();
+    return this.findByUuid(createdUser.id);
   }
 
   async accessOnlyOnceOrAdmin(user?: User) {
@@ -48,7 +49,8 @@ export class UsersService {
         parseInt(this.configService.get<string>('SALT_ROUNDS'))
       );
     }
-    return createdUser.save();
+    await createdUser.save();
+    return this.findByUuid(createdUser.id);
   }
 
   async findAllAdmin(): Promise<User[]> {
@@ -75,7 +77,8 @@ export class UsersService {
         parseInt(this.configService.get<string>('SALT_ROUNDS'))
       );
     }
-    return this.userModel.updateOne(user, createUserDto);
+    await this.userModel.updateOne(user, createUserDto);
+    return this.findByUuid(user.id);
   }
 
   async delete(user: User): Promise<User> {

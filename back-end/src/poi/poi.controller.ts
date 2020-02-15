@@ -48,7 +48,7 @@ export class PoiController {
   @Roles(UserRole.Admin)
   async remove(@Param('poi_id') id: string) {
     const poi = await this.poiService.findByUuid(id);
-    return this.poiService.delete(poi);
+    this.poiService.delete(poi);
   }
 
   @Post(':poi_id/survey/send')

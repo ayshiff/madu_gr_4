@@ -22,7 +22,7 @@ export class UserController {
     if (!await this.usersService.accessOnlyOnceOrAdmin(req.user)) {
       throw new UnauthorizedException();
     }
-    this.usersService.createAdmin(createAdminDto);
+    return this.usersService.createAdmin(createAdminDto);
   }
 
   @Get()
@@ -41,7 +41,7 @@ export class UserController {
   @Roles(UserRole.Manager)
   async findOne(@Request() req, @Param('user_id') id: string): Promise<User> {
     const user = await this.usersService.findByUuid(id);
-    // this.usersService.denyAccessByCompany(req.user, user);
+    this.usersService.denyAccessByCompany(req.user, user);
     return user;
   }
 
@@ -49,15 +49,15 @@ export class UserController {
   @Roles(UserRole.Manager)
   async update(@Request() req, @Param('user_id') id: string, @Body() createUserDto: CreateUserDto) {
     const user = await this.usersService.findByUuid(id);
-    // this.usersService.denyAccessByCompany(req.user, user);
-    this.usersService.update(user, createUserDto);
+    this.usersService.denyAccessByCompany(req.user, user);
+    return this.usersService.update(user, createUserDto);
   }
 
   @Delete(':user_id')
   @Roles(UserRole.Manager)
   async remove(@Request() req, @Param('user_id') id: string) {
     const user = await this.usersService.findByUuid(id);
-    // this.usersService.denyAccessByCompany(req.user, user);
+    this.usersService.denyAccessByCompany(req.user, user);
     this.usersService.delete(user);
   }
 }

@@ -16,11 +16,13 @@ export class QuestionService {
       answer.id = uuidv4();
       return answer;
     })
-    return createdQuestion.save();
+    await createdQuestion.save();
+    return this.findByUuid(createdQuestion.id);
   }
 
   async update(question: Question, createQuestionDto: CreateQuestionDto): Promise<Question> {
-    return this.questionModel.updateOne(question, createQuestionDto);
+    await this.questionModel.updateOne(question, createQuestionDto);
+    return this.findByUuid(question.id);
   }
 
   async delete(question: Question): Promise<Question> {

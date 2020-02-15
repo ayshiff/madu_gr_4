@@ -28,7 +28,7 @@ export class PoiService {
     return this.findByUuid(poi.id);
   }
 
-  async delete(poi: Poi): Promise<Poi> {
+  async delete(poi: Poi) {
     return this.poiModel.deleteOne(poi);
   }
 

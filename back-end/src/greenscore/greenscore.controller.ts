@@ -24,7 +24,7 @@ export class GreenscoreController {
   @Post('questions')
   @Roles(UserRole.Admin)
   async createQuestion(@Body() createQuestionDto: CreateQuestionDto) {
-    this.questionService.create(createQuestionDto);
+    return this.questionService.create(createQuestionDto);
   }
 
   @Get('questions')
@@ -43,7 +43,7 @@ export class GreenscoreController {
   @Roles(UserRole.Admin)
   async updateQuestion(@Param('question_id') id: string, @Body() createQuestionDto: CreateQuestionDto) {
     const question = await this.questionService.findByUuid(id);
-    this.questionService.update(question, createQuestionDto);
+    return this.questionService.update(question, createQuestionDto);
   }
 
   @Delete('questions/:question_id')
@@ -57,7 +57,7 @@ export class GreenscoreController {
   @Roles(UserRole.Admin)
   @UsePipes(TemplateValidationPipe)
   async createTemplate(@Body() createTemplateDto: CreateTemplateDto) {
-    this.templateService.create(createTemplateDto);
+    return this.templateService.create(createTemplateDto);
   }
 
   @Get('templates')
@@ -74,9 +74,10 @@ export class GreenscoreController {
 
   @Put('templates/:template_id')
   @Roles(UserRole.Admin)
+  @UsePipes(TemplateValidationPipe)
   async updateTemplate(@Param('template_id') id: string, @Body() createTemplateDto: CreateTemplateDto) {
     const template = await this.templateService.findByUuid(id);
-    this.templateService.update(template, createTemplateDto);
+    return this.templateService.update(template, createTemplateDto);
   }
 
   @Delete('templates/:template_id')

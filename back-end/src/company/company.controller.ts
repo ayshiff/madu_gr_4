@@ -24,7 +24,7 @@ export class CompanyController {
   @Post()
   @Roles(UserRole.Admin)
   async create(@Body() createCompanyDto: CreateCompanyDto) {
-    this.companyService.create(createCompanyDto);
+    return this.companyService.create(createCompanyDto);
   }
 
   @Get()
@@ -43,7 +43,7 @@ export class CompanyController {
   @Roles(UserRole.Admin)
   async update(@Param('company_id') id: string, @Body() createCompanyDto: CreateCompanyDto) {
     const company = await this.companyService.findByUuid(id);
-    this.companyService.update(company, createCompanyDto);
+    return this.companyService.update(company, createCompanyDto);
   }
 
   @Delete(':company_id')
@@ -63,15 +63,15 @@ export class CompanyController {
     @Body() createUserDto: CreateUserDto
   ) {
     const company = await this.companyService.findByUuid(id);
-    // this.companyService.denyAccessByCompany(req.user, company);
-    this.usersService.create(createUserDto, company._id);
+    this.companyService.denyAccessByCompany(req.user, company);
+    return this.usersService.create(createUserDto, company._id);
   }
 
   @Get(':company_id/users')
   @Roles(UserRole.Manager)
   async findAllUsers(@Request() req, @Param('company_id') id): Promise<User[]> {
     const company = await this.companyService.findByUuid(id);
-    // this.companyService.denyAccessByCompany(req.user, company);
+    this.companyService.denyAccessByCompany(req.user, company);
     return this.usersService.findAllByCompany(company._id);
   }
 }

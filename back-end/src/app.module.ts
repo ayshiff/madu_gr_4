@@ -8,8 +8,8 @@ import { UsersModule } from './users/users.module';
 import { PoiModule } from './poi/poi.module';
 import { GreenscoreModule } from './greenscore/greenscore.module';
 
-// todo return value on post, status poi, status company, deal with outside applications(no auth),
-// deal with _id in view, forgotten password, localisation, mail
+// todo status poi, status company,
+// deal with outside applications(no auth), forgotten password, localisation, mail
 @Module({
   imports: [
     MongooseModule.forRoot('mongodb://localhost/madu'),

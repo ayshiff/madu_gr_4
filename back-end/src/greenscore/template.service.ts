@@ -16,11 +16,13 @@ export class TemplateService {
   async create(createTemplateDto: CreateTemplateDto) {
     let createdTemplate = new this.templateModel(createTemplateDto);
     createdTemplate.id = uuidv4();
-    return createdTemplate.save();
+    await createdTemplate.save();
+    return this.findByUuid(createdTemplate.id);
   }
 
   async update(template: Template, createTemplateDto: CreateTemplateDto): Promise<Template> {
-    return this.templateModel.updateOne({ id: template.id }, createTemplateDto);
+    await this.templateModel.updateOne({ id: template.id }, createTemplateDto);
+    return this.findByUuid(template.id);
   }
 
   async delete(template: Template): Promise<Template> {

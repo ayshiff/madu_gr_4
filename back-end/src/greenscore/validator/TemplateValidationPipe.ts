@@ -8,7 +8,10 @@ export class TemplateValidationPipe implements PipeTransform<any> {
     private readonly questionService: QuestionService
   ) {}
 
-  async transform(createTemplateDto: CreateTemplateDto) {
+  async transform(createTemplateDto: CreateTemplateDto, meta) {
+    if (meta.type !== 'body') {
+      return createTemplateDto;
+    }
     const questions = await Promise.all(createTemplateDto.questions.map(async id => {
       const question = await this.questionService.findByUuid(id);
       if (!question) {
