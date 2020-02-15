@@ -1,27 +1,27 @@
 import { observable, action } from "mobx";
 import { post, get } from "madu/services/commun";
-import { editReference, removeReference } from "../utils";
+import { editReference, removeReference } from "../utils/index";
 
-export interface IClient {
+export interface ICompany {
     id: string;
-    phone: string;
     name: string;
-    adress: string;
-    contact_email: string;
-    contact_name: string;
-    domain_mail: string;
+    domainName: string;
+    street: string;
+    zipCode: string;
+    city: string;
+    status: string;
 }
 
-class ClientStore {
-    @observable clients: IClient[] = [];
+class CompanyStore {
+    @observable companies: ICompany[] = [];
 
     @action get = () => {
         const endpoint = "";
         return get(endpoint)
             .then((data: any) => {
-                const processedData: IClient[] = data;
+                const processedData: ICompany[] = data;
                 // Process store once the call has succeed
-                this.clients = processedData;
+                this.companies = processedData;
                 return;
             })
             .catch(err => console.log(err));
@@ -31,34 +31,34 @@ class ClientStore {
         const endpoint = "";
         return get(endpoint)
             .then((data: any) => {
-                const processedData: IClient[] = data;
+                const processedData: ICompany[] = data;
                 // Process store once the call has succeed
-                this.clients = processedData;
+                this.companies = processedData;
                 return;
             })
             .catch(err => console.log(err));
     };
 
-    @action add = (client: IClient) => {
+    @action add = (company: ICompany) => {
         const payload = {};
         const endpoint = "";
         return post(endpoint, payload)
             .then(data => {
                 // Process store once the call has succeed
-                this.clients.push(data as any);
+                this.companies.push(data as any);
                 return;
             })
             .catch(err => console.log(err));
     };
 
-    @action edit = (client: IClient) => {
+    @action edit = (company: ICompany) => {
         const payload = {};
         const endpoint = "";
 
         return post(endpoint, payload)
             .then(data => {
                 // Process store once the call has succeed
-                this.clients = editReference(client, this.clients);
+                this.companies = editReference(company, this.companies);
                 return;
             })
             .catch(err => console.log(err));
@@ -70,15 +70,15 @@ class ClientStore {
         return post(endpoint, payload)
             .then(_data => {
                 // Process store once the call has succeed
-                this.clients = removeReference(id, this.clients);
+                this.companies = removeReference(id, this.companies);
                 return;
             })
             .catch(err => console.log(err));
     };
 
     @action reset = () => {
-        this.clients = [];
+        this.companies = [];
     };
 }
 
-export default ClientStore;
+export default CompanyStore;

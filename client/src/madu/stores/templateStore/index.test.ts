@@ -1,7 +1,13 @@
 import TemplateStore from "./index";
-import { templateStoreMock1, templateStoreMock2 } from "./mock";
+import { templateStoreMock1 } from "./mock";
+
+import * as services from "madu/services/commun";
 
 describe("TemplateStore", () => {
+    beforeEach(() => {
+        (services as any).post = jest.fn(() => new Promise((res, _) => res(templateStoreMock1)));
+    });
+
     describe("constructor()", () => {
         it("has an initial state", () => {
             const store = new TemplateStore();
@@ -10,9 +16,9 @@ describe("TemplateStore", () => {
     });
 
     describe("add()", () => {
-        it("should add a template to the store", () => {
+        it("should add a template to the store", async () => {
             const store = new TemplateStore();
-            store.add(templateStoreMock1);
+            await store.add(templateStoreMock1);
             expect(store.templates).toHaveLength(1);
             expect(store.templates).toEqual([templateStoreMock1]);
         });
@@ -28,20 +34,19 @@ describe("TemplateStore", () => {
     });
 
     describe("remove()", () => {
-        it("should remove an element from the state", () => {
+        it("should remove an element from the state", async () => {
             const store = new TemplateStore();
             // Populate state
-            store.add(templateStoreMock1);
-            store.add(templateStoreMock2);
+            await store.add(templateStoreMock1);
             // Remove a teamplate
-            store.remove("test1");
-            expect(store.templates).toHaveLength(1);
-            expect(store.templates).toEqual([templateStoreMock2]);
+            await store.remove("test1");
+            expect(store.templates).toHaveLength(0);
+            expect(store.templates).toEqual([]);
         });
     });
 
     describe("editTemplate()", () => {
-        it("should edit an element from the state", () => {
+        it("should edit an element from the state", async () => {
             const store = new TemplateStore();
             const editedQuestion = {
                 question: "test question edited",
@@ -49,9 +54,9 @@ describe("TemplateStore", () => {
                 coefficient: 3,
             };
             // Populate state
-            store.add(templateStoreMock1);
+            await store.add(templateStoreMock1);
             // Edit a template
-            store.editTemplate({
+            await store.editTemplate({
                 ...templateStoreMock1,
                 questions: [editedQuestion],
             });

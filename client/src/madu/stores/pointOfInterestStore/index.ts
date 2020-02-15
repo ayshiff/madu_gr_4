@@ -1,5 +1,6 @@
 import { observable, action } from "mobx";
-import { post, ApiResponse, get } from "madu/services/commun";
+import { post, get } from "madu/services/commun";
+import { editReference, removeReference } from "../utils/index";
 
 export interface IPointOfInterest {
     id: string;
@@ -19,11 +20,24 @@ class PointOfInterestStore {
 
     @action get = () => {
         const endpoint = "";
-        get(endpoint)
+        return get(endpoint)
             .then((data: any) => {
                 const processedData: IPointOfInterest[] = data;
                 // Process store once the call has succeed
                 this.pointOfInterests = processedData;
+                return;
+            })
+            .catch(err => console.log(err));
+    };
+
+    @action getById = (id: string) => {
+        const endpoint = "";
+        return get(endpoint)
+            .then((data: any) => {
+                const processedData: IPointOfInterest[] = data;
+                // Process store once the call has succeed
+                this.pointOfInterests = processedData;
+                return;
             })
             .catch(err => console.log(err));
     };
@@ -31,10 +45,11 @@ class PointOfInterestStore {
     @action add = (pointOfInterest: IPointOfInterest) => {
         const payload = {};
         const endpoint = "";
-        post(endpoint, payload)
-            .then(_data => {
+        return post(endpoint, payload)
+            .then(data => {
                 // Process store once the call has succeed
-                this.pointOfInterests.push(pointOfInterest);
+                this.pointOfInterests.push(data as any);
+                return;
             })
             .catch(err => console.log(err));
     };
@@ -42,14 +57,12 @@ class PointOfInterestStore {
     @action edit = (pointOfInterest: IPointOfInterest) => {
         const payload = {};
         const endpoint = "";
-        post(endpoint, payload)
-            .then(_data => {
+
+        return post(endpoint, payload)
+            .then(data => {
                 // Process store once the call has succeed
-                const editedPointOfInterests = this.pointOfInterests.map(
-                    (point: IPointOfInterest) =>
-                        point.id === pointOfInterest.id ? pointOfInterest : point
-                );
-                this.pointOfInterests = editedPointOfInterests;
+                this.pointOfInterests = editReference(pointOfInterest, this.pointOfInterests);
+                return;
             })
             .catch(err => console.log(err));
     };
@@ -57,14 +70,11 @@ class PointOfInterestStore {
     @action remove = (id: string) => {
         const payload = {};
         const endpoint = "";
-        post(endpoint, payload)
-            .then(_data => {
-                // Process store once the call has succeed
-                this.pointOfInterests = this.pointOfInterests.filter(
-                    (point: IPointOfInterest) => point.id !== id
-                );
-            })
-            .catch(err => console.log(err));
+        return post(endpoint, payload).then(_data => {
+            // Process store once the call has succeed
+            this.pointOfInterests = removeReference(id, this.pointOfInterests);
+            return;
+        });
     };
 
     @action reset = () => {
