@@ -1,7 +1,7 @@
-import { IsString, IsInt, IsMilitaryTime, ValidateNested, IsUrl, Validate, IsPhoneNumber } from 'class-validator';
+import { IsString, IsInt, IsMilitaryTime, ValidateNested, IsUrl, IsPhoneNumber, IsEmail } from 'class-validator';
 import { Type } from 'class-transformer';
 
-class Week {
+export class Week {
   @ValidateNested()
   @Type(() => Day)
   monday: Day[];
@@ -31,7 +31,7 @@ class Week {
   sunday: Day[];
 }
 
-class Day {
+export class Day {
   @IsMilitaryTime()
   from: string;
 
@@ -57,6 +57,12 @@ export class CreatePoiDto {
 
   @IsPhoneNumber('FR')
   phone: string;
+
+  @IsEmail()
+  email: string;
+
+  @IsString()
+  siret: string;
 
   @ValidateNested()
   @Type(() => Week)

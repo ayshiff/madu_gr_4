@@ -8,6 +8,8 @@ export const PoiSchema = new mongoose.Schema({
   zipCode: Number,
   city: String,
   phone: String,
+  email: String,
+  siret: String,
   openingTime: {
     monday: [
       {
@@ -60,7 +62,8 @@ export const PoiSchema = new mongoose.Schema({
     name: String,
     questions: [
       {
-        questin: String,
+        id: String,
+        question: String,
         answer: String,
         score: Number,
       }

@@ -8,7 +8,7 @@ import { UsersModule } from './users/users.module';
 import { PoiModule } from './poi/poi.module';
 import { GreenscoreModule } from './greenscore/greenscore.module';
 
-// todo poi answer, poi update, return value on post, status poi, status company, deal with outside applications(no auth),
+// todo return value on post, status poi, status company, deal with outside applications(no auth),
 // deal with _id in view, forgotten password, localisation, mail
 @Module({
   imports: [

@@ -9,6 +9,8 @@ export interface Poi {
   zipCode: number;
   city: string;
   phone: string;
+  email: string;
+  siret: string;
   openingTime: {
     monday: [
       {
@@ -61,7 +63,8 @@ export interface Poi {
     name: string,
     questions: [
       {
-        questin: string,
+        id: string,
+        question: string,
         answer: string,
         score: number,
       }

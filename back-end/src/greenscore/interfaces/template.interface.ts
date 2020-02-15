@@ -6,10 +6,12 @@ export interface Template {
   name: String;
   questions:[
     {
+      id: string,
       question: string,
       type: string,
       answers: [
         {
+          id: string,
           answer: string,
           score: number
         }

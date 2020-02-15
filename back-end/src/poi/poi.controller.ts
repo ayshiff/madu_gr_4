@@ -4,6 +4,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/auth/decorator/roles.decorator';
 import { UserRole } from 'src/auth/userRole.enum';
 import { CreatePoiDto } from './dto/create-poi.dto';
+import { UpdatePoiDto } from './dto/update-poi.dto';
 import { CreatePoiGreenscoreDto } from './dto/create-poi-greenscore.dto';
 import { AnswerPoiGreenscoreDto } from './dto/answer-poi-greenscore.dto';
 import { Poi } from './interfaces/poi.interface';
@@ -21,7 +22,7 @@ export class PoiController {
   @Post()
   @Roles(UserRole.Admin)
   async create(@Body() createPoiDto: CreatePoiDto) {
-    this.poiService.create(createPoiDto);
+    return this.poiService.create(createPoiDto);
   }
 
   @Get()
@@ -38,29 +39,29 @@ export class PoiController {
 
   @Put(':poi_id')
   @Roles(UserRole.Admin)
-  async update(@Param('poi_id') id: string, @Body() createPoiDto: CreatePoiDto) {
+  async update(@Param('poi_id') id: string, @Body() updatePoiDto: UpdatePoiDto) {
     const poi = await this.poiService.findByUuid(id);
-    this.poiService.update(poi, createPoiDto);
+    return this.poiService.update(poi, updatePoiDto);
   }
 
   @Delete(':poi_id')
   @Roles(UserRole.Admin)
   async remove(@Param('poi_id') id: string) {
     const poi = await this.poiService.findByUuid(id);
-    this.poiService.delete(poi);
+    return this.poiService.delete(poi);
   }
 
   @Post(':poi_id/survey/send')
   @Roles(UserRole.Admin)
   async surveySend(@Param('poi_id') id: string, @Body() createPoiGreenscoreDto: CreatePoiGreenscoreDto) {
     const poi = await this.poiService.findByUuid(id);
-    this.poiService.surveySend(poi, createPoiGreenscoreDto);
+    return this.poiService.surveySend(poi, createPoiGreenscoreDto);
   }
 
   @Post(':poi_id/survey/answer')
   @Roles(UserRole.Admin)
   async surveyAnswer(@Param('poi_id') id: string, @Body() answerPoiGreenscoreDto: AnswerPoiGreenscoreDto) {
     const poi = await this.poiService.findByUuid(id);
-    this.poiService.surveyAnswer(poi, answerPoiGreenscoreDto);
+    return this.poiService.surveyAnswer(poi, answerPoiGreenscoreDto);
   }
 }

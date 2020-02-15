@@ -7,6 +7,7 @@ import * as uuidv4 from 'uuid/v4';
 import { TemplateService } from 'src/greenscore/template.service';
 import { CreatePoiGreenscoreDto } from './dto/create-poi-greenscore.dto';
 import { AnswerPoiGreenscoreDto } from './dto/answer-poi-greenscore.dto';
+import { UpdatePoiDto } from './dto/update-poi.dto';
 
 @Injectable()
 export class PoiService {
@@ -18,11 +19,13 @@ export class PoiService {
   async create(createPoiDto: CreatePoiDto): Promise<Poi> {
     let createdPoi = new this.poiModel(createPoiDto);
     createdPoi.id = uuidv4();
-    return createdPoi.save();
+    await createdPoi.save();
+    return this.findByUuid(createdPoi.id);
   }
 
-  async update(poi: Poi, createPoiDto: CreatePoiDto): Promise<Poi> {
-    return this.poiModel.updateOne(poi, createPoiDto);
+  async update(poi: Poi, updatePoiDto: UpdatePoiDto): Promise<Poi> {
+    await this.poiModel.updateOne(poi, updatePoiDto);
+    return this.findByUuid(poi.id);
   }
 
   async delete(poi: Poi): Promise<Poi> {
@@ -49,16 +52,37 @@ export class PoiService {
     const { id, name } = template;
     const token = createPoiGreenscoreDto.sendToPoi ? uuidv4().replace(/-/gi, '') : null;
     await this.poiModel.updateOne({ id: poi.id }, { template: { id, name }, token });
+    return this.findByUuid(poi.id);
   }
 
   async surveyAnswer(poi: Poi, answerPoiGreenscoreDto: AnswerPoiGreenscoreDto) {
     const template = await this.templateService.findByUuid(poi.template.id);
     const questions = template.questions.map(question => {
-      // check answerPoiGreenscoreDto.questions[i].question_id === question.id && answerPoiGreenscoreDto.questions[i].answer_id === question.answers[j].id
-      // return {question_id, answer_id, score};
+      for (let i = 0; i < answerPoiGreenscoreDto.questions.length; i++) {
+        const received = answerPoiGreenscoreDto.questions[i];
+        if (received.questin_id === question.id) {
+          for (let j = 0; j < question.answers.length; j++) {
+            const answer = question.answers[j];
+            if (received.answer_id === answer.id) {
+              return {
+                id: question.id,
+                question: question.question,
+                answer: answer.answer,
+                score: answer.score
+              };
+            }
+          }
+        }
+      }
+      return {
+        id: question.id,
+        question: question.question,
+        answer: null,
+        score: null
+      };
     });
-    console.log(template);
-    console.log(answerPoiGreenscoreDto);
-    // await this.poiModel.updateOne({ id: poi.id }, { template: { questions: {  } } });
+    const { id, name } = template;
+    await this.poiModel.updateOne({ id: poi.id }, { template: { id, name, questions } });
+    return this.findByUuid(poi.id);
   }
 }
