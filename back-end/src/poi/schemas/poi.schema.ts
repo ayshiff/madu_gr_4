@@ -69,5 +69,6 @@ export const PoiSchema = new mongoose.Schema({
       }
     ]
   },
-  token: String
+  token: String,
+  status: String
 });

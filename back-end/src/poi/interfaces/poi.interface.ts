@@ -71,4 +71,5 @@ export interface Poi {
     ]
   };
   token: string;
+  status: string;
 }

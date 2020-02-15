@@ -6,6 +6,7 @@ import { CreateCompanyDto } from "./dto/create-company.dto";
 import * as uuidv4 from 'uuid/v4';
 import { User } from 'src/users/interfaces/user.interface';
 import { UserRole } from 'src/auth/userRole.enum';
+import { CompanyStatus } from './model/company-status.enum';
 
 @Injectable()
 export class CompanyService {
@@ -14,6 +15,8 @@ export class CompanyService {
   async create(createCompanyDto: CreateCompanyDto): Promise<Company> {
     let createdCompany = new this.companyModel(createCompanyDto);
     createdCompany.id = uuidv4();
+    createdCompany.status = CompanyStatus.AccountSent;
+    console.log('Send mail : account created')
     await createdCompany.save();
     return this.findByUuid(createdCompany.id);
   }

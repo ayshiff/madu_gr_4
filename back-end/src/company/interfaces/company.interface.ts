@@ -8,4 +8,5 @@ export interface Company {
   street: string;
   zipCode: number;
   city: string;
+  status: string;
 }

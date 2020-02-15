@@ -6,5 +6,6 @@ export const CompanySchema = new mongoose.Schema({
   domainName: String,
   street: String,
   zipCode: Number,
-  city: String
+  city: String,
+  status: String
 });

@@ -8,6 +8,8 @@ import { TemplateService } from 'src/greenscore/template.service';
 import { CreatePoiGreenscoreDto } from './dto/create-poi-greenscore.dto';
 import { AnswerPoiGreenscoreDto } from './dto/answer-poi-greenscore.dto';
 import { UpdatePoiDto } from './dto/update-poi.dto';
+import { PoiStatus } from "./model/poi-status.enum";
+import { ValidatePoiGreenscoreDto } from './dto/validate-poi-greenscore.dto';
 
 @Injectable()
 export class PoiService {
@@ -19,6 +21,7 @@ export class PoiService {
   async create(createPoiDto: CreatePoiDto): Promise<Poi> {
     let createdPoi = new this.poiModel(createPoiDto);
     createdPoi.id = uuidv4();
+    createdPoi.status = PoiStatus.Canvassing;
     await createdPoi.save();
     return this.findByUuid(createdPoi.id);
   }
@@ -49,9 +52,10 @@ export class PoiService {
     if (!template) {
       throw new BadRequestException('Invalid template')
     }
+    console.log('Send mail : Poi survey sent');
     const { id, name } = template;
     const token = createPoiGreenscoreDto.sendToPoi ? uuidv4().replace(/-/gi, '') : null;
-    await this.poiModel.updateOne({ id: poi.id }, { template: { id, name }, token });
+    await this.poiModel.updateOne({ id: poi.id }, { template: { id, name }, token, status: PoiStatus.SurverSent });
     return this.findByUuid(poi.id);
   }
 
@@ -82,7 +86,14 @@ export class PoiService {
       };
     });
     const { id, name } = template;
-    await this.poiModel.updateOne({ id: poi.id }, { template: { id, name, questions } });
+    await this.poiModel.updateOne({ id: poi.id }, { template: { id, name, questions }, status: PoiStatus.SurverCompleted });
+    return this.findByUuid(poi.id);
+  }
+
+  async surveyValidate(poi: Poi, createPoiGreenscoreDto: ValidatePoiGreenscoreDto) {
+    const status = createPoiGreenscoreDto.valid;
+    console.log('Send mail : Poi survey' + (status ? 'valid' : 'refused'));
+    await this.poiModel.updateOne({ id: poi.id }, { status });
     return this.findByUuid(poi.id);
   }
 }
