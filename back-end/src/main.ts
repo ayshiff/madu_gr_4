@@ -4,12 +4,14 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as helmet from 'helmet';
 import * as rateLimit from 'express-rate-limit';
 import { AppModule } from './app.module';
+import { DataFormatterInterceptor } from './interceptor/data-formatter.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   // global
   app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalInterceptors(new DataFormatterInterceptor())
 
   // security
   app.use(helmet());
