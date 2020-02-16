@@ -34,11 +34,11 @@ export type StepTwoProps = {
 
 export const FormStepTwo = ({ changeStep, onChangeStepState, stepState }: StepTwoProps) => {
     const onChangeState = (field: string, value) => {
-        const newStepOneState: StepTwoState = {
+        const newStepTwoState: StepTwoState = {
             ...stepState,
             [field]: value,
         };
-        onChangeStepState<StepTwoState>("stepTwo", newStepOneState);
+        onChangeStepState<StepTwoState>("stepTwo", newStepTwoState);
     };
 
     const handleChange = info => {

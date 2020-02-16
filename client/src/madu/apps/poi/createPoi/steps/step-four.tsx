@@ -1,11 +1,33 @@
-import React, { useState } from "react";
-import { Input, Radio, Select, Form } from "antd";
-import "antd/dist/antd.css";
+import React from "react";
+import { Input, Radio, Select, Form, Button } from "antd";
+// import styled from "styled-components";
+// import { rem } from "polished";
+
+import { ButtonWrapper } from "styles/atoms/button-wrapper";
+
+import { StateKeys } from "../index";
 
 const { Option } = Select;
+const { TextArea } = Input;
 
-export const FormStepFour = () => {
-    const [value, setValue] = useState(1);
+export type StepFourState = {
+    index: number;
+    value: number;
+};
+
+export type StepFourProps = {
+    onChangeStepState: <T>(key: StateKeys, value: T) => void;
+    stepState: StepFourState;
+};
+
+export const FormStepFour = ({ onChangeStepState, stepState }: StepFourProps) => {
+    const onChangeState = (field: string, value) => {
+        const newStepFourState: StepFourState = {
+            ...stepState,
+            [field]: value,
+        };
+        onChangeStepState<StepFourState>("stepThree", newStepFourState);
+    };
 
     const radioStyle = {
         display: "block",
@@ -13,14 +35,9 @@ export const FormStepFour = () => {
         lineHeight: "30px",
     };
 
-    const layout = {
-        labelCol: { span: 4 },
-        wrapperCol: { span: 4 },
-    };
-
     return (
-        <div>
-            <Form {...layout} name="nest-messages">
+        <>
+            <Form>
                 <Form.Item label="Choisir template">
                     <Select
                         showSearch
@@ -34,17 +51,25 @@ export const FormStepFour = () => {
                     </Select>
                 </Form.Item>
                 <Form.Item label="Envoi du quest">
-                    <Radio.Group onChange={e => setValue(e.target.value)} value={value}>
+                    <Radio.Group
+                        onChange={e => onChangeState("value", e.target.value)}
+                        value={stepState.value}
+                    >
                         <Radio style={radioStyle} value={1}>
-                            Remplir directement le questionnR
+                            Remplir directement le questionnaire
                         </Radio>
                         <Radio style={radioStyle} value={2}>
-                            Envoyer le questionnR au client
-                            {value === 2 ? <Input style={{ width: 100, marginLeft: 10 }} /> : null}
+                            Envoyer le questionnaire au client
                         </Radio>
                     </Radio.Group>
                 </Form.Item>
+                {stepState.value === 2 && <TextArea rows={4} style={{ width: 400 }} />}
             </Form>
-        </div>
+            <ButtonWrapper align="right" layout="aside">
+                <Button size="large" type="primary">
+                    validé
+                </Button>
+            </ButtonWrapper>
+        </>
     );
 };

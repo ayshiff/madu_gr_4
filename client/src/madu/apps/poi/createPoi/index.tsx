@@ -48,9 +48,11 @@ export const CreatePoi = () => {
                 },
                 stepThree: {
                     index: 2,
+                    category: "",
                 },
                 stepFour: {
                     index: 3,
+                    value: 1,
                 },
             },
         }),
