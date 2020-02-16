@@ -11,7 +11,7 @@ describe("ClientStore", () => {
     describe("constructor()", () => {
         it("has an initial state", () => {
             const store = new ClientStore();
-            expect(store.clients).toHaveLength(0);
+            expect(store.all).toHaveLength(0);
         });
     });
 
@@ -19,8 +19,8 @@ describe("ClientStore", () => {
         it("should add a client to the store", async () => {
             const store = new ClientStore();
             await store.add(clientStoreMock1);
-            expect(store.clients).toHaveLength(1);
-            expect(store.clients).toEqual([clientStoreMock1]);
+            expect(store.all).toHaveLength(1);
+            expect(store.all).toEqual([clientStoreMock1]);
         });
     });
 
@@ -29,7 +29,7 @@ describe("ClientStore", () => {
             const store = new ClientStore();
             await store.add(clientStoreMock1);
             await store.reset();
-            expect(store.clients).toHaveLength(0);
+            expect(store.all).toHaveLength(0);
         });
     });
 
@@ -40,8 +40,8 @@ describe("ClientStore", () => {
             await store.add(clientStoreMock1);
             // Remove a teamplate
             await store.remove("test1");
-            expect(store.clients).toHaveLength(0);
-            expect(store.clients).toEqual([]);
+            expect(store.all).toHaveLength(0);
+            expect(store.all).toEqual([]);
         });
     });
 
@@ -51,11 +51,11 @@ describe("ClientStore", () => {
             // Populate state
             await store.add(clientStoreMock1);
             // Edit a client
-            await store.edit({
+            await store.edit("test1", {
                 ...clientStoreMock1,
                 name: "edited name",
             });
-            expect(store.clients).toEqual([
+            expect(store.all).toEqual([
                 {
                     ...clientStoreMock1,
                     name: "edited name",

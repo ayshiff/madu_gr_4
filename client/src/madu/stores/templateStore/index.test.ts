@@ -14,7 +14,7 @@ describe("TemplateStore", () => {
     describe("constructor()", () => {
         it("has an initial state", () => {
             const store = new TemplateStore();
-            expect(store.templates).toHaveLength(0);
+            expect(store.all).toHaveLength(0);
         });
     });
 
@@ -22,8 +22,8 @@ describe("TemplateStore", () => {
         it("should add a template to the store", async () => {
             const store = new TemplateStore();
             await store.add(templateStoreMock1);
-            expect(store.templates).toHaveLength(1);
-            expect(store.templates).toEqual([templateStoreMock1]);
+            expect(store.all).toHaveLength(1);
+            expect(store.all).toEqual([templateStoreMock1]);
         });
     });
 
@@ -32,7 +32,7 @@ describe("TemplateStore", () => {
             const store = new TemplateStore();
             store.add(templateStoreMock1);
             store.reset();
-            expect(store.templates).toHaveLength(0);
+            expect(store.all).toHaveLength(0);
         });
     });
 
@@ -43,8 +43,8 @@ describe("TemplateStore", () => {
             await store.add(templateStoreMock1);
             // Remove a teamplate
             await store.remove("test1");
-            expect(store.templates).toHaveLength(0);
-            expect(store.templates).toEqual([]);
+            expect(store.all).toHaveLength(0);
+            expect(store.all).toEqual([]);
         });
     });
 
@@ -52,20 +52,25 @@ describe("TemplateStore", () => {
         it("should edit an element from the state", async () => {
             const store = new TemplateStore();
             const editedQuestion = {
-                question: "test question edited",
-                responses: ["edited response 1", "edited response 2", "edited response 3"],
-                coefficient: 3,
+                id: "test_question_1",
+                question: "",
+                questionType: "",
+                answers: [
+                    {
+                        id: "",
+                        answer: "",
+                        score: 14,
+                    },
+                ],
             };
             // Populate state
             await store.add(templateStoreMock1);
             // Edit a template
-            await store.editTemplate({
+            await store.editTemplate("test_question_1", {
                 ...templateStoreMock1,
                 questions: [editedQuestion],
             });
-            expect(store.templates).toEqual([
-                { ...templateStoreMock1, questions: [editedQuestion] },
-            ]);
+            expect(store.all).toEqual([{ ...templateStoreMock1, questions: [editedQuestion] }]);
         });
     });
 });

@@ -14,7 +14,7 @@ describe("QuestionStore", () => {
     describe("constructor()", () => {
         it("has an initial state", () => {
             const store = new QuestionStore();
-            expect(store.questions).toHaveLength(0);
+            expect(store.all).toHaveLength(0);
         });
     });
 
@@ -22,8 +22,8 @@ describe("QuestionStore", () => {
         it("should add a question to the store", async () => {
             const store = new QuestionStore();
             await store.add(questionStoreMock1);
-            expect(store.questions).toHaveLength(1);
-            expect(store.questions).toEqual([questionStoreMock1]);
+            expect(store.all).toHaveLength(1);
+            expect(store.all).toEqual([questionStoreMock1]);
         });
     });
 
@@ -32,7 +32,7 @@ describe("QuestionStore", () => {
             const store = new QuestionStore();
             store.add(questionStoreMock1);
             store.reset();
-            expect(store.questions).toHaveLength(0);
+            expect(store.all).toHaveLength(0);
         });
     });
 
@@ -43,8 +43,8 @@ describe("QuestionStore", () => {
             await store.add(questionStoreMock1);
             // Remove a teamplate
             await store.remove("test1");
-            expect(store.questions).toHaveLength(0);
-            expect(store.questions).toEqual([]);
+            expect(store.all).toHaveLength(0);
+            expect(store.all).toEqual([]);
         });
     });
 
@@ -63,7 +63,7 @@ describe("QuestionStore", () => {
                 ...questionStoreMock1,
                 answers: [editedAnswers],
             });
-            expect(store.questions).toEqual([{ ...questionStoreMock1, answers: [editedAnswers] }]);
+            expect(store.all).toEqual([{ ...questionStoreMock1, answers: [editedAnswers] }]);
         });
     });
 });

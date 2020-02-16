@@ -46,7 +46,8 @@ export interface IPointOfInterest {
 }
 
 class PointOfInterestStore {
-    @observable pointOfInterests: IPointOfInterest[] = [];
+    @observable all: IPointOfInterest[] = [];
+    @observable byId: IPointOfInterest | null = null;
 
     @action get = () => {
         const endpoint = "";
@@ -54,7 +55,7 @@ class PointOfInterestStore {
             .then((data: any) => {
                 const processedData: IPointOfInterest[] = data;
                 // Process store once the call has succeed
-                this.pointOfInterests = processedData;
+                this.all = processedData;
                 return;
             })
             .catch(err => console.log(err));
@@ -64,9 +65,9 @@ class PointOfInterestStore {
         const endpoint = "";
         return get(endpoint)
             .then((data: any) => {
-                const processedData: IPointOfInterest[] = data;
+                const processedData: IPointOfInterest = data;
                 // Process store once the call has succeed
-                this.pointOfInterests = processedData;
+                this.byId = processedData;
                 return;
             })
             .catch(err => console.log(err));
@@ -78,20 +79,20 @@ class PointOfInterestStore {
         return post(endpoint, payload)
             .then(data => {
                 // Process store once the call has succeed
-                this.pointOfInterests.push(data as any);
+                this.all.push(data as any);
                 return;
             })
             .catch(err => console.log(err));
     };
 
-    @action edit = (pointOfInterest: IPointOfInterest) => {
+    @action edit = (id: string, pointOfInterest: IPointOfInterest) => {
         const payload = {};
         const endpoint = "";
 
         return post(endpoint, payload)
             .then(data => {
                 // Process store once the call has succeed
-                this.pointOfInterests = editReference(pointOfInterest, this.pointOfInterests);
+                this.all = editReference(id, pointOfInterest, this.all);
                 return;
             })
             .catch(err => console.log(err));
@@ -101,13 +102,13 @@ class PointOfInterestStore {
         const endpoint = "";
         return apiDelete(endpoint).then(_data => {
             // Process store once the call has succeed
-            this.pointOfInterests = removeReference(id, this.pointOfInterests);
+            this.all = removeReference(id, this.all);
             return;
         });
     };
 
     @action reset = () => {
-        this.pointOfInterests = [];
+        this.all = [];
     };
 }
 

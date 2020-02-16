@@ -15,7 +15,8 @@ export interface IQuestion {
 }
 
 class QuestionStore {
-    @observable questions: IQuestion[] = [];
+    @observable all: IQuestion[] = [];
+    @observable byId: IQuestion | null = null;
 
     @action get = () => {
         const endpoint = "";
@@ -23,7 +24,18 @@ class QuestionStore {
             .then((data: any) => {
                 const processedData: IQuestion[] = data;
                 // Process store once the call has succeed
-                this.questions = processedData;
+                this.all = processedData;
+            })
+            .catch(err => console.log(err));
+    };
+
+    @action getById = (id: string) => {
+        const endpoint = `${id}`;
+        get(endpoint)
+            .then((data: any) => {
+                const processedData: IQuestion = data;
+                // Process store once the call has succeed
+                this.byId = processedData;
             })
             .catch(err => console.log(err));
     };
@@ -34,7 +46,7 @@ class QuestionStore {
         post(endpoint, payload)
             .then(_data => {
                 // Process store once the call has succeed
-                this.questions.push(question);
+                this.all.push(question);
             })
             .catch(err => console.log(err));
     };
@@ -45,10 +57,10 @@ class QuestionStore {
         post(endpoint, payload)
             .then(_data => {
                 // Process store once the call has succeed
-                const editedQuestion = this.questions.map((questionRef: IQuestion) =>
+                const editedQuestion = this.all.map((questionRef: IQuestion) =>
                     questionRef.id === question.id ? question : questionRef
                 );
-                this.questions = editedQuestion;
+                this.all = editedQuestion;
             })
             .catch(err => console.log(err));
     };
@@ -58,13 +70,13 @@ class QuestionStore {
         apiDelete(endpoint)
             .then(_data => {
                 // Process store once the call has succeed
-                this.questions = this.questions.filter((point: IQuestion) => point.id !== id);
+                this.all = this.all.filter((point: IQuestion) => point.id !== id);
             })
             .catch(err => console.log(err));
     };
 
     @action reset = () => {
-        this.questions = [];
+        this.all = [];
     };
 }
 

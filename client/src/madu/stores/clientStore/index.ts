@@ -13,7 +13,8 @@ export interface IClient {
 }
 
 class ClientStore {
-    @observable clients: IClient[] = [];
+    @observable all: IClient[] = [];
+    @observable byId: IClient | null = null;
 
     @action get = () => {
         const endpoint = "";
@@ -21,7 +22,7 @@ class ClientStore {
             .then((data: any) => {
                 const processedData: IClient[] = data;
                 // Process store once the call has succeed
-                this.clients = processedData;
+                this.all = processedData;
                 return;
             })
             .catch(err => console.log(err));
@@ -31,9 +32,9 @@ class ClientStore {
         const endpoint = "";
         return get(endpoint)
             .then((data: any) => {
-                const processedData: IClient[] = data;
+                const processedData: IClient = data;
                 // Process store once the call has succeed
-                this.clients = processedData;
+                this.byId = processedData;
                 return;
             })
             .catch(err => console.log(err));
@@ -45,20 +46,20 @@ class ClientStore {
         return post(endpoint, payload)
             .then(data => {
                 // Process store once the call has succeed
-                this.clients.push(data as any);
+                this.all.push(data as any);
                 return;
             })
             .catch(err => console.log(err));
     };
 
-    @action edit = (client: IClient) => {
+    @action edit = (id: string, client: IClient) => {
         const payload = {};
         const endpoint = "";
 
         return post(endpoint, payload)
             .then(data => {
                 // Process store once the call has succeed
-                this.clients = editReference(client, this.clients);
+                this.all = editReference(id, client, this.all);
                 return;
             })
             .catch(err => console.log(err));
@@ -69,14 +70,14 @@ class ClientStore {
         return apiDelete(endpoint)
             .then(_data => {
                 // Process store once the call has succeed
-                this.clients = removeReference(id, this.clients);
+                this.all = removeReference(id, this.all);
                 return;
             })
             .catch(err => console.log(err));
     };
 
     @action reset = () => {
-        this.clients = [];
+        this.all = [];
     };
 }
 

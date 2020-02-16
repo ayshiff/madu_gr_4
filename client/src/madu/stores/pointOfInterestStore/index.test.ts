@@ -14,7 +14,7 @@ describe("PointOfInterestStore", () => {
     describe("constructor()", () => {
         it("has an initial state", () => {
             const store = new PointOfInterestStore();
-            expect(store.pointOfInterests).toHaveLength(0);
+            expect(store.all).toHaveLength(0);
         });
     });
 
@@ -24,8 +24,8 @@ describe("PointOfInterestStore", () => {
             store
                 .add(pointOfInterestMock1)
                 .then(() => {
-                    expect(store.pointOfInterests).toHaveLength(1);
-                    expect(store.pointOfInterests).toEqual([pointOfInterestMock1]);
+                    expect(store.all).toHaveLength(1);
+                    expect(store.all).toEqual([pointOfInterestMock1]);
                 })
                 .catch(err => console.log(err));
         });
@@ -40,8 +40,8 @@ describe("PointOfInterestStore", () => {
             store
                 .remove("test1")
                 .then(() => {
-                    expect(store.pointOfInterests).toHaveLength(0);
-                    expect(store.pointOfInterests).toEqual([]);
+                    expect(store.all).toHaveLength(0);
+                    expect(store.all).toEqual([]);
                 })
                 .catch(err => console.log(err));
         });
@@ -54,11 +54,9 @@ describe("PointOfInterestStore", () => {
             await store.add(pointOfInterestMock1);
             // Edit a pointOfInterest
             store
-                .edit({ ...pointOfInterestMock1, name: "edited" })
+                .edit("test1", { ...pointOfInterestMock1, name: "edited" })
                 .then(() => {
-                    expect(store.pointOfInterests).toEqual([
-                        { ...pointOfInterestMock1, name: "edited" },
-                    ]);
+                    expect(store.all).toEqual([{ ...pointOfInterestMock1, name: "edited" }]);
                 })
                 .catch(err => console.log(err));
         });

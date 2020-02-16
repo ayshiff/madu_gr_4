@@ -13,7 +13,8 @@ export interface ICompany {
 }
 
 class CompanyStore {
-    @observable companies: ICompany[] = [];
+    @observable all: ICompany[] = [];
+    @observable byId: ICompany | null = null;
 
     @action get = () => {
         const endpoint = "";
@@ -21,7 +22,7 @@ class CompanyStore {
             .then((data: any) => {
                 const processedData: ICompany[] = data;
                 // Process store once the call has succeed
-                this.companies = processedData;
+                this.all = processedData;
                 return;
             })
             .catch(err => console.log(err));
@@ -31,9 +32,9 @@ class CompanyStore {
         const endpoint = "";
         return get(endpoint)
             .then((data: any) => {
-                const processedData: ICompany[] = data;
+                const processedData: ICompany = data;
                 // Process store once the call has succeed
-                this.companies = processedData;
+                this.byId = processedData;
                 return;
             })
             .catch(err => console.log(err));
@@ -45,20 +46,20 @@ class CompanyStore {
         return post(endpoint, payload)
             .then(data => {
                 // Process store once the call has succeed
-                this.companies.push(data as any);
+                this.all.push(data as any);
                 return;
             })
             .catch(err => console.log(err));
     };
 
-    @action edit = (company: ICompany) => {
+    @action edit = (id: string, company: ICompany) => {
         const payload = {};
         const endpoint = "";
 
         return post(endpoint, payload)
             .then(data => {
                 // Process store once the call has succeed
-                this.companies = editReference(company, this.companies);
+                this.all = editReference(id, company, this.all);
                 return;
             })
             .catch(err => console.log(err));
@@ -69,14 +70,14 @@ class CompanyStore {
         return apiDelete(endpoint)
             .then(_data => {
                 // Process store once the call has succeed
-                this.companies = removeReference(id, this.companies);
+                this.all = removeReference(id, this.all);
                 return;
             })
             .catch(err => console.log(err));
     };
 
     @action reset = () => {
-        this.companies = [];
+        this.all = [];
     };
 }
 

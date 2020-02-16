@@ -14,7 +14,7 @@ describe("CompanyStore", () => {
     describe("constructor()", () => {
         it("has an initial state", () => {
             const store = new CompanyStore();
-            expect(store.companies).toHaveLength(0);
+            expect(store.all).toHaveLength(0);
         });
     });
 
@@ -22,8 +22,8 @@ describe("CompanyStore", () => {
         it("should add a company to the store", async () => {
             const store = new CompanyStore();
             await store.add(companyStoreMock1);
-            expect(store.companies).toHaveLength(1);
-            expect(store.companies).toEqual([companyStoreMock1]);
+            expect(store.all).toHaveLength(1);
+            expect(store.all).toEqual([companyStoreMock1]);
         });
     });
 
@@ -32,7 +32,7 @@ describe("CompanyStore", () => {
             const store = new CompanyStore();
             await store.add(companyStoreMock1);
             await store.reset();
-            expect(store.companies).toHaveLength(0);
+            expect(store.all).toHaveLength(0);
         });
     });
 
@@ -45,8 +45,8 @@ describe("CompanyStore", () => {
             store
                 .remove("test_id_1")
                 .then(() => {
-                    expect(store.companies).toHaveLength(0);
-                    expect(store.companies).toEqual([]);
+                    expect(store.all).toHaveLength(0);
+                    expect(store.all).toEqual([]);
                 })
                 .catch(err => console.log(err));
         });
@@ -59,12 +59,12 @@ describe("CompanyStore", () => {
             await store.add(companyStoreMock1);
             // Edit a company
             store
-                .edit({
+                .edit("test_id_1", {
                     ...companyStoreMock1,
                     name: "edited name",
                 })
                 .then(() => {
-                    expect(store.companies).toEqual([
+                    expect(store.all).toEqual([
                         {
                             ...companyStoreMock1,
                             name: "edited name",
