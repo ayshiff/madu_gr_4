@@ -41,10 +41,10 @@ export type StepOneState = {
     address: string;
     zipcode: string;
     phoneNumber: string;
-    earlyMorning: any;
-    lateMorning: any;
-    earlyAfternoon: any;
-    lateAfternoon: any;
+    earlyMorning: null | any;
+    lateMorning: null | any;
+    earlyAfternoon: null | any;
+    lateAfternoon: null | any;
 };
 
 export type StepOneProps = {

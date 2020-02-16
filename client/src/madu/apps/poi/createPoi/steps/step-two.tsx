@@ -22,8 +22,10 @@ const CustomTextArea = styled(TextArea)`
 
 export type StepTwoState = {
     index: number;
-    name: string;
+    webSiteLink: string;
     fileList: any[];
+    price: string;
+    description: string;
 };
 
 export type StepTwoProps = {
@@ -61,8 +63,8 @@ export const FormStepTwo = ({ changeStep, onChangeStepState, stepState }: StepTw
             <Form>
                 <Form.Item label="Lien du site, réseau sociaux">
                     <CustomInput
-                        onChange={e => onChangeState("name", e.target.value)}
-                        value={stepState.name}
+                        onChange={e => onChangeState("webSiteLink", e.target.value)}
+                        value={stepState.webSiteLink}
                     />
                 </Form.Item>
                 <Form.Item label="Upload photos">
@@ -73,7 +75,11 @@ export const FormStepTwo = ({ changeStep, onChangeStepState, stepState }: StepTw
                     </Upload>
                 </Form.Item>
                 <Form.Item label="Prix">
-                    <Radio.Group defaultValue="a" buttonStyle="solid">
+                    <Radio.Group
+                        buttonStyle="solid"
+                        onChange={e => onChangeState("price", e.target.value)}
+                        value={stepState.price}
+                    >
                         <Radio.Button value="a">€</Radio.Button>
                         <Radio.Button value="b">€€</Radio.Button>
                         <Radio.Button value="c">€€€</Radio.Button>
@@ -81,7 +87,11 @@ export const FormStepTwo = ({ changeStep, onChangeStepState, stepState }: StepTw
                     </Radio.Group>
                 </Form.Item>
                 <Form.Item label="Description">
-                    <CustomTextArea rows={4} />
+                    <CustomTextArea
+                        rows={4}
+                        onChange={e => onChangeState("description", e.target.value)}
+                        value={stepState.description}
+                    />
                 </Form.Item>
             </Form>
             <ButtonWrapper align="right" layout="aside">

@@ -20,8 +20,12 @@ const SwitchWrapper = styled(Form.Item)`
 
 export type StepThreeState = {
     index: number;
-    name: string;
     category: string;
+    establishmentType: string;
+    foodPreference: string;
+    product: string;
+    foodType: string;
+    takeaway: boolean;
 };
 
 export type StepThreeProps = {
@@ -45,7 +49,7 @@ export const FormStepThree = ({ changeStep, onChangeStepState, stepState }: Step
                 <Form.Item label="Catégorie">
                     <Radio.Group
                         onChange={e => onChangeState("category", e.target.value)}
-                        defaultValue="a"
+                        value={stepState.category}
                     >
                         <Radio.Button value="a">Restaurant</Radio.Button>
                         <Radio.Button value="b">Boutique</Radio.Button>
@@ -53,19 +57,34 @@ export const FormStepThree = ({ changeStep, onChangeStepState, stepState }: Step
                     </Radio.Group>
                 </Form.Item>
                 <Form.Item label="Type d'établissement">
-                    <CustomInput />
+                    <CustomInput
+                        onChange={e => onChangeState("establishmentType", e.target.value)}
+                        value={stepState.establishmentType}
+                    />
                 </Form.Item>
                 <Form.Item label="Préference alimentaire">
-                    <CustomInput />
+                    <CustomInput
+                        onChange={e => onChangeState("foodPreference", e.target.value)}
+                        value={stepState.foodPreference}
+                    />
                 </Form.Item>
                 <Form.Item label="Produit">
-                    <CustomInput />
+                    <CustomInput
+                        onChange={e => onChangeState("product", e.target.value)}
+                        value={stepState.product}
+                    />
                 </Form.Item>
                 <Form.Item label="Type cuisine">
-                    <CustomInput />
+                    <CustomInput
+                        onChange={e => onChangeState("foodType", e.target.value)}
+                        value={stepState.foodType}
+                    />
                 </Form.Item>
                 <SwitchWrapper label="À emporté">
-                    <Switch />
+                    <Switch
+                        onChange={e => onChangeState("takeaway", e)}
+                        checked={stepState.takeaway}
+                    />
                 </SwitchWrapper>
             </Form>
             <ButtonWrapper align="right" layout="aside">
