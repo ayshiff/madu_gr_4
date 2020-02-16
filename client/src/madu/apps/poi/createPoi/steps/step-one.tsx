@@ -1,7 +1,39 @@
 import React from "react";
-import { Form, Input } from "antd";
+import { Form, Input, TimePicker, Button } from "antd";
+import styled from "styled-components";
+import { rem } from "polished";
+
+import { ButtonWrapper } from "styles/atoms/button-wrapper";
 
 import { StateKeys } from "../index";
+
+const CustomInput = styled(Input)`
+    width: ${rem(300)};
+    &:first-child {
+        margin-right: ${rem(14)};
+    }
+`;
+
+const CustomForm = styled(Form)`
+    margin-bottom: ${rem(20)};
+`;
+
+const TimePickerWrapper = styled.div`
+    display: flex;
+`;
+
+const CustomTimePicker = styled(TimePicker)`
+    &:not(:last-child) {
+        margin-right: ${rem(14)};
+    }
+    &:nth-child(3) {
+        margin-left: ${rem(14)};
+    }
+`;
+
+const InputWrapper = styled.div`
+    display: flex;
+`;
 
 export type StepOneState = {
     index: number;
@@ -13,6 +45,7 @@ export type StepOneProps = {
     changeStep: (n: number) => void;
     stepState: StepOneState;
 };
+
 export const FormStepOne = ({ changeStep, onChangeStepState, stepState }: StepOneProps) => {
     const onChangeState = (field: string, value) => {
         const newStepOneState: StepOneState = {
@@ -24,24 +57,40 @@ export const FormStepOne = ({ changeStep, onChangeStepState, stepState }: StepOn
 
     return (
         <>
-            <Form name="nest-messages">
+            <CustomForm>
                 <Form.Item label="Nom">
-                    <Input
+                    <CustomInput
                         onChange={e => onChangeState("name", e.target.value)}
                         value={stepState.name}
                     />
                 </Form.Item>
-                <Form.Item label="Adresse">
-                    <Input />
-                </Form.Item>
-                <Form.Item label="Code Postal">
-                    <Input />
-                </Form.Item>
+                <InputWrapper>
+                    <Form.Item label="Adresse">
+                        <CustomInput />
+                    </Form.Item>
+                    <Form.Item label="Code Postal">
+                        <CustomInput />
+                    </Form.Item>
+                </InputWrapper>
+
                 <Form.Item label="Téléphone">
-                    <Input />
+                    <CustomInput />
                 </Form.Item>
-            </Form>
-            <button onClick={() => changeStep(1)}>suivant</button>
+                <TimePickerWrapper>
+                    <Form.Item label="TimePicker">
+                        <CustomTimePicker />
+                        <CustomTimePicker />
+                        {"  -  "}
+                        <CustomTimePicker />
+                        <CustomTimePicker />
+                    </Form.Item>
+                </TimePickerWrapper>
+            </CustomForm>
+            <ButtonWrapper align="right" layout="aside">
+                <Button size="large" type="primary" onClick={() => changeStep(1)}>
+                    suivant
+                </Button>
+            </ButtonWrapper>
         </>
     );
 };

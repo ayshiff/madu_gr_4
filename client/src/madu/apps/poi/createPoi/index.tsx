@@ -37,6 +37,14 @@ export const CreatePoi = () => {
                 },
                 stepTwo: {
                     index: 1,
+                    fileList: [
+                        {
+                            uid: "-1",
+                            name: "xxx.png",
+                            status: "done",
+                            url: "http://www.baidu.com/xxx.png",
+                        },
+                    ],
                 },
                 stepThree: {
                     index: 2,
@@ -58,15 +66,17 @@ export const CreatePoi = () => {
     const [formState, setFormState] = useState<FormState>(defaultFormState);
 
     const setCurrentStep = useCallback((state: FormState) => {
-        const { currentStep } = history.location;
-        setFormState({ ...state, currentStep });
+        console.log(history);
+        if (history.state) {
+            const { currentStep } = history.state;
+            setFormState({ ...state, currentStep });
+        } else history.goBack();
     }, []);
 
     // Page load set current step at -1
     useEffect(() => {
         if (window !== undefined && history) {
             history.push({ currentStep: 0 });
-            console.log(history);
             setFormState(defaultFormState);
         }
     }, [defaultFormState, setCurrentStep]);
@@ -94,6 +104,7 @@ export const CreatePoi = () => {
         });
     };
 
+    console.log(formState);
     const CurrentStepComponent = {
         Component: stepsComponents[formState.currentStep],
         state: Object.values(formState.stepStates).find(
@@ -106,18 +117,27 @@ export const CreatePoi = () => {
             <Header style={{ background: "#fff", padding: 0 }}>
                 <h1 style={titleStyle}>Créer P.O.I</h1>
             </Header>
-            <Stepper
-                onClickStep={onChangeStep}
-                steps={[1, 2, 3, 4]}
-                indexActiveStep={formState.currentStep}
-            />
-            <Content>
-                <CurrentStepComponent.Component
-                    onChangeStepState={onChangeStepState}
-                    stepState={CurrentStepComponent.state}
-                    changeStep={onChangeStep}
-                />
-            </Content>
+            <Layout>
+                <Content
+                    style={{
+                        margin: "24px 16px",
+                        padding: 24,
+                        background: "#fff",
+                        minHeight: 280,
+                    }}
+                >
+                    <Stepper
+                        onClickStep={onChangeStep}
+                        steps={[1, 2, 3, 4]}
+                        indexActiveStep={formState.currentStep}
+                    />
+                    <CurrentStepComponent.Component
+                        onChangeStepState={onChangeStepState}
+                        stepState={CurrentStepComponent.state}
+                        changeStep={onChangeStep}
+                    />
+                </Content>
+            </Layout>
         </Layout>
     );
 };
