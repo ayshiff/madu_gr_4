@@ -6,6 +6,9 @@ import * as services from "madu/services/commun";
 describe("TemplateStore", () => {
     beforeEach(() => {
         (services as any).post = jest.fn(() => new Promise((res, _) => res(templateStoreMock1)));
+        (services as any).apiDelete = jest.fn(
+            () => new Promise((res, _) => res(templateStoreMock1))
+        );
     });
 
     describe("constructor()", () => {

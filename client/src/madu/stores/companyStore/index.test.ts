@@ -1,11 +1,14 @@
 import CompanyStore from "./index";
-import { companyStoreMock1, companyStoreMock2 } from "./mock";
+import { companyStoreMock1 } from "./mock";
 
 import * as services from "madu/services/commun";
 
 describe("CompanyStore", () => {
     beforeEach(() => {
         (services as any).post = jest.fn(() => new Promise((res, _) => res(companyStoreMock1)));
+        (services as any).apiDelete = jest.fn(
+            () => new Promise((res, _) => res(companyStoreMock1))
+        );
     });
 
     describe("constructor()", () => {

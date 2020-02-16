@@ -1,7 +1,7 @@
 import React from "react";
 import TemplateStore from "./templateStore/index";
 import ClientStore from "./clientStore/index";
-import CompanyStore from "./company";
+import CompanyStore from "./companyStore";
 import PointOfInterestStore from "./pointOfInterestStore/index";
 import { createContext } from "react";
 

@@ -1,18 +1,48 @@
 import { observable, action } from "mobx";
-import { post, get } from "madu/services/commun";
+import { post, get, apiDelete } from "madu/services/commun";
 import { editReference, removeReference } from "../utils/index";
+
+interface IDay {
+    from: string;
+    to: string;
+}
+
+interface IQuestion {
+    id: string;
+    question: string;
+    answer: string;
+    score: number;
+}
 
 export interface IPointOfInterest {
     id: string;
     name: string;
-    link: string;
-    price: number;
+    poiType: string;
+    street: string;
+    zipCode: number;
+    city: string;
+    phone: string;
+    email: string;
+    siret: string;
+    openingTime: {
+        monday: IDay[];
+        tuesday: IDay[];
+        wednesday: IDay[];
+        thursday: IDay[];
+        friday: IDay[];
+        saturday: IDay[];
+        sunday: IDay[];
+    };
+    priceRange: string;
     description: string;
-    adress: string;
-    categories: string[];
-    tags: string[];
-    greenscore: number;
-    template_form_id: string;
+    website: string;
+    template: {
+        id: string;
+        name: string;
+        questions: IQuestion[];
+    };
+    token: string;
+    status: string;
 }
 
 class PointOfInterestStore {
@@ -68,9 +98,8 @@ class PointOfInterestStore {
     };
 
     @action remove = (id: string) => {
-        const payload = {};
         const endpoint = "";
-        return post(endpoint, payload).then(_data => {
+        return apiDelete(endpoint).then(_data => {
             // Process store once the call has succeed
             this.pointOfInterests = removeReference(id, this.pointOfInterests);
             return;

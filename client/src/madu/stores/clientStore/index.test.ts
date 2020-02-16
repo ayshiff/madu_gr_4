@@ -1,11 +1,12 @@
 import ClientStore from "./index";
-import { clientStoreMock1, clientStoreMock2 } from "./mock";
+import { clientStoreMock1 } from "./mock";
 
 import * as services from "madu/services/commun";
 
 describe("ClientStore", () => {
     beforeEach(() => {
         (services as any).post = jest.fn(() => new Promise((res, _) => res(clientStoreMock1)));
+        (services as any).apiDelete = jest.fn(() => new Promise((res, _) => res(clientStoreMock1)));
     });
     describe("constructor()", () => {
         it("has an initial state", () => {

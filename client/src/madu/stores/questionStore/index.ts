@@ -1,48 +1,54 @@
 import { observable, action } from "mobx";
 import { post, get, apiDelete } from "madu/services/commun";
-import { IQuestion } from "../questionStore";
 
-export interface ITemplate {
+interface IAnswer {
     id: string;
-    name: string;
-    questions: IQuestion[];
+    answer: string;
+    score: number;
 }
 
-class TemplateStore {
-    @observable templates: ITemplate[] = [];
+export interface IQuestion {
+    id: string;
+    question: string;
+    questionType: string;
+    answers: IAnswer[];
+}
+
+class QuestionStore {
+    @observable questions: IQuestion[] = [];
 
     @action get = () => {
         const endpoint = "";
         get(endpoint)
             .then((data: any) => {
-                const processedData: ITemplate[] = data;
+                const processedData: IQuestion[] = data;
                 // Process store once the call has succeed
-                this.templates = processedData;
+                this.questions = processedData;
             })
             .catch(err => console.log(err));
     };
 
-    @action add = (template: ITemplate) => {
+    @action add = (question: IQuestion) => {
         const payload = {};
         const endpoint = "";
         post(endpoint, payload)
             .then(_data => {
                 // Process store once the call has succeed
-                this.templates.push(template);
+                this.questions.push(question);
             })
             .catch(err => console.log(err));
     };
 
-    @action editTemplate = (template: ITemplate) => {
+    @action editQuestion = (question: IQuestion) => {
         const payload = {};
         const endpoint = "";
         post(endpoint, payload)
             .then(_data => {
                 // Process store once the call has succeed
-                const editedTemplate = this.templates.map((templateRef: ITemplate) =>
-                    templateRef.id === template.id ? template : templateRef
+                const editedQuestion = this.questions.map((questionRef: IQuestion) =>
+                    questionRef.id === question.id ? question : questionRef
                 );
-                this.templates = editedTemplate;
+                this.questions = editedQuestion;
             })
             .catch(err => console.log(err));
     };
@@ -52,14 +58,14 @@ class TemplateStore {
         apiDelete(endpoint)
             .then(_data => {
                 // Process store once the call has succeed
-                this.templates = this.templates.filter((point: ITemplate) => point.id !== id);
+                this.questions = this.questions.filter((point: IQuestion) => point.id !== id);
             })
             .catch(err => console.log(err));
     };
 
     @action reset = () => {
-        this.templates = [];
+        this.questions = [];
     };
 }
 
-export default TemplateStore;
+export default QuestionStore;

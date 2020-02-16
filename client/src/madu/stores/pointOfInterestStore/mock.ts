@@ -1,25 +1,72 @@
 export const pointOfInterestMock1 = {
     id: "test1",
-    name: "test",
-    link: "test",
-    price: 12,
-    description: "description",
-    adress: "test",
-    categories: ["category 1", "category 2"],
-    tags: ["tag 1", "tag 2"],
-    greenscore: 3,
-    template_form_id: "template_id",
-};
-
-export const pointOfInterestMock2 = {
-    id: "test2",
-    name: "test",
-    link: "test",
-    price: 11,
-    description: "description",
-    adress: "test",
-    categories: ["category 1", "category 2"],
-    tags: ["tag 1", "tag 2"],
-    greenscore: 3,
-    template_form_id: "template_id",
+    name: "",
+    poiType: "",
+    street: "",
+    zipCode: 12,
+    city: "",
+    phone: "",
+    email: "",
+    siret: "",
+    openingTime: {
+        monday: [
+            {
+                from: "",
+                to: "",
+            },
+        ],
+        tuesday: [
+            {
+                from: "",
+                to: "",
+            },
+        ],
+        wednesday: [
+            {
+                from: "",
+                to: "",
+            },
+        ],
+        thursday: [
+            {
+                from: "",
+                to: "",
+            },
+        ],
+        friday: [
+            {
+                from: "",
+                to: "",
+            },
+        ],
+        saturday: [
+            {
+                from: "",
+                to: "",
+            },
+        ],
+        sunday: [
+            {
+                from: "",
+                to: "",
+            },
+        ],
+    },
+    priceRange: "",
+    description: "",
+    website: "",
+    template: {
+        id: "",
+        name: "",
+        questions: [
+            {
+                id: "",
+                question: "",
+                answer: "",
+                score: 12,
+            },
+        ],
+    },
+    token: "",
+    status: "",
 };

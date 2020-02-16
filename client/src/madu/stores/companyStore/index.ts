@@ -1,5 +1,5 @@
 import { observable, action } from "mobx";
-import { post, get } from "madu/services/commun";
+import { post, get, apiDelete } from "madu/services/commun";
 import { editReference, removeReference } from "../utils/index";
 
 export interface ICompany {
@@ -65,9 +65,8 @@ class CompanyStore {
     };
 
     @action remove = (id: string) => {
-        const payload = {};
         const endpoint = "";
-        return post(endpoint, payload)
+        return apiDelete(endpoint)
             .then(_data => {
                 // Process store once the call has succeed
                 this.companies = removeReference(id, this.companies);

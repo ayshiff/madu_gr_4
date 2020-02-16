@@ -6,6 +6,9 @@ import * as services from "madu/services/commun";
 describe("PointOfInterestStore", () => {
     beforeEach(() => {
         (services as any).post = jest.fn(() => new Promise((res, _) => res(pointOfInterestMock1)));
+        (services as any).apiDelete = jest.fn(
+            () => new Promise((res, _) => res(pointOfInterestMock1))
+        );
     });
 
     describe("constructor()", () => {
