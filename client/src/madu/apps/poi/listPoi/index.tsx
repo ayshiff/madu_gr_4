@@ -66,9 +66,9 @@ export const ListPoi = () => {
             key: "action",
             render: () => (
                 <span>
-                    <a>Edit</a>
+                    <span>Edit</span>
                     <Divider type="vertical" />
-                    <a>Delete</a>
+                    <span>Delete</span>
                 </span>
             ),
         },
