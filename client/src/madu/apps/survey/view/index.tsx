@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Tabs, Button, Row, Col } from "antd";
+import { Tabs, Button, Row, Col, Layout } from "antd";
 import styled from "styled-components";
 import { rem } from "polished";
 
 import { CollapseComponent } from "styles/atoms/collapse";
 import { TemplateComponent } from "styles/molecules/template";
 
+const { Content } = Layout;
 const ButtonWrapper = styled.div`
     display: flex;
     justify-content: flex-end;
@@ -52,26 +53,36 @@ export const SurveyContainer = () => {
     };
 
     return (
-        <Row style={{ height: "100%", marginTop: rem(24) }}>
-            <Col span={16}>
-                <TabsCustom type="card">
-                    {tabs.map(tab => (
-                        <TabPane tab={tab.name} key={tab.id}>
-                            <ButtonWrapper>
-                                <Button size={"large"} icon="plus" onClick={addData}>
-                                    Ajouter critère
-                                </Button>
-                            </ButtonWrapper>
-                            <CollapseComponent datas={datas} onDelete={onDelete} />
-                        </TabPane>
-                    ))}
-                </TabsCustom>
-            </Col>
-            <Col span={8} style={{ height: "100%" }}>
-                <TemplateContainer>
-                    <TemplateComponent />
-                </TemplateContainer>
-            </Col>
-        </Row>
+        <Layout>
+            <Content
+                style={{
+                    margin: "24px 16px",
+                    padding: 24,
+                    background: "#fff",
+                }}
+            >
+                <Row style={{ height: "100%" }}>
+                    <Col span={16}>
+                        <TabsCustom type="card">
+                            {tabs.map(tab => (
+                                <TabPane tab={tab.name} key={tab.id}>
+                                    <ButtonWrapper>
+                                        <Button size={"large"} icon="plus" onClick={addData}>
+                                            Ajouter critère
+                                        </Button>
+                                    </ButtonWrapper>
+                                    <CollapseComponent datas={datas} onDelete={onDelete} />
+                                </TabPane>
+                            ))}
+                        </TabsCustom>
+                    </Col>
+                    <Col span={8} style={{ height: "100%" }}>
+                        <TemplateContainer>
+                            <TemplateComponent />
+                        </TemplateContainer>
+                    </Col>
+                </Row>
+            </Content>
+        </Layout>
     );
 };

@@ -4,7 +4,7 @@ import { Layout, Menu, Icon } from "antd";
 const { Sider } = Layout;
 
 export const SideBar = () => (
-    <Sider trigger={null} collapsible style={{ height: "100vh " }} width="auto">
+    <Sider trigger={null} collapsible width="auto">
         <Menu theme="dark" mode="inline">
             <Menu.Item key="1">
                 <Icon type="user" />

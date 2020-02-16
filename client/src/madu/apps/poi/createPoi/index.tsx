@@ -3,6 +3,7 @@ import { Layout } from "antd";
 import { createBrowserHistory as createHistory } from "history";
 
 import { Stepper } from "madu/components/stepper";
+
 import { FormStepOne, StepOneState } from "./steps/step-one";
 import { FormStepTwo } from "./steps/step-two";
 import { FormStepThree } from "./steps/step-three";
@@ -125,7 +126,6 @@ export const CreatePoi = () => {
                         margin: "24px 16px",
                         padding: 24,
                         background: "#fff",
-                        minHeight: 280,
                     }}
                 >
                     <Stepper

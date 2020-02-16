@@ -1,6 +1,5 @@
 import React from "react";
 import { Layout, Input, Button, Table, Divider } from "antd";
-import "antd/dist/antd.css";
 
 const { Header, Content } = Layout;
 
@@ -89,32 +88,29 @@ export const ListPoi = () => {
 
     const { Search } = Input;
     return (
-        <Layout>
-            <Layout>
-                <Header style={headerStyle}>
-                    <h1 style={titleStyle}>Liste des points d’intêret</h1>
-                    <div>
-                        <Search
-                            placeholder="Search"
-                            onSearch={value => console.log(value)}
-                            style={{ width: 250 }}
-                        />
-                        <Button type="primary" style={{ marginRight: "20px", marginLeft: "40px" }}>
-                            <a href="/poi/create">+ Ajouter un point d’intêret</a>
-                        </Button>
-                    </div>
-                </Header>
-                <Content
-                    style={{
-                        margin: "24px 16px",
-                        padding: 24,
-                        background: "#fff",
-                        minHeight: 840,
-                    }}
-                >
-                    <Table columns={columns} dataSource={tableData} />
-                </Content>
-            </Layout>
+        <Layout style={{ height: "100%" }}>
+            <Header style={headerStyle}>
+                <h1 style={titleStyle}>Liste des points d’intêret</h1>
+                <div>
+                    <Search
+                        placeholder="Search"
+                        onSearch={value => console.log(value)}
+                        style={{ width: 250 }}
+                    />
+                    <Button type="primary" style={{ marginRight: "20px", marginLeft: "40px" }}>
+                        <a href="/poi/create">+ Ajouter un point d’intêret</a>
+                    </Button>
+                </div>
+            </Header>
+            <Content
+                style={{
+                    margin: "24px 16px",
+                    padding: 24,
+                    background: "#fff",
+                }}
+            >
+                <Table columns={columns} dataSource={tableData} />
+            </Content>
         </Layout>
     );
 };
