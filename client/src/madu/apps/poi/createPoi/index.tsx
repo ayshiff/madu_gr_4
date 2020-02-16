@@ -35,6 +35,13 @@ export const CreatePoi = () => {
                 stepOne: {
                     index: 0,
                     name: "",
+                    address: "",
+                    zipcode: "",
+                    phoneNumber: "",
+                    earlyMorning: "",
+                    lateMorning: "",
+                    earlyAfternoon: "",
+                    lateAfternoon: "",
                 },
                 stepTwo: {
                     index: 1,
@@ -115,7 +122,7 @@ export const CreatePoi = () => {
             item => item.index === formState.currentStep
         ),
     };
-
+    console.log(formState);
     return (
         <Layout>
             <Header style={{ background: "#fff", padding: 0 }}>

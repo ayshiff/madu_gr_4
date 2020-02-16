@@ -38,6 +38,13 @@ const InputWrapper = styled.div`
 export type StepOneState = {
     index: number;
     name: string;
+    address: string;
+    zipcode: string;
+    phoneNumber: string;
+    earlyMorning: any;
+    lateMorning: any;
+    earlyAfternoon: any;
+    lateAfternoon: any;
 };
 
 export type StepOneProps = {
@@ -66,23 +73,44 @@ export const FormStepOne = ({ changeStep, onChangeStepState, stepState }: StepOn
                 </Form.Item>
                 <InputWrapper>
                     <Form.Item label="Adresse">
-                        <CustomInput />
+                        <CustomInput
+                            onChange={e => onChangeState("address", e.target.value)}
+                            value={stepState.address}
+                        />
                     </Form.Item>
                     <Form.Item label="Code Postal">
-                        <CustomInput />
+                        <CustomInput
+                            onChange={e => onChangeState("zipcode", e.target.value)}
+                            value={stepState.zipcode}
+                        />
                     </Form.Item>
                 </InputWrapper>
 
                 <Form.Item label="Téléphone">
-                    <CustomInput />
+                    <CustomInput
+                        onChange={e => onChangeState("phoneNumber", e.target.value)}
+                        value={stepState.phoneNumber}
+                    />
                 </Form.Item>
                 <TimePickerWrapper>
                     <Form.Item label="TimePicker">
-                        <CustomTimePicker />
-                        <CustomTimePicker />
+                        <CustomTimePicker
+                            onChange={e => onChangeState("earlyMorning", e)}
+                            value={stepState.earlyMorning}
+                        />
+                        <CustomTimePicker
+                            onChange={e => onChangeState("lateMorning", e)}
+                            value={stepState.lateMorning}
+                        />
                         {"  -  "}
-                        <CustomTimePicker />
-                        <CustomTimePicker />
+                        <CustomTimePicker
+                            onChange={e => onChangeState("earlyAfternoon", e)}
+                            value={stepState.earlyAfternoon}
+                        />
+                        <CustomTimePicker
+                            onChange={e => onChangeState("lateAfternoon", e)}
+                            value={stepState.lateAfternoon}
+                        />
                     </Form.Item>
                 </TimePickerWrapper>
             </CustomForm>
