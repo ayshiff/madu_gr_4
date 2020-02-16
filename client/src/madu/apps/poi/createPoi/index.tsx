@@ -69,7 +69,6 @@ export const CreatePoi = () => {
     const [formState, setFormState] = useState<FormState>(defaultFormState);
 
     const setCurrentStep = useCallback((state: FormState) => {
-        console.log(history);
         if (history.state) {
             const { currentStep } = history.state;
             setFormState({ ...state, currentStep });
@@ -110,7 +109,6 @@ export const CreatePoi = () => {
         });
     };
 
-    console.log(formState);
     const CurrentStepComponent = {
         Component: stepsComponents[formState.currentStep],
         state: Object.values(formState.stepStates).find(
