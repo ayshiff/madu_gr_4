@@ -1,7 +1,5 @@
 import React from "react";
 import { Input, Radio, Select, Form, Button } from "antd";
-// import styled from "styled-components";
-// import { rem } from "polished";
 
 import { ButtonWrapper } from "styles/atoms/button-wrapper";
 
@@ -17,10 +15,11 @@ export type StepFourState = {
 
 export type StepFourProps = {
     onChangeStepState: <T>(key: StateKeys, value: T) => void;
+    changeStep: (n: number) => void;
     stepState: StepFourState;
 };
 
-export const FormStepFour = ({ onChangeStepState, stepState }: StepFourProps) => {
+export const FormStepFour = ({ changeStep, onChangeStepState, stepState }: StepFourProps) => {
     const onChangeState = (field: string, value) => {
         const newStepFourState: StepFourState = {
             ...stepState,
@@ -66,6 +65,9 @@ export const FormStepFour = ({ onChangeStepState, stepState }: StepFourProps) =>
                 {stepState.value === 2 && <TextArea rows={4} style={{ width: 400 }} />}
             </Form>
             <ButtonWrapper align="right" layout="aside">
+                <Button size="large" onClick={() => changeStep(2)}>
+                    prédécent
+                </Button>
                 <Button size="large" type="primary">
                     validé
                 </Button>

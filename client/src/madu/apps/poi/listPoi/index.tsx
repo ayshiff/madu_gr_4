@@ -92,11 +92,7 @@ export const ListPoi = () => {
             <Header style={headerStyle}>
                 <h1 style={titleStyle}>Liste des points d’intêret</h1>
                 <div>
-                    <Search
-                        placeholder="Search"
-                        onSearch={value => console.log(value)}
-                        style={{ width: 250 }}
-                    />
+                    <Search placeholder="Search" style={{ width: 250 }} />
                     <Button type="primary" style={{ marginRight: "20px", marginLeft: "40px" }}>
                         <a href="/poi/create">+ Ajouter un point d’intêret</a>
                     </Button>

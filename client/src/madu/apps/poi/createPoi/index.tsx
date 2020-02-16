@@ -84,15 +84,18 @@ export const CreatePoi = () => {
         }
     }, [defaultFormState, setCurrentStep]);
 
-    const test = useCallback(() => setCurrentStep(formState), [setCurrentStep, formState]);
+    const listenerPopState = useCallback(() => setCurrentStep(formState), [
+        setCurrentStep,
+        formState,
+    ]);
 
     // Set a listener onpopstate when the event is triggered push the new currentStep to the state
     useEffect(() => {
         if (window !== undefined && history) {
-            window.addEventListener("popstate", test);
+            window.addEventListener("popstate", listenerPopState);
         }
-        return () => window.removeEventListener("popstate", test);
-    }, [test]);
+        return () => window.removeEventListener("popstate", listenerPopState);
+    }, [listenerPopState]);
 
     const onChangeStep = (step: number) => {
         const newState = { ...formState, currentStep: step };
