@@ -7,19 +7,7 @@ import { CustomValidationPipe } from './pipes/CustomValidationPipe';
 
 @Module({
   imports: [
-    MongooseModule.forFeatureAsync([
-      {
-        name: 'User',
-        useFactory: () => {
-          const schema = UserSchema;
-          schema.pre(/^find/, function(next) {
-            this.select({ _id: 0, __v: 0 });
-            next();
-          });
-          return schema;
-        },
-      },
-    ])
+    MongooseModule.forFeature([{ name: 'User', schema: UserSchema }])
   ],
   providers: [UsersService, CustomValidationPipe],
   controllers: [UserController],
