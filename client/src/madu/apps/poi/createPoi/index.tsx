@@ -45,57 +45,57 @@ export const CreatePoi = () => {
                 },
                 stepTwo: {
                     index: 1,
-                    // schedule: {
-                    //     monday: {
-                    //         earlyMorning: "",
-                    //         lateMorning: "",
-                    //         earlyAfternoon: "",
-                    //         lateAfternoon: "",
-                    //         close: false,
-                    //     },
-                    //     thuesday: {
-                    //         earlyMorning: "",
-                    //         lateMorning: "",
-                    //         earlyAfternoon: "",
-                    //         lateAfternoon: "",
-                    //         close: false,
-                    //     },
-                    //     wednesday: {
-                    //         earlyMorning: "",
-                    //         lateMorning: "",
-                    //         earlyAfternoon: "",
-                    //         lateAfternoon: "",
-                    //         close: false,
-                    //     },
-                    //     thursday: {
-                    //         earlyMorning: "",
-                    //         lateMorning: "",
-                    //         earlyAfternoon: "",
-                    //         lateAfternoon: "",
-                    //         close: false,
-                    //     },
-                    //     friday: {
-                    //         earlyMorning: "",
-                    //         lateMorning: "",
-                    //         earlyAfternoon: "",
-                    //         lateAfternoon: "",
-                    //         close: false,
-                    //     },
-                    //     saturday: {
-                    //         earlyMorning: "",
-                    //         lateMorning: "",
-                    //         earlyAfternoon: "",
-                    //         lateAfternoon: "",
-                    //         close: false,
-                    //     },
-                    //     sunday: {
-                    //         earlyMorning: "",
-                    //         lateMorning: "",
-                    //         earlyAfternoon: "",
-                    //         lateAfternoon: "",
-                    //         close: false,
-                    //     },
-                    // },
+                    schedule: {
+                        monday: {
+                            earlyMorning: "",
+                            lateMorning: "",
+                            earlyAfternoon: "",
+                            lateAfternoon: "",
+                            close: false,
+                        },
+                        thuesday: {
+                            earlyMorning: "",
+                            lateMorning: "",
+                            earlyAfternoon: "",
+                            lateAfternoon: "",
+                            close: false,
+                        },
+                        wednesday: {
+                            earlyMorning: "",
+                            lateMorning: "",
+                            earlyAfternoon: "",
+                            lateAfternoon: "",
+                            close: false,
+                        },
+                        thursday: {
+                            earlyMorning: "",
+                            lateMorning: "",
+                            earlyAfternoon: "",
+                            lateAfternoon: "",
+                            close: false,
+                        },
+                        friday: {
+                            earlyMorning: "",
+                            lateMorning: "",
+                            earlyAfternoon: "",
+                            lateAfternoon: "",
+                            close: false,
+                        },
+                        saturday: {
+                            earlyMorning: "",
+                            lateMorning: "",
+                            earlyAfternoon: "",
+                            lateAfternoon: "",
+                            close: false,
+                        },
+                        sunday: {
+                            earlyMorning: "",
+                            lateMorning: "",
+                            earlyAfternoon: "",
+                            lateAfternoon: "",
+                            close: false,
+                        },
+                    },
                     fileList: [],
                     price: "a",
                     takeaway: false,
@@ -111,11 +111,9 @@ export const CreatePoi = () => {
         []
     );
 
-    const titleStyle = {
-        marginLeft: "20px",
-        fontWeight: 500,
-        fontSize: "28px",
-    };
+    const layoutContentStyle = {
+        backgroundColor: "#ffffff"
+    }
 
     const [formState, setFormState] = useState<FormState>(defaultFormState);
 
@@ -168,11 +166,15 @@ export const CreatePoi = () => {
     };
     console.log(formState);
     return (
-        <Layout>
-            <Header style={{ background: "#fff", padding: 0 }}>
-                <h1 style={titleStyle}>Créer P.O.I</h1>
+        <Layout >
+            <Header style={{ background: "#fff", paddingLeft: "20%", paddingRight: "20%" }}>
+                <Stepper
+                    onClickStep={onChangeStep}
+                    steps={[1, 2, 3]}
+                    indexActiveStep={formState.currentStep}
+                />
             </Header>
-            <Layout>
+            <Layout style={layoutContentStyle}>
                 <Content
                     style={{
                         margin: "24px 16px",
@@ -180,11 +182,6 @@ export const CreatePoi = () => {
                         background: "#fff",
                     }}
                 >
-                    <Stepper
-                        onClickStep={onChangeStep}
-                        steps={[1, 2, 3]}
-                        indexActiveStep={formState.currentStep}
-                    />
                     <CurrentStepComponent.Component
                         onChangeStepState={onChangeStepState}
                         stepState={CurrentStepComponent.state}

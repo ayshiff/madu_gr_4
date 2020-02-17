@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Radio, Button, Upload, Icon, TimePicker } from "antd";
+import { Form, Input, Radio, Button, Upload, Icon, TimePicker, Switch } from "antd";
 import styled from "styled-components";
 import { rem } from "polished";
 
@@ -8,7 +8,7 @@ import { ButtonWrapper } from "styles/atoms/button-wrapper";
 import { StateKeys } from "../index";
 
 const CustomInput = styled(Input)`
-    width: ${rem(300)};
+    width: ${rem(20)};
     &:first-child {
         margin-right: ${rem(14)};
     }
@@ -33,6 +33,7 @@ export type StepTwoState = {
     fileList: any[];
     price: string;
     description: string;
+    schedule:Record<string,Record<string,string|boolean>>
 };
 
 export type StepTwoProps = {
@@ -69,23 +70,27 @@ export const FormStepTwo = ({ changeStep, onChangeStepState, stepState }: StepTw
         <>
             <Form>
                 <TimePickerWrapper>
-                    <Form.Item label="TimePicker">
-                        <CustomTimePicker
-                            onChange={e => onChangeState("earlyMorning", e)}
-                            // value={stepState.earlyMorning}
+                    <Form.Item label="Horaires">
+                        <Switch 
+                            //  onChange={e => onChangeState("close", e)}
+                            //  checked={stepState.schedule.monday.close}
+                        />
+                        <CustomTimePicker 
+                             onChange={e => onChangeState("earlyMorning", e.target.value)}
+                             value={stepState.schedule.earlyMorning}                                              
                         />
                         <CustomTimePicker
-                            onChange={e => onChangeState("lateMorning", e)}
-                            // value={stepState.lateMorning}
+                            onChange={e => onChangeState("lateMorning", e.target.value)}
+                            value={stepState.schedule.lateMorning}
                         />
                         {"  -  "}
                         <CustomTimePicker
-                            onChange={e => onChangeState("earlyAfternoon", e)}
-                            // value={stepState.earlyAfternoon}
+                            onChange={e => onChangeState("earlyAfternoon", e.target.value)}
+                            value={stepState.schedule.earlyAfternoon}
                         />
                         <CustomTimePicker
-                            onChange={e => onChangeState("lateAfternoon", e)}
-                            // value={stepState.lateAfternoon}
+                            onChange={e => onChangeState("lateAfternoon", e.target.value)}
+                            value={stepState.schedule.lateAfternoon}
                         />
                     </Form.Item>
                 </TimePickerWrapper>

@@ -16,7 +16,7 @@ type StepperProps = {
 };
 
 export const Stepper = ({ steps, indexActiveStep, onClickStep }: StepperProps) => (
-    <Steps current={indexActiveStep} style={{ margin: `${rem(20)} 0` }}>
+    <Steps current={indexActiveStep} style={{ margin: `${rem(20)} 0`}}>
         {steps.map((item, index) => (
             <CustomStep key={item} onClick={() => onClickStep(index)} />
         ))}
