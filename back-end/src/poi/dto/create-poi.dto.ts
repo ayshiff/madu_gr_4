@@ -1,5 +1,6 @@
-import { IsString, IsInt, IsMilitaryTime, ValidateNested, IsUrl, IsPhoneNumber, IsEmail } from 'class-validator';
+import { IsString, IsInt, IsMilitaryTime, ValidateNested, IsUrl, IsPhoneNumber, IsEmail, IsEnum, IsBoolean } from 'class-validator';
 import { Type } from 'class-transformer';
+import { PoiCategories } from '../model/poi-categories.enum';
 
 export class Week {
   @ValidateNested()
@@ -43,6 +44,9 @@ export class CreatePoiDto {
   @IsString()
   name: string;
 
+  @IsEnum(PoiCategories)
+  category: string;
+
   @IsString()
   poiType: string;
 
@@ -77,6 +81,18 @@ export class CreatePoiDto {
   @IsUrl()
   website: string;
 
+  @IsUrl()
+  socialNetwork: string;
+
   @IsInt()
   greenscore: number;
+
+  @IsString()
+  foodPreference: string;
+
+  @IsBoolean()
+  takeAway: boolean;
+
+  @IsBoolean()
+  wheelchair: boolean;
 }
