@@ -1,4 +1,4 @@
-#Déploiment du projet
+# Déploiment du projet
 
 Dépendances nécessaires :
 - [Terraform](https://www.terraform.io/)
@@ -7,7 +7,7 @@ Dépendances nécessaires :
 
 Un compte AWS est nécessaires pour déployer le projet, avec des [credentials configurés](https://docs.aws.amazon.com/fr_fr/sdk-for-java/v1/developer-guide/setup-credentials.html).
 
-##Déploiment du serveur
+## Déploiment du serveur
 
 Avant de déployer il faut [générer une clé ssh](https://confluence.atlassian.com/bitbucketserver/creating-ssh-keys-776639788.html) stockée dans ```~/.ssh/```.
 
@@ -22,11 +22,11 @@ $ terraform apply
 
 Le serveur est déployé sur eu-west-2, déployer sur eu-west-3 n'est pas possible à cause de l'utilisation d'un inventaire dynamique avec Ansible.
 
-##Installation et lancement
+## Installation et lancement
 
 Plusieurs options de déploiment sont possibles.
 
-####Réutilisation de l'image existante
+#### Réutilisation de l'image existante
 
 ```
 /.cloud/ansible
@@ -35,7 +35,7 @@ $ ansible-playbook -i inventory deployment.yml --tags install+deploy --key-file=
 
 La commande permet d'installer docker et de lancer le docker-compose avec les images existantes sur [docker hub](https://hub.docker.com/r/amauryfaveriel). Cela permet de déployer sans toucher à la configuration d'Ansible.
 
-####Build des images docker
+#### Build des images docker
 
 Il est aussi possible de monter les images et de les stocker sur un hub docker personnel. Cela nécessite une configuration préalable mais permet de générer des noms d'images personnalisés et de modifier le code.
 
