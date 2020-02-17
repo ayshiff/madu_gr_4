@@ -82,7 +82,7 @@ export class UsersService {
   }
 
   async delete(user: User): Promise<User> {
-    return this.userModel.deleteOne(user);
+    return this.userModel.deleteOne({id: user.id});
   }
 
   async deleteAllByCompany(company_id: string) {

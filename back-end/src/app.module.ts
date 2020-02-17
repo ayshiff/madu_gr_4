@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { CompanyModule } from './company/company.module';
 import { AuthModule } from './auth/auth.module';
@@ -11,7 +11,13 @@ import { GreenscoreModule } from './greenscore/greenscore.module';
 // todo deal with outside applications(no auth), forgotten password, localisation, mail
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost/madu'),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        uri: configService.get<string>('MONGO_URI'),
+      }),
+      inject: [ConfigService],
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
     }),

@@ -23,7 +23,7 @@ function loop(data) {
 }
 
 function delete_id(data) {
-  const { _id, __v, ...result } = data;
+  const { _id, __v, password, ...result } = data;
   return result;
 }
 
@@ -33,7 +33,7 @@ export class DataFormatterInterceptor implements NestInterceptor {
     return next
       .handle()
       .pipe(
-        map(data => loop(JSON.parse(JSON.stringify(data)))),
+        map(data => data === undefined ? data : loop(JSON.parse(JSON.stringify(data)))),
       );
   }
 }

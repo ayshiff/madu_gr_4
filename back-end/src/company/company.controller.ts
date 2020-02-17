@@ -50,7 +50,7 @@ export class CompanyController {
   @Roles(UserRole.Admin)
   async remove(@Param('company_id') id: string) {
     const company = await this.companyService.findByUuid(id);
-    this.usersService.deleteAllByCompany(company._id);
+    this.usersService.deleteAllByCompany(company.id);
     this.companyService.delete(company);
   }
 
@@ -64,7 +64,7 @@ export class CompanyController {
   ) {
     const company = await this.companyService.findByUuid(id);
     this.companyService.denyAccessByCompany(req.user, company);
-    return this.usersService.create(createUserDto, company._id);
+    return this.usersService.create(createUserDto, company.id);
   }
 
   @Get(':company_id/users')
@@ -72,6 +72,6 @@ export class CompanyController {
   async findAllUsers(@Request() req, @Param('company_id') id): Promise<User[]> {
     const company = await this.companyService.findByUuid(id);
     this.companyService.denyAccessByCompany(req.user, company);
-    return this.usersService.findAllByCompany(company._id);
+    return this.usersService.findAllByCompany(company.id);
   }
 }

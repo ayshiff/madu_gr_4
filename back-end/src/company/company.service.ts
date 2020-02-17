@@ -43,7 +43,7 @@ export class CompanyService {
   }
 
   denyAccessByCompany(user: User, company: Company) {
-    if (!user.roles.includes(UserRole.Admin) && company._id+'' !== user.company_id+'') {
+    if (!user.roles.includes(UserRole.Admin) && company.id+'' !== user.company_id+'') {
       throw new UnauthorizedException();
     }
   }
