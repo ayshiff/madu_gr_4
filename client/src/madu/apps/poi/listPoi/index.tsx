@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout, Input, Button, Table, Divider } from "antd";
+import { Layout, Input, Button, Table, Divider, Tag } from "antd";
 import "antd/dist/antd.css";
 
 const { Header, Content } = Layout;
@@ -10,7 +10,7 @@ export const ListPoi = () => {
             key: "1",
             nomDuLieu: "Wild & the Moon",
             categorie: "Restaurant",
-            questionnr: "En attente",
+            tags: ['En attente'],
             greenscore: "72/100",
             address: "10 Downing Street",
         },
@@ -18,7 +18,7 @@ export const ListPoi = () => {
             key: "2",
             nomDuLieu: "Season",
             categorie: "Restaurant",
-            questionnr: "VALIDÉ",
+            tags: ['VALIDÉ'],            
             greenscore: "42/100",
             address: "10 Downing Street",
         },
@@ -26,7 +26,7 @@ export const ListPoi = () => {
             key: "3",
             nomDuLieu: "Nous Valmy",
             categorie: "Boutique",
-            questionnr: "En attente",
+            tags: ['En attente'],            
             greenscore: "72/100",
             address: "10 Downing Street",
         },
@@ -34,7 +34,7 @@ export const ListPoi = () => {
             key: "4",
             nomDuLieu: "Simone Lemon",
             categorie: "Experience",
-            questionnr: "VALIDÉ",
+            tags: ['VALIDÉ'],            
             greenscore: "42/100",
             address: "10 Downing Street",
         },
@@ -53,13 +53,23 @@ export const ListPoi = () => {
         },
         {
             title: "Suivi question",
-            dataIndex: "questionnr",
-            key: "questionnr",
-        },
-        {
-            title: "Suivi question",
-            dataIndex: "questiontags",
-            key: "questiontags",
+            dataIndex: "tags",
+            key: "tags",
+            render: tags => (
+                <span>
+                  {tags.map(tag => {
+                    let color = 'green';
+                    if (tag === 'En attente') {
+                      color = 'volcano';
+                    }
+                    return (
+                      <Tag color={color} key={tag}>
+                        {tag.toUpperCase()}
+                      </Tag>
+                    );
+                  })}
+                </span>
+              ),
         },
         {
             title: "Greenscore",
@@ -123,6 +133,7 @@ export const ListPoi = () => {
                         style={{ backgroundColor: "#ffffff" }}
                         columns={columns}
                         dataSource={tableData}
+                        pagination={false} 
                     />
                 </Content>
             </Layout>

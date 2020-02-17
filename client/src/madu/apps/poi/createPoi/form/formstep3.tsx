@@ -1,39 +1,48 @@
 import React from "react";
-import { Form, Input, Radio } from "antd";
+import { Select, Form } from "antd";
 import "antd/dist/antd.css";
 
-function onChange(e) {
-    console.log(`radio checked:${e.target.value}`);
+const { Option } = Select;
+
+const textAreaStyle = {
+    width: "80%", 
+    height: "600px", 
+    marginBottom:"50px"
+};
+
+const textAreaContainer = {
+    display: "flex", 
+    justifyContent:"center", 
+    width: "100%"
 }
 
-export const FormStep3 = () => {
-    const layout = {
-        labelCol: { span: 4 },
-        wrapperCol: { span: 4 },
-    };
-
+const FormStep4 = () => {
     return (
         <div>
-            <Form {...layout} name="nest-messages">
-                <Form.Item label="Catégorie">
-                    <Radio.Group onChange={onChange} defaultValue="a">
-                        <Radio.Button value="a">Restaurant</Radio.Button>
-                        <Radio.Button value="b">Boutique</Radio.Button>
-                        <Radio.Button value="c">Expérience</Radio.Button>
-                    </Radio.Group>
+            <Form 
+                layout="vertical"
+                labelCol={{ span: 3 }}
+                wrapperCol={{ span: 8 }}
+                name="nest-messages">
+                <Form.Item style={{marginLeft: "10%"}}>
+                    <h1>Choisir template</h1>
+                    <Select
+                        showSearch
+                        style={{ width: 200 }}
+                        placeholder=" "
+                        optionFilterProp="children"
+                    >
+                        <Option value="jack">Template restaurant</Option>
+                        <Option value="lucy">Template boutique</Option>
+                        <Option value="tom">Template expérience</Option>
+                    </Select>
                 </Form.Item>
-                <Form.Item label="Type d'établissement">
-                    <Input />
-                </Form.Item>
-                <Form.Item label="Préference alimentaire">
-                    <Input />
-                </Form.Item>
-                <Form.Item label="Type cuisine">
-                    <Input />
-                </Form.Item>
+                <div style={textAreaContainer}>
+                    <textarea style={textAreaStyle} name="" id="" ></textarea>
+                </div>
             </Form>
         </div>
     );
 };
 
-export default FormStep3;
+export default FormStep4;

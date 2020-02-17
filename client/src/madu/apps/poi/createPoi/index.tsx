@@ -58,12 +58,12 @@ export const CreatePoi = () => {
                     }}
                 >
                     <div>
-                        <div className="steps-content" style={{ marginTop: "24px" }}>
+                        <div className="steps-content" style={{ marginTop: "24px"}}>
                             {steps[current].content}
                         </div>
                         <div
                             className="steps-action"
-                            style={{ display: "flex", justifyContent: "flex-end" }}
+                            style={{ position: "absolute", right:"0", bottom:"0" }}
                         >
                             {current > 0 && (
                                 <Button
@@ -75,6 +75,7 @@ export const CreatePoi = () => {
                             )}
                             {current < steps.length - 1 && (
                                 <Button
+                                    style={{ marginLeft: 8, marginRight: 50 }}
                                     type="primary"
                                     onClick={e => {
                                         e.preventDefault();
@@ -86,6 +87,7 @@ export const CreatePoi = () => {
                             )}
                             {current === steps.length - 1 && (
                                 <Button
+                                    style={{ marginLeft: 8, marginRight: 50 }}
                                     type="primary"
                                     onClick={() => message.success("Processing complete!")}
                                 >
