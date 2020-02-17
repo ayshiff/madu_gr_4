@@ -9,5 +9,5 @@ export const UserSchema = new mongoose.Schema({
   roles: [
     String
   ],
-  company_id: mongoose.Schema.Types.ObjectId,
+  company_id: String,
 });
