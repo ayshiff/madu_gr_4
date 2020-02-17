@@ -45,6 +45,10 @@ export class ApiResponse<T> {
 
     static empty = (resp: Response): ApiResponse<null> =>
         new ApiResponse<null>(resp.status, resp.headers, null);
+
+    mapValue<U>(f: (a: T) => U): ApiResponse<U> {
+        return new ApiResponse(this.statusCode, this.headers, f(this.value));
+    }
 }
 
 const doCall = <T>(

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 
-import { listenOnBroadcastChannel } from "custom-broadcast-channel";
+import { listenOnBroadcastChannel } from "custom-broascast-channel";
 
 import appConfig from "madu/app-config";
 
@@ -12,7 +12,6 @@ import {
     LoginStandaloneApp,
 } from "./outside-components";
 
-import "scss/main.scss";
 import {
     getUserCreds as getUserCredsService,
     BROADCAST_CHANNEL_NAME,

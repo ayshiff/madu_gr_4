@@ -1,9 +1,10 @@
 import React, { ReactNode, useState } from "react";
 import styled from "styled-components";
 import { rem } from "polished";
+import { Button, Input, Form } from "antd";
 
-import { space, radius, color, font } from "styles/const";
-import { Title, Button, ButtonWrapper, Emoji } from "styles/atoms";
+import { space, font } from "styles/const";
+import { ButtonWrapper } from "styles/atoms/button-wrapper";
 import { signIn } from "./token-manager";
 
 const StandaloneAppFrameStyle = styled.div`
@@ -15,15 +16,9 @@ const StandaloneAppFrameStyle = styled.div`
     align-items: center;
     text-align: center;
 `;
-const WrapperGoogleConnect = styled.div`
-    flex: 0 1 ${rem(430)};
-    border: 1px solid ${color.border};
-    border-radius: ${rem(radius.base)};
-    padding: ${space.lg};
-`;
+
 const TextLogin = styled.p`
     font-size: ${space.sm};
-    color: ${color.secondary.darker};
     margin: 0;
 `;
 const TextLoginHighlight = styled.span`
@@ -38,12 +33,7 @@ type StandalonAppFrameProps = {
 };
 
 const StandaloneAppFrame = (props: StandalonAppFrameProps) => (
-    <StandaloneAppFrameStyle>
-        <WrapperGoogleConnect>
-            {props.title && <Title>{props.title}</Title>}
-            {props.children}
-        </WrapperGoogleConnect>
-    </StandaloneAppFrameStyle>
+    <StandaloneAppFrameStyle>{props.children}</StandaloneAppFrameStyle>
 );
 
 export const The404 = () => (
@@ -62,7 +52,7 @@ export const BadRequest = () => (
     <StandaloneAppFrame title={"Ooops, mauvaise URL"}>
         <TextLogin>
             Pas besoin de transmettre à la tech, l'URL saisie n'est pas correcte
-            <Emoji name="bomb" />
+            {/* <Emoji name="bomb" /> */}
         </TextLogin>
     </StandaloneAppFrame>
 );
@@ -79,16 +69,20 @@ export const HoustonWeveGotAProblem = () => (
 export const Loading = () => <StandaloneAppFrame title={"Chargement en cours..."} />;
 
 export const LoginStandaloneApp = () => {
-    const [email, seEmail] = useState("");
+    const [email, setEmail] = useState("");
     const [passWord, setPassWord] = useState("");
 
     return (
         <StandaloneAppFrame title={"Connexion à Madu"}>
+            <Form.Item label="Email">
+                <Input onChange={e => setEmail(e.target.value)} />
+            </Form.Item>
+            <Form.Item label="Mot de passe">
+                <Input onChange={e => setPassWord(e.target.value)} />
+            </Form.Item>
             <ButtonWrapper align="center">
                 <Button
                     style={{ width: "100%", justifyContent: "center" }}
-                    type="highlight"
-                    size="lg"
                     onClick={() => signIn(email, passWord)}
                 >
                     Se connecter

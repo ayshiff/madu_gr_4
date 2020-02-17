@@ -1,7 +1,7 @@
-import { Store, get, del } from "idb-keyval";
-import { emitOnBroadcastChannel } from "custom-broadcast-channel";
+import { Store, get, set } from "idb-keyval";
+import { emitOnBroadcastChannel } from "custom-broascast-channel";
 
-import { login, logout } from "madu/services/login";
+import { login } from "madu/services/login";
 
 const authStore = new Store("madu-config", "config-store");
 
@@ -22,30 +22,14 @@ export const getUserCreds = (): Promise<UserCredentials> => {
     return get<UserCredentials>(USER_CREDS, authStore).then(creds => creds);
 };
 
-export const signIn = () => {
-    return login(_, _).then(response => {
+export const signIn = (email: string, password: string) => {
+    return login(email, password).then(response => {
         if (response.statusCode === 201) {
-            return response.value.authToken;
+            set(USER_CREDS, { token: response.value.authToken }, authStore).then(() => {
+                emitOnBroadcastChannel(BROADCAST_CHANNEL_NAME, BROADCASTED_MESSAGE);
+            });
         } else {
             throw Error(`Server responded ${response.statusCode}`);
         }
-    });
-};
-
-export const signOut = () => {
-    /**
-     * Perform an API call to delete the active token.
-     *
-     * Broadcasting the event "new credentials stored" with no new creds
-     * afterwards will a have the side effect of going back to the login
-     * process.
-     */
-    logout().then(() => {
-        // Delete the newly outdated token from IndexedDB
-        del(USER_CREDS, authStore).then(() => {
-            // Broadcast that there is a new token stored (Here there is not,
-            // this will trigger the login process).
-            emitOnBroadcastChannel(BROADCAST_CHANNEL_NAME, BROADCASTED_MESSAGE);
-        });
     });
 };
