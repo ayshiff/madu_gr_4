@@ -6,13 +6,12 @@ import { Stepper } from "madu/components/stepper";
 
 import { FormStepOne, StepOneState } from "./steps/step-one";
 import { FormStepTwo } from "./steps/step-two";
-import { FormStepThree } from "./steps/step-three";
 
 const { Header, Content } = Layout;
 
 const history = createHistory();
 
-export type StateKeys = "stepOne" | "stepTwo" | "stepThree";
+export type StateKeys = "stepOne" | "stepTwo";
 
 type FormState = {
     currentStep: number;
@@ -23,7 +22,7 @@ type FormState = {
     };
 };
 
-const stepsComponents = [FormStepOne, FormStepTwo, FormStepThree];
+const stepsComponents = [FormStepOne, FormStepTwo];
 
 export const CreatePoi = () => {
     const defaultFormState: FormState = useMemo(
@@ -45,57 +44,7 @@ export const CreatePoi = () => {
                 },
                 stepTwo: {
                     index: 1,
-                    schedule: {
-                        monday: {
-                            earlyMorning: "",
-                            lateMorning: "",
-                            earlyAfternoon: "",
-                            lateAfternoon: "",
-                            close: false,
-                        },
-                        thuesday: {
-                            earlyMorning: "",
-                            lateMorning: "",
-                            earlyAfternoon: "",
-                            lateAfternoon: "",
-                            close: false,
-                        },
-                        wednesday: {
-                            earlyMorning: "",
-                            lateMorning: "",
-                            earlyAfternoon: "",
-                            lateAfternoon: "",
-                            close: false,
-                        },
-                        thursday: {
-                            earlyMorning: "",
-                            lateMorning: "",
-                            earlyAfternoon: "",
-                            lateAfternoon: "",
-                            close: false,
-                        },
-                        friday: {
-                            earlyMorning: "",
-                            lateMorning: "",
-                            earlyAfternoon: "",
-                            lateAfternoon: "",
-                            close: false,
-                        },
-                        saturday: {
-                            earlyMorning: "",
-                            lateMorning: "",
-                            earlyAfternoon: "",
-                            lateAfternoon: "",
-                            close: false,
-                        },
-                        sunday: {
-                            earlyMorning: "",
-                            lateMorning: "",
-                            earlyAfternoon: "",
-                            lateAfternoon: "",
-                            close: false,
-                        },
-                    },
+                    schedule: [],
                     fileList: [],
                     price: "a",
                     takeaway: false,
@@ -112,8 +61,8 @@ export const CreatePoi = () => {
     );
 
     const layoutContentStyle = {
-        backgroundColor: "#ffffff"
-    }
+        backgroundColor: "#ffffff",
+    };
 
     const [formState, setFormState] = useState<FormState>(defaultFormState);
 
@@ -124,7 +73,7 @@ export const CreatePoi = () => {
         } else history.goBack();
     }, []);
 
-    // Page load set current step at -1
+    // Page load set current step at 0
     useEffect(() => {
         if (window !== undefined && history) {
             history.push({ currentStep: 0 });
@@ -164,13 +113,13 @@ export const CreatePoi = () => {
             item => item.index === formState.currentStep
         ),
     };
-    console.log(formState);
+    console.log(formState.stepStates.stepTwo.schedule);
     return (
-        <Layout >
+        <Layout>
             <Header style={{ background: "#fff", paddingLeft: "20%", paddingRight: "20%" }}>
                 <Stepper
                     onClickStep={onChangeStep}
-                    steps={[1, 2, 3]}
+                    steps={[1, 2]}
                     indexActiveStep={formState.currentStep}
                 />
             </Header>
