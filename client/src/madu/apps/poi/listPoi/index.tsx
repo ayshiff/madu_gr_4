@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout, Input, Button, Table, Divider, Tag } from "antd";
+import { Layout, Input, Button, Table, Divider, Tag, Icon } from "antd";
 import "antd/dist/antd.css";
 
 const { Header, Content } = Layout;
@@ -10,7 +10,7 @@ export const ListPoi = () => {
             key: "1",
             nomDuLieu: "Wild & the Moon",
             categorie: "Restaurant",
-            tags: ["En attente"],
+            tags: ["DÉMARCHÉ"],
             greenscore: "72/100",
             address: "10 Downing Street",
         },
@@ -18,7 +18,7 @@ export const ListPoi = () => {
             key: "2",
             nomDuLieu: "Season",
             categorie: "Restaurant",
-            tags: ["VALIDÉ"],
+            tags: ["FORM ENVOYÉ"],
             greenscore: "42/100",
             address: "10 Downing Street",
         },
@@ -26,7 +26,7 @@ export const ListPoi = () => {
             key: "3",
             nomDuLieu: "Nous Valmy",
             categorie: "Boutique",
-            tags: ["En attente"],
+            tags: ["FORM REMPLI"],
             greenscore: "72/100",
             address: "10 Downing Street",
         },
@@ -45,6 +45,7 @@ export const ListPoi = () => {
             title: "Nom du lieu",
             dataIndex: "nomDuLieu",
             key: "nomDuLieu",
+            render: text => <a>{text}</a>,
         },
         {
             title: "Catégorie",
@@ -59,13 +60,25 @@ export const ListPoi = () => {
                 <span>
                     {tags.map(tag => {
                         let color = "green";
-                        if (tag === "En attente") {
-                            color = "volcano";
+                        if (tag === "DÉMARCHÉ") {
+                            color = "#D1D7DC";
+                        }
+                        if (tag === "FORM ENVOYÉ") {
+                            color = "#CDD2FF";
+                        }
+                        if (tag === "FORM REMPLI") {
+                            color = "#CDE3FF";
+                        }
+                        if (tag === "VALIDÉ") {
+                            color = "#CFEBE2";
                         }
                         return (
-                            <Tag color={color} key={tag}>
-                                {tag.toUpperCase()}
-                            </Tag>
+                            <div style={{display: "flex", alignItems: "center"}}>
+                                <Tag color={color} key={tag}>
+                                    {tag.toUpperCase()}
+                                </Tag>                                
+                                <p style={{ color: "#89969F"}}>1 jour</p>
+                            </div>
                         );
                     })}
                 </span>
@@ -81,9 +94,13 @@ export const ListPoi = () => {
             key: "action",
             render: () => (
                 <span>
-                    <a style={{ color: "#1890FF" }}>Edit</a>
+                    <a style={{ color: "#1890FF" }}>
+                        <Icon type="edit" />
+                    </a>
                     <Divider type="vertical" />
-                    <a style={{ color: "#1890FF" }}>Delete</a>
+                    <a style={{ color: "#1890FF" }}>
+                        <Icon type="delete" />
+                    </a>
                 </span>
             ),
         },
