@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useState } from "react";
 import styled from "styled-components";
 import { rem } from "polished";
 
@@ -6,10 +6,6 @@ import { space, radius, color, font } from "styles/const";
 import { Title, Button, ButtonWrapper, Emoji } from "styles/atoms";
 import { signIn } from "./token-manager";
 
-/**
- *  In this file you will find the full-screen components that are not Hassibot.
- *  Things like 404, login, error, ...
- */
 const StandaloneAppFrameStyle = styled.div`
     width: 80vw;
     height: 80vh;
@@ -53,28 +49,8 @@ const StandaloneAppFrame = (props: StandalonAppFrameProps) => (
 export const The404 = () => (
     <StandaloneAppFrame title={"Ooops, page non trouvé..."}>
         <TextLogin>
-            À transmettre à la tech'{" "}
+            404
             <TextLoginHighlight>{window.location.pathname}</TextLoginHighlight>
-        </TextLogin>
-        <TextLogin style={{ marginTop: "16px" }}>
-            <button
-                onClick={() => {
-                    (navigator.serviceWorker
-                        ? navigator.serviceWorker.getRegistration()
-                        : Promise.resolve(undefined)
-                    ).then(function(reg) {
-                        if (reg) {
-                            reg.unregister().then(function() {
-                                window.location.reload(true);
-                            });
-                        } else {
-                            window.location.reload(true);
-                        }
-                    });
-                }}
-            >
-                Forcer le rafraichissement
-            </button>
         </TextLogin>
         <TextLogin style={{ marginTop: "16px" }}>
             <a href="/">Retour à l'application</a>
@@ -85,7 +61,7 @@ export const The404 = () => (
 export const BadRequest = () => (
     <StandaloneAppFrame title={"Ooops, mauvaise URL"}>
         <TextLogin>
-            Pas besoin de transmettre à la tech, l'URL saisie n'est pas correcte{" "}
+            Pas besoin de transmettre à la tech, l'URL saisie n'est pas correcte
             <Emoji name="bomb" />
         </TextLogin>
     </StandaloneAppFrame>
@@ -94,7 +70,7 @@ export const BadRequest = () => (
 export const HoustonWeveGotAProblem = () => (
     <StandaloneAppFrame title={"Ooops, on a eu un problème..."}>
         <TextLogin>
-            À transmettre à la tech'{" "}
+            À transmettre à la tech'
             <TextLoginHighlight>{window.location.pathname}</TextLoginHighlight>
         </TextLogin>
     </StandaloneAppFrame>
@@ -103,20 +79,21 @@ export const HoustonWeveGotAProblem = () => (
 export const Loading = () => <StandaloneAppFrame title={"Chargement en cours..."} />;
 
 export const LoginStandaloneApp = () => {
+    const [email, seEmail] = useState("");
+    const [passWord, setPassWord] = useState("");
+
     return (
-        <>
-            <StandaloneAppFrame title={"Connexion à Hassibot"}>
-                <ButtonWrapper align="center">
-                    <Button
-                        style={{ width: "100%", justifyContent: "center" }}
-                        type="highlight"
-                        size="lg"
-                        onClick={() => signIn(_, _)}
-                    >
-                        Se connecter
-                    </Button>
-                </ButtonWrapper>
-            </StandaloneAppFrame>
-        </>
+        <StandaloneAppFrame title={"Connexion à Madu"}>
+            <ButtonWrapper align="center">
+                <Button
+                    style={{ width: "100%", justifyContent: "center" }}
+                    type="highlight"
+                    size="lg"
+                    onClick={() => signIn(email, passWord)}
+                >
+                    Se connecter
+                </Button>
+            </ButtonWrapper>
+        </StandaloneAppFrame>
     );
 };

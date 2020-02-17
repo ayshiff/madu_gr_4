@@ -24,10 +24,6 @@ type InsideContainerState = {
 };
 
 class InsideContainer extends React.PureComponent<{}, InsideContainerState> {
-    /**
-     * This container is the first one that is rendered in a context where we when know that we are logged with an active token
-     * It render Hassibot and handle fatal errors.
-     */
     constructor(props) {
         super(props);
         this.state = { errorType: undefined };
@@ -72,10 +68,6 @@ class InsideContainer extends React.PureComponent<{}, InsideContainerState> {
     }
 }
 
-/*
- * Read on IndexedDB and listen thought BroadcastChannel for token related purposes.
- * Load Hassibot or Login view depending on the auth token state
- */
 const UserStateContainer = () => {
     const [userCreds, setUserCreds] = useState<
         UserCredentials | undefined | null // undefined is initial state, null when no creds are fetch from idb
