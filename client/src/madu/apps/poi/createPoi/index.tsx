@@ -7,13 +7,12 @@ import { Stepper } from "madu/components/stepper";
 import { FormStepOne, StepOneState } from "./steps/step-one";
 import { FormStepTwo } from "./steps/step-two";
 import { FormStepThree } from "./steps/step-three";
-import { FormStepFour } from "./steps/step-four";
 
 const { Header, Content } = Layout;
 
 const history = createHistory();
 
-export type StateKeys = "stepOne" | "stepTwo" | "stepThree" | "stepFour";
+export type StateKeys = "stepOne" | "stepTwo" | "stepThree";
 
 type FormState = {
     currentStep: number;
@@ -21,11 +20,10 @@ type FormState = {
         stepOne: StepOneState;
         stepTwo: any;
         stepThree: any;
-        stepFour: any;
     };
 };
 
-const stepsComponents = [FormStepOne, FormStepTwo, FormStepThree, FormStepFour];
+const stepsComponents = [FormStepOne, FormStepTwo, FormStepThree];
 
 export const CreatePoi = () => {
     const defaultFormState: FormState = useMemo(
@@ -35,33 +33,78 @@ export const CreatePoi = () => {
                 stepOne: {
                     index: 0,
                     name: "",
+                    email: "",
+                    category: "",
+                    webSiteLink: "",
+                    establishmentType: "",
+                    socialNetworkLink: "",
+                    description: "",
                     address: "",
                     zipcode: "",
                     phoneNumber: "",
-                    earlyMorning: null,
-                    lateMorning: null,
-                    earlyAfternoon: null,
-                    lateAfternoon: null,
                 },
                 stepTwo: {
                     index: 1,
-                    webSiteLink: "",
+                    // schedule: {
+                    //     monday: {
+                    //         earlyMorning: "",
+                    //         lateMorning: "",
+                    //         earlyAfternoon: "",
+                    //         lateAfternoon: "",
+                    //         close: false,
+                    //     },
+                    //     thuesday: {
+                    //         earlyMorning: "",
+                    //         lateMorning: "",
+                    //         earlyAfternoon: "",
+                    //         lateAfternoon: "",
+                    //         close: false,
+                    //     },
+                    //     wednesday: {
+                    //         earlyMorning: "",
+                    //         lateMorning: "",
+                    //         earlyAfternoon: "",
+                    //         lateAfternoon: "",
+                    //         close: false,
+                    //     },
+                    //     thursday: {
+                    //         earlyMorning: "",
+                    //         lateMorning: "",
+                    //         earlyAfternoon: "",
+                    //         lateAfternoon: "",
+                    //         close: false,
+                    //     },
+                    //     friday: {
+                    //         earlyMorning: "",
+                    //         lateMorning: "",
+                    //         earlyAfternoon: "",
+                    //         lateAfternoon: "",
+                    //         close: false,
+                    //     },
+                    //     saturday: {
+                    //         earlyMorning: "",
+                    //         lateMorning: "",
+                    //         earlyAfternoon: "",
+                    //         lateAfternoon: "",
+                    //         close: false,
+                    //     },
+                    //     sunday: {
+                    //         earlyMorning: "",
+                    //         lateMorning: "",
+                    //         earlyAfternoon: "",
+                    //         lateAfternoon: "",
+                    //         close: false,
+                    //     },
+                    // },
                     fileList: [],
                     price: "a",
-                    description: "",
+                    takeaway: false,
+                    accessibility: false,
                 },
                 stepThree: {
                     index: 2,
-                    category: "a",
-                    establishmentType: "",
-                    foodPreference: "",
-                    product: "",
-                    foodType: "",
-                    takeaway: false,
-                },
-                stepFour: {
-                    index: 3,
-                    value: 1,
+                    greenScore: "",
+                    description: "",
                 },
             },
         }),
@@ -139,7 +182,7 @@ export const CreatePoi = () => {
                 >
                     <Stepper
                         onClickStep={onChangeStep}
-                        steps={[1, 2, 3, 4]}
+                        steps={[1, 2, 3]}
                         indexActiveStep={formState.currentStep}
                     />
                     <CurrentStepComponent.Component

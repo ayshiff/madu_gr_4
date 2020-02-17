@@ -1,11 +1,12 @@
 import React from "react";
-import { Form, Input, Radio, Button, Switch } from "antd";
+import { Form, Input, Button } from "antd";
 import styled from "styled-components";
 import { rem } from "polished";
 
 import { ButtonWrapper } from "styles/atoms/button-wrapper";
 
 import { StateKeys } from "../index";
+import TextArea from "antd/lib/input/TextArea";
 
 const CustomInput = styled(Input)`
     width: ${rem(300)};
@@ -14,18 +15,10 @@ const CustomInput = styled(Input)`
     }
 `;
 
-const SwitchWrapper = styled(Form.Item)`
-    display: flex;
-`;
-
 export type StepThreeState = {
     index: number;
-    category: string;
-    establishmentType: string;
-    foodPreference: string;
-    product: string;
-    foodType: string;
-    takeaway: boolean;
+    greenScore: number;
+    description: number;
 };
 
 export type StepThreeProps = {
@@ -45,54 +38,26 @@ export const FormStepThree = ({ changeStep, onChangeStepState, stepState }: Step
 
     return (
         <>
-            <Form name="nest-messages">
-                <Form.Item label="Catégorie">
-                    <Radio.Group
-                        onChange={e => onChangeState("category", e.target.value)}
-                        value={stepState.category}
-                    >
-                        <Radio.Button value="a">Restaurant</Radio.Button>
-                        <Radio.Button value="b">Boutique</Radio.Button>
-                        <Radio.Button value="c">Expérience</Radio.Button>
-                    </Radio.Group>
-                </Form.Item>
-                <Form.Item label="Type d'établissement">
+            <Form>
+                <Form.Item label="GreenScore">
                     <CustomInput
-                        onChange={e => onChangeState("establishmentType", e.target.value)}
-                        value={stepState.establishmentType}
+                        onChange={e => onChangeState("greenScore", e.target.value)}
+                        value={stepState.greenScore}
+                    />
+                </Form.Item>{" "}
+                <Form.Item>
+                    <TextArea
+                        onChange={e => onChangeState("description", e.target.value)}
+                        value={stepState.description}
                     />
                 </Form.Item>
-                <Form.Item label="Préference alimentaire">
-                    <CustomInput
-                        onChange={e => onChangeState("foodPreference", e.target.value)}
-                        value={stepState.foodPreference}
-                    />
-                </Form.Item>
-                <Form.Item label="Produit">
-                    <CustomInput
-                        onChange={e => onChangeState("product", e.target.value)}
-                        value={stepState.product}
-                    />
-                </Form.Item>
-                <Form.Item label="Type cuisine">
-                    <CustomInput
-                        onChange={e => onChangeState("foodType", e.target.value)}
-                        value={stepState.foodType}
-                    />
-                </Form.Item>
-                <SwitchWrapper label="À emporté">
-                    <Switch
-                        onChange={e => onChangeState("takeaway", e)}
-                        checked={stepState.takeaway}
-                    />
-                </SwitchWrapper>
             </Form>
             <ButtonWrapper align="right" layout="aside">
                 <Button size="large" onClick={() => changeStep(1)}>
                     précedent
                 </Button>
-                <Button size="large" type="primary" onClick={() => changeStep(3)}>
-                    suivant
+                <Button size="large" type="primary">
+                    validé
                 </Button>
             </ButtonWrapper>
         </>

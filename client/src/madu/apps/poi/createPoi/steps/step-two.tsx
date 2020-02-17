@@ -1,13 +1,11 @@
 import React from "react";
-import { Form, Input, Radio, Button, Upload, Icon } from "antd";
+import { Form, Input, Radio, Button, Upload, Icon, TimePicker } from "antd";
 import styled from "styled-components";
 import { rem } from "polished";
 
 import { ButtonWrapper } from "styles/atoms/button-wrapper";
 
 import { StateKeys } from "../index";
-
-const { TextArea } = Input;
 
 const CustomInput = styled(Input)`
     width: ${rem(300)};
@@ -16,8 +14,17 @@ const CustomInput = styled(Input)`
     }
 `;
 
-const CustomTextArea = styled(TextArea)`
-    width: ${rem(300)};
+const TimePickerWrapper = styled.div`
+    display: flex;
+`;
+
+const CustomTimePicker = styled(TimePicker)`
+    &:not(:last-child) {
+        margin-right: ${rem(14)};
+    }
+    &:nth-child(3) {
+        margin-left: ${rem(14)};
+    }
 `;
 
 export type StepTwoState = {
@@ -61,19 +68,34 @@ export const FormStepTwo = ({ changeStep, onChangeStepState, stepState }: StepTw
     return (
         <>
             <Form>
+                <TimePickerWrapper>
+                    <Form.Item label="TimePicker">
+                        <CustomTimePicker
+                            onChange={e => onChangeState("earlyMorning", e)}
+                            // value={stepState.earlyMorning}
+                        />
+                        <CustomTimePicker
+                            onChange={e => onChangeState("lateMorning", e)}
+                            // value={stepState.lateMorning}
+                        />
+                        {"  -  "}
+                        <CustomTimePicker
+                            onChange={e => onChangeState("earlyAfternoon", e)}
+                            // value={stepState.earlyAfternoon}
+                        />
+                        <CustomTimePicker
+                            onChange={e => onChangeState("lateAfternoon", e)}
+                            // value={stepState.lateAfternoon}
+                        />
+                    </Form.Item>
+                </TimePickerWrapper>
                 <Form.Item label="Lien du site, réseau sociaux">
                     <CustomInput
                         onChange={e => onChangeState("webSiteLink", e.target.value)}
                         value={stepState.webSiteLink}
                     />
                 </Form.Item>
-                <Form.Item label="Upload photos">
-                    <Upload onChange={handleChange} multiple={true} fileList={stepState.fileList}>
-                        <Button>
-                            <Icon type="upload" /> Upload
-                        </Button>
-                    </Upload>
-                </Form.Item>
+
                 <Form.Item label="Prix">
                     <Radio.Group
                         buttonStyle="solid"
@@ -83,15 +105,14 @@ export const FormStepTwo = ({ changeStep, onChangeStepState, stepState }: StepTw
                         <Radio.Button value="a">€</Radio.Button>
                         <Radio.Button value="b">€€</Radio.Button>
                         <Radio.Button value="c">€€€</Radio.Button>
-                        <Radio.Button value="d">€€€€</Radio.Button>
                     </Radio.Group>
                 </Form.Item>
-                <Form.Item label="Description">
-                    <CustomTextArea
-                        rows={4}
-                        onChange={e => onChangeState("description", e.target.value)}
-                        value={stepState.description}
-                    />
+                <Form.Item label="Upload photos">
+                    <Upload onChange={handleChange} multiple={true} fileList={stepState.fileList}>
+                        <Button>
+                            <Icon type="upload" /> Upload
+                        </Button>
+                    </Upload>
                 </Form.Item>
             </Form>
             <ButtonWrapper align="right" layout="aside">

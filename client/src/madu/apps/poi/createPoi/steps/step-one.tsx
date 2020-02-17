@@ -1,11 +1,17 @@
 import React from "react";
-import { Form, Input, TimePicker, Button } from "antd";
+import { Form, Input, Button, Radio } from "antd";
 import styled from "styled-components";
 import { rem } from "polished";
 
 import { ButtonWrapper } from "styles/atoms/button-wrapper";
 
 import { StateKeys } from "../index";
+
+const { TextArea } = Input;
+
+const CustomTextArea = styled(TextArea)`
+    width: ${rem(300)};
+`;
 
 const CustomInput = styled(Input)`
     width: ${rem(300)};
@@ -18,19 +24,6 @@ const CustomForm = styled(Form)`
     margin-bottom: ${rem(20)};
 `;
 
-const TimePickerWrapper = styled.div`
-    display: flex;
-`;
-
-const CustomTimePicker = styled(TimePicker)`
-    &:not(:last-child) {
-        margin-right: ${rem(14)};
-    }
-    &:nth-child(3) {
-        margin-left: ${rem(14)};
-    }
-`;
-
 const InputWrapper = styled.div`
     display: flex;
 `;
@@ -38,13 +31,15 @@ const InputWrapper = styled.div`
 export type StepOneState = {
     index: number;
     name: string;
+    email: string;
+    category: string;
+    webSiteLink: string;
+    establishmentType: string;
+    socialNetworkLink: string;
     address: string;
     zipcode: string;
     phoneNumber: string;
-    earlyMorning: null | any;
-    lateMorning: null | any;
-    earlyAfternoon: null | any;
-    lateAfternoon: null | any;
+    description: string;
 };
 
 export type StepOneProps = {
@@ -65,10 +60,26 @@ export const FormStepOne = ({ changeStep, onChangeStepState, stepState }: StepOn
     return (
         <>
             <CustomForm>
-                <Form.Item label="Nom">
+                <Form.Item label="Nom de l'établissement">
                     <CustomInput
                         onChange={e => onChangeState("name", e.target.value)}
                         value={stepState.name}
+                    />
+                </Form.Item>
+                <Form.Item label="Catégorie">
+                    <Radio.Group
+                        onChange={e => onChangeState("category", e.target.value)}
+                        value={stepState.category}
+                    >
+                        <Radio.Button value="a">Restaurant</Radio.Button>
+                        <Radio.Button value="b">Boutique</Radio.Button>
+                        <Radio.Button value="c">Expérience</Radio.Button>
+                    </Radio.Group>
+                </Form.Item>
+                <Form.Item label="Type d'établissement">
+                    <CustomInput
+                        onChange={e => onChangeState("establishmentType", e.target.value)}
+                        value={stepState.establishmentType}
                     />
                 </Form.Item>
                 <InputWrapper>
@@ -85,34 +96,47 @@ export const FormStepOne = ({ changeStep, onChangeStepState, stepState }: StepOn
                         />
                     </Form.Item>
                 </InputWrapper>
-
-                <Form.Item label="Téléphone">
+                {/* <Form.Item label="Numéro SIRET">
                     <CustomInput
-                        onChange={e => onChangeState("phoneNumber", e.target.value)}
-                        value={stepState.phoneNumber}
+                        onChange={e => onChangeState("siretNumber", e.target.value)}
+                        value={stepState.siretNumber}
                     />
-                </Form.Item>
-                <TimePickerWrapper>
-                    <Form.Item label="TimePicker">
-                        <CustomTimePicker
-                            onChange={e => onChangeState("earlyMorning", e)}
-                            value={stepState.earlyMorning}
-                        />
-                        <CustomTimePicker
-                            onChange={e => onChangeState("lateMorning", e)}
-                            value={stepState.lateMorning}
-                        />
-                        {"  -  "}
-                        <CustomTimePicker
-                            onChange={e => onChangeState("earlyAfternoon", e)}
-                            value={stepState.earlyAfternoon}
-                        />
-                        <CustomTimePicker
-                            onChange={e => onChangeState("lateAfternoon", e)}
-                            value={stepState.lateAfternoon}
+                </Form.Item> */}
+                <InputWrapper>
+                    <Form.Item label="Email">
+                        <CustomInput
+                            onChange={e => onChangeState("email", e.target.value)}
+                            value={stepState.email}
                         />
                     </Form.Item>
-                </TimePickerWrapper>
+                    <Form.Item label="Téléphone">
+                        <CustomInput
+                            onChange={e => onChangeState("phoneNumber", e.target.value)}
+                            value={stepState.phoneNumber}
+                        />
+                    </Form.Item>
+                </InputWrapper>
+                <InputWrapper>
+                    <Form.Item label="Lien du Site">
+                        <CustomInput
+                            onChange={e => onChangeState("webSiteLink", e.target.value)}
+                            value={stepState.webSiteLink}
+                        />
+                    </Form.Item>
+                    <Form.Item label="Lien réseaux sociaux">
+                        <CustomInput
+                            onChange={e => onChangeState("socialNetworkLink", e.target.value)}
+                            value={stepState.socialNetworkLink}
+                        />
+                    </Form.Item>
+                </InputWrapper>
+                <Form.Item label="Description">
+                    <CustomTextArea
+                        rows={4}
+                        onChange={e => onChangeState("description", e.target.value)}
+                        value={stepState.description}
+                    />
+                </Form.Item>
             </CustomForm>
             <ButtonWrapper align="right" layout="aside">
                 <Button size="large" type="primary" onClick={() => changeStep(1)}>
