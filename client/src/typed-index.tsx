@@ -78,8 +78,6 @@ const UserStateContainer = () => {
             // If there is no credentials cached, this might be undefined.
             if (creds) {
                 appConfig["ID_TOKEN"] = creds.token;
-                appConfig["USER_MAIL"] = creds.email;
-                appConfig["USER_UID"] = creds.id;
             }
         });
     }, []);

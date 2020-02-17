@@ -70,7 +70,7 @@ export const Loading = () => <StandaloneAppFrame title={"Chargement en cours..."
 
 export const LoginStandaloneApp = () => {
     const [email, setEmail] = useState("");
-    const [passWord, setPassWord] = useState("");
+    const [password, setPassword] = useState("");
 
     return (
         <StandaloneAppFrame title={"Connexion à Madu"}>
@@ -78,12 +78,12 @@ export const LoginStandaloneApp = () => {
                 <Input onChange={e => setEmail(e.target.value)} />
             </Form.Item>
             <Form.Item label="Mot de passe">
-                <Input onChange={e => setPassWord(e.target.value)} />
+                <Input onChange={e => setPassword(e.target.value)} />
             </Form.Item>
             <ButtonWrapper align="center">
                 <Button
                     style={{ width: "100%", justifyContent: "center" }}
-                    onClick={() => signIn(email, passWord)}
+                    onClick={() => signIn(email, password)}
                 >
                     Se connecter
                 </Button>
