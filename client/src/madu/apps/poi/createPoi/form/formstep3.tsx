@@ -5,26 +5,27 @@ import "antd/dist/antd.css";
 const { Option } = Select;
 
 const textAreaStyle = {
-    width: "80%", 
-    height: "600px", 
-    marginBottom:"50px"
+    width: "80%",
+    height: "600px",
+    marginBottom: "50px",
 };
 
 const textAreaContainer = {
-    display: "flex", 
-    justifyContent:"center", 
-    width: "100%"
-}
+    display: "flex",
+    justifyContent: "center",
+    width: "100%",
+};
 
 const FormStep4 = () => {
     return (
         <div>
-            <Form 
+            <Form
                 layout="vertical"
                 labelCol={{ span: 3 }}
                 wrapperCol={{ span: 8 }}
-                name="nest-messages">
-                <Form.Item style={{marginLeft: "10%"}}>
+                name="nest-messages"
+            >
+                <Form.Item style={{ marginLeft: "10%" }}>
                     <h1>Choisir template</h1>
                     <Select
                         showSearch
@@ -38,7 +39,7 @@ const FormStep4 = () => {
                     </Select>
                 </Form.Item>
                 <div style={textAreaContainer}>
-                    <textarea style={textAreaStyle} name="" id="" ></textarea>
+                    <textarea style={textAreaStyle} name="" id=""></textarea>
                 </div>
             </Form>
         </div>

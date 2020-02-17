@@ -58,12 +58,12 @@ export const CreatePoi = () => {
                     }}
                 >
                     <div>
-                        <div className="steps-content" style={{ marginTop: "24px"}}>
+                        <div className="steps-content" style={{ marginTop: "24px" }}>
                             {steps[current].content}
                         </div>
                         <div
                             className="steps-action"
-                            style={{ position: "absolute", right:"0", bottom:"0" }}
+                            style={{ position: "absolute", right: "0", bottom: "0" }}
                         >
                             {current > 0 && (
                                 <Button

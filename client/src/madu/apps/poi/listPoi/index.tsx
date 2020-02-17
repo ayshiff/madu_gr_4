@@ -10,7 +10,7 @@ export const ListPoi = () => {
             key: "1",
             nomDuLieu: "Wild & the Moon",
             categorie: "Restaurant",
-            tags: ['En attente'],
+            tags: ["En attente"],
             greenscore: "72/100",
             address: "10 Downing Street",
         },
@@ -18,7 +18,7 @@ export const ListPoi = () => {
             key: "2",
             nomDuLieu: "Season",
             categorie: "Restaurant",
-            tags: ['VALIDÉ'],            
+            tags: ["VALIDÉ"],
             greenscore: "42/100",
             address: "10 Downing Street",
         },
@@ -26,7 +26,7 @@ export const ListPoi = () => {
             key: "3",
             nomDuLieu: "Nous Valmy",
             categorie: "Boutique",
-            tags: ['En attente'],            
+            tags: ["En attente"],
             greenscore: "72/100",
             address: "10 Downing Street",
         },
@@ -34,7 +34,7 @@ export const ListPoi = () => {
             key: "4",
             nomDuLieu: "Simone Lemon",
             categorie: "Experience",
-            tags: ['VALIDÉ'],            
+            tags: ["VALIDÉ"],
             greenscore: "42/100",
             address: "10 Downing Street",
         },
@@ -57,19 +57,19 @@ export const ListPoi = () => {
             key: "tags",
             render: tags => (
                 <span>
-                  {tags.map(tag => {
-                    let color = 'green';
-                    if (tag === 'En attente') {
-                      color = 'volcano';
-                    }
-                    return (
-                      <Tag color={color} key={tag}>
-                        {tag.toUpperCase()}
-                      </Tag>
-                    );
-                  })}
+                    {tags.map(tag => {
+                        let color = "green";
+                        if (tag === "En attente") {
+                            color = "volcano";
+                        }
+                        return (
+                            <Tag color={color} key={tag}>
+                                {tag.toUpperCase()}
+                            </Tag>
+                        );
+                    })}
                 </span>
-              ),
+            ),
         },
         {
             title: "Greenscore",
@@ -133,7 +133,7 @@ export const ListPoi = () => {
                         style={{ backgroundColor: "#ffffff" }}
                         columns={columns}
                         dataSource={tableData}
-                        pagination={false} 
+                        pagination={false}
                     />
                 </Content>
             </Layout>
