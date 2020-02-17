@@ -6,7 +6,7 @@
       path: "{{ role_path }}/../../../../client"
       network: host
     name: madu_client
-    repository: amauryfaveriel/madu-client
+    repository: "{{ docker_username }}/{{ images.client }}"
     tag: 1
     push: yes
     source: build
@@ -17,7 +17,7 @@
       path: "{{ role_path }}/../../../../back-end"
       network: host
     name: madu_back-end
-    repository: amauryfaveriel/madu_back-end
+    repository: "{{ docker_username }}/{{ images.back-end }}"
     tag: 1
     push: yes
     source: build
