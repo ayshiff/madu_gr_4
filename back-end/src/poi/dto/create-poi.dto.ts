@@ -76,4 +76,7 @@ export class CreatePoiDto {
 
   @IsUrl()
   website: string;
+
+  @IsInt()
+  greenscore: number;
 }

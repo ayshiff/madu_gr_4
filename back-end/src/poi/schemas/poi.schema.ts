@@ -69,6 +69,7 @@ export const PoiSchema = new mongoose.Schema({
       }
     ]
   },
+  greenscore: Number,
   token: String,
   status: String
 });

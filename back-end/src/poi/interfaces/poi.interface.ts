@@ -70,6 +70,7 @@ export interface Poi {
       }
     ]
   };
+  greenscore: number;
   token: string;
   status: string;
 }
