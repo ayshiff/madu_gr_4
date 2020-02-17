@@ -10,6 +10,7 @@ import { AnswerPoiGreenscoreDto } from './dto/answer-poi-greenscore.dto';
 import { UpdatePoiDto } from './dto/update-poi.dto';
 import { PoiStatus } from "./model/poi-status.enum";
 import { ValidatePoiGreenscoreDto } from './dto/validate-poi-greenscore.dto';
+import { PoiCategories } from './model/poi-categories.enum';
 
 @Injectable()
 export class PoiService {
@@ -22,6 +23,10 @@ export class PoiService {
     let createdPoi = new this.poiModel(createPoiDto);
     createdPoi.id = uuidv4();
     createdPoi.status = PoiStatus.Canvassing;
+    if (createdPoi.category !== PoiCategories.Restoration) {
+      createdPoi.foodPreference = undefined
+      createdPoi.takeAway = undefined
+    }
     await createdPoi.save();
     return this.findByUuid(createdPoi.id);
   }
