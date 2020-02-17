@@ -5,7 +5,7 @@ import * as services from "madu/services/commun";
 
 describe("ClientStore", () => {
     beforeEach(() => {
-        (services as any).post = jest.fn(() => new Promise((res, _) => res(clientStoreMock1)));
+        (services as any).postJson = jest.fn(() => new Promise((res, _) => res(clientStoreMock1)));
         (services as any).apiDelete = jest.fn(() => new Promise((res, _) => res(clientStoreMock1)));
     });
     describe("constructor()", () => {
@@ -53,12 +53,12 @@ describe("ClientStore", () => {
             // Edit a client
             await store.edit("test1", {
                 ...clientStoreMock1,
-                name: "edited name",
+                firstname: "edited name",
             });
             expect(store.all).toEqual([
                 {
                     ...clientStoreMock1,
-                    name: "edited name",
+                    firstname: "edited name",
                 },
             ]);
         });

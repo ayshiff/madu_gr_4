@@ -1,6 +1,8 @@
 import { observable, action } from "mobx";
-import { post, get, apiDelete } from "madu/services/commun";
+import { get, apiDelete, postJson } from "madu/services/commun";
 import { editReference, removeReference } from "../utils/index";
+
+const { REACT_APP_API_BASE_URL } = process.env;
 
 export interface ICompany {
     id: string;
@@ -17,7 +19,7 @@ class CompanyStore {
     @observable byId: ICompany | null = null;
 
     @action get = () => {
-        const endpoint = "";
+        const endpoint = `${REACT_APP_API_BASE_URL}/`;
         return get(endpoint)
             .then((data: any) => {
                 const processedData: ICompany[] = data;
@@ -29,7 +31,7 @@ class CompanyStore {
     };
 
     @action getById = (id: string) => {
-        const endpoint = "";
+        const endpoint = `${REACT_APP_API_BASE_URL}/${id}`;
         return get(endpoint)
             .then((data: any) => {
                 const processedData: ICompany = data;
@@ -41,9 +43,8 @@ class CompanyStore {
     };
 
     @action add = (company: ICompany) => {
-        const payload = {};
-        const endpoint = "";
-        return post(endpoint, payload)
+        const endpoint = `${REACT_APP_API_BASE_URL}/`;
+        return postJson(endpoint, company)
             .then(data => {
                 // Process store once the call has succeed
                 this.all.push(data as any);
@@ -53,10 +54,9 @@ class CompanyStore {
     };
 
     @action edit = (id: string, company: ICompany) => {
-        const payload = {};
-        const endpoint = "";
+        const endpoint = `${REACT_APP_API_BASE_URL}/${id}`;
 
-        return post(endpoint, payload)
+        return postJson(endpoint, company)
             .then(data => {
                 // Process store once the call has succeed
                 this.all = editReference(id, company, this.all);
@@ -66,7 +66,7 @@ class CompanyStore {
     };
 
     @action remove = (id: string) => {
-        const endpoint = "";
+        const endpoint = `${REACT_APP_API_BASE_URL}/${id}`;
         return apiDelete(endpoint)
             .then(_data => {
                 // Process store once the call has succeed

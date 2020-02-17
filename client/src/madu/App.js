@@ -2,6 +2,7 @@ import React, { lazy } from "react";
 
 import { OuterAppFrame } from "madu/startup";
 import { stores, StoreProvider } from "./stores/index";
+import "antd/dist/antd.css";
 
 const PoiApp = lazy(() => import("madu/apps/poi"));
 

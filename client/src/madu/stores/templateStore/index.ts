@@ -1,5 +1,5 @@
 import { observable, action } from "mobx";
-import { post, get, apiDelete } from "madu/services/commun";
+import { get, apiDelete, postJson } from "madu/services/commun";
 import { IQuestion } from "../questionStore";
 import { editReference, removeReference } from "../utils";
 
@@ -36,9 +36,8 @@ class TemplateStore {
     };
 
     @action add = (template: ITemplate) => {
-        const payload = {};
         const endpoint = "";
-        post(endpoint, payload)
+        postJson(endpoint, template)
             .then(_data => {
                 // Process store once the call has succeed
                 this.all.push(template);
@@ -47,9 +46,8 @@ class TemplateStore {
     };
 
     @action editTemplate = (id: string, template: ITemplate) => {
-        const payload = {};
         const endpoint = `${id}`;
-        post(endpoint, payload)
+        postJson(endpoint, template)
             .then(_data => {
                 // Process store once the call has succeed
                 const editedTemplate = editReference(id, template, this.all);

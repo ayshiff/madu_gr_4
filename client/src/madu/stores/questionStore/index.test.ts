@@ -5,7 +5,9 @@ import * as services from "madu/services/commun";
 
 describe("QuestionStore", () => {
     beforeEach(() => {
-        (services as any).post = jest.fn(() => new Promise((res, _) => res(questionStoreMock1)));
+        (services as any).postJson = jest.fn(
+            () => new Promise((res, _) => res(questionStoreMock1))
+        );
         (services as any).apiDelete = jest.fn(
             () => new Promise((res, _) => res(questionStoreMock1))
         );

@@ -1,5 +1,5 @@
 import { observable, action } from "mobx";
-import { post, get, apiDelete } from "madu/services/commun";
+import { get, apiDelete, postJson } from "madu/services/commun";
 
 interface IAnswer {
     id: string;
@@ -41,9 +41,8 @@ class QuestionStore {
     };
 
     @action add = (question: IQuestion) => {
-        const payload = {};
         const endpoint = "";
-        post(endpoint, payload)
+        postJson(endpoint, question)
             .then(_data => {
                 // Process store once the call has succeed
                 this.all.push(question);
@@ -52,9 +51,8 @@ class QuestionStore {
     };
 
     @action editQuestion = (question: IQuestion) => {
-        const payload = {};
         const endpoint = "";
-        post(endpoint, payload)
+        postJson(endpoint, question)
             .then(_data => {
                 // Process store once the call has succeed
                 const editedQuestion = this.all.map((questionRef: IQuestion) =>

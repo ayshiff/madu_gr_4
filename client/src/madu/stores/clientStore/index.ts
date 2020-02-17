@@ -1,23 +1,25 @@
 import { observable, action } from "mobx";
-import { post, get, apiDelete } from "madu/services/commun";
+import { get, apiDelete, postJson } from "madu/services/commun";
 import { editReference, removeReference } from "../utils";
 
 export interface IClient {
     id: string;
-    phone: string;
-    name: string;
-    adress: string;
-    contact_email: string;
-    contact_name: string;
-    domain_mail: string;
+    email: string;
+    firstname: string;
+    lastname: string;
+    password: string;
+    roles: string[];
+    company_id: string;
 }
+
+const { REACT_APP_API_BASE_URL } = process.env;
 
 class ClientStore {
     @observable all: IClient[] = [];
     @observable byId: IClient | null = null;
 
     @action get = () => {
-        const endpoint = "";
+        const endpoint = `${REACT_APP_API_BASE_URL}/`;
         return get(endpoint)
             .then((data: any) => {
                 const processedData: IClient[] = data;
@@ -29,7 +31,7 @@ class ClientStore {
     };
 
     @action getById = (id: string) => {
-        const endpoint = "";
+        const endpoint = `${REACT_APP_API_BASE_URL}/${id}`;
         return get(endpoint)
             .then((data: any) => {
                 const processedData: IClient = data;
@@ -41,9 +43,8 @@ class ClientStore {
     };
 
     @action add = (client: IClient) => {
-        const payload = {};
-        const endpoint = "";
-        return post(endpoint, payload)
+        const endpoint = `${REACT_APP_API_BASE_URL}/`;
+        return postJson(endpoint, client)
             .then(data => {
                 // Process store once the call has succeed
                 this.all.push(data as any);
@@ -53,10 +54,9 @@ class ClientStore {
     };
 
     @action edit = (id: string, client: IClient) => {
-        const payload = {};
-        const endpoint = "";
+        const endpoint = `${REACT_APP_API_BASE_URL}/${id}`;
 
-        return post(endpoint, payload)
+        return postJson(endpoint, client)
             .then(data => {
                 // Process store once the call has succeed
                 this.all = editReference(id, client, this.all);
@@ -66,7 +66,7 @@ class ClientStore {
     };
 
     @action remove = (id: string) => {
-        const endpoint = "";
+        const endpoint = `${REACT_APP_API_BASE_URL}/${id}`;
         return apiDelete(endpoint)
             .then(_data => {
                 // Process store once the call has succeed
