@@ -1,10 +1,11 @@
 import React, { ReactNode, useState } from "react";
 import styled from "styled-components";
 import { rem } from "polished";
-import { Button, Input, Form } from "antd";
+import { Button, Input, Form, Icon } from "antd";
+import GlobalStyle from "styles";
+import "madu/app.css";
 
 import { space, font } from "styles/const";
-import { ButtonWrapper } from "styles/atoms/button-wrapper";
 import { signIn } from "./token-manager";
 
 const StandaloneAppFrameStyle = styled.div`
@@ -12,6 +13,7 @@ const StandaloneAppFrameStyle = styled.div`
     height: 80vh;
     margin: auto;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
@@ -33,7 +35,10 @@ type StandalonAppFrameProps = {
 };
 
 const StandaloneAppFrame = (props: StandalonAppFrameProps) => (
-    <StandaloneAppFrameStyle>{props.children}</StandaloneAppFrameStyle>
+    <StandaloneAppFrameStyle>
+        <h1>{props.title}</h1>
+        {props.children}
+    </StandaloneAppFrameStyle>
 );
 
 export const The404 = () => (
@@ -42,7 +47,7 @@ export const The404 = () => (
             404
             <TextLoginHighlight>{window.location.pathname}</TextLoginHighlight>
         </TextLogin>
-        <TextLogin style={{ marginTop: "16px" }}>
+        <TextLogin style={{ marginTop: rem(16) }}>
             <a href="/">Retour à l'application</a>
         </TextLogin>
     </StandaloneAppFrame>
@@ -50,14 +55,11 @@ export const The404 = () => (
 
 export const BadRequest = () => (
     <StandaloneAppFrame title={"Ooops, mauvaise URL"}>
-        <TextLogin>
-            Pas besoin de transmettre à la tech, l'URL saisie n'est pas correcte
-            {/* <Emoji name="bomb" /> */}
-        </TextLogin>
+        <TextLogin>L'URL saisie n'est pas correcte</TextLogin>
     </StandaloneAppFrame>
 );
 
-export const HoustonWeveGotAProblem = () => (
+export const NukeTown = () => (
     <StandaloneAppFrame title={"Ooops, on a eu un problème..."}>
         <TextLogin>
             À transmettre à la tech'
@@ -68,26 +70,50 @@ export const HoustonWeveGotAProblem = () => (
 
 export const Loading = () => <StandaloneAppFrame title={"Chargement en cours..."} />;
 
-export const LoginStandaloneApp = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-
+export const LoginStandaloneAppUnconnected = props => {
+    const [email, setEmail] = useState<string | null>(null);
+    const [password, setPassword] = useState<string | null>(null);
+    const { getFieldDecorator } = props.form;
     return (
         <StandaloneAppFrame title={"Connexion à Madu"}>
-            <Form.Item label="Email">
-                <Input onChange={e => setEmail(e.target.value)} />
-            </Form.Item>
-            <Form.Item label="Mot de passe">
-                <Input onChange={e => setPassword(e.target.value)} />
-            </Form.Item>
-            <ButtonWrapper align="center">
-                <Button
-                    style={{ width: "100%", justifyContent: "center" }}
-                    onClick={() => signIn(email, password)}
-                >
-                    Se connecter
-                </Button>
-            </ButtonWrapper>
+            <GlobalStyle />
+            <Form className="login-form">
+                <Form.Item>
+                    {getFieldDecorator("username", {
+                        rules: [{ required: true, message: "Please input your username!" }],
+                    })(
+                        <Input
+                            prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
+                            placeholder="Username"
+                            onChange={e => setEmail(e.target.value)}
+                        />
+                    )}
+                </Form.Item>
+                <Form.Item>
+                    {getFieldDecorator("password", {
+                        rules: [{ required: true, message: "Please input your Password!" }],
+                    })(
+                        <Input
+                            prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
+                            type="password"
+                            placeholder="Password"
+                            onChange={e => setPassword(e.target.value)}
+                        />
+                    )}
+                </Form.Item>
+                <Form.Item>
+                    <Button
+                        type="primary"
+                        htmlType="submit"
+                        className="login-form-button"
+                        onClick={() => signIn(email, password)}
+                    >
+                        Se connecter
+                    </Button>
+                </Form.Item>
+            </Form>
         </StandaloneAppFrame>
     );
 };
+
+export const LoginStandaloneApp = Form.create()(LoginStandaloneAppUnconnected);

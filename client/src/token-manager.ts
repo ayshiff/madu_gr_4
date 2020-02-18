@@ -22,14 +22,16 @@ export const getUserCreds = (): Promise<UserCredentials> => {
     return get<UserCredentials>(USER_CREDS, authStore).then(creds => creds);
 };
 
-export const signIn = (email: string, password: string) => {
-    return login(email, password).then(response => {
-        if (response.statusCode === 201) {
-            set(USER_CREDS, { token: response.value.authToken }, authStore).then(() => {
-                emitOnBroadcastChannel(BROADCAST_CHANNEL_NAME, BROADCASTED_MESSAGE);
-            });
-        } else {
-            throw Error(`Server responded ${response.statusCode}`);
-        }
-    });
+export const signIn = (email: string | null, password: string | null) => {
+    if (email && password) {
+        return login(email, password).then(response => {
+            if (response.statusCode === 201) {
+                set(USER_CREDS, { token: response.value.authToken }, authStore).then(() => {
+                    emitOnBroadcastChannel(BROADCAST_CHANNEL_NAME, BROADCASTED_MESSAGE);
+                });
+            } else {
+                throw Error(`Server responded ${response.statusCode}`);
+            }
+        });
+    }
 };

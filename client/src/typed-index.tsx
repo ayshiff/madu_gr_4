@@ -4,13 +4,7 @@ import { listenOnBroadcastChannel } from "custom-broascast-channel";
 
 import appConfig from "madu/app-config";
 
-import {
-    The404,
-    BadRequest,
-    HoustonWeveGotAProblem,
-    Loading,
-    LoginStandaloneApp,
-} from "./outside-components";
+import { The404, BadRequest, NukeTown, Loading, LoginStandaloneApp } from "./outside-components";
 
 import {
     getUserCreds as getUserCredsService,
@@ -42,7 +36,7 @@ class InsideContainer extends React.PureComponent<{}, InsideContainerState> {
             case errorType === 404:
                 return The404;
             default:
-                return HoustonWeveGotAProblem;
+                return NukeTown;
         }
     };
 
@@ -55,13 +49,11 @@ class InsideContainer extends React.PureComponent<{}, InsideContainerState> {
             return <ErrorComponent />;
         }
         const ShellContainer = React.lazy(() => import("./madu/main"));
-        // const GlobalStyle = React.lazy(() => import("./styles"));
+        const GlobalStyle = React.lazy(() => import("./styles"));
         return (
             <React.Suspense fallback={<Loading />}>
-                <>
-                    {/* <GlobalStyle /> */}
-                    <ShellContainer />
-                </>
+                <GlobalStyle />
+                <ShellContainer />
             </React.Suspense>
         );
     }
