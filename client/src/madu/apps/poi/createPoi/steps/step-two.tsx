@@ -19,8 +19,8 @@ const TimePickerWrapper = styled.div`
 `;
 
 const CustomTimePicker = styled(TimePicker)`
-        margin-right: ${rem(8)};
-        margin-left: ${rem(8)};
+    margin-right: ${rem(8)};
+    margin-left: ${rem(8)};
 `;
 
 const InputWrapper = styled.div`
@@ -85,8 +85,11 @@ export const FormStepTwo = ({ changeStep, onChangeStepState, stepState }: StepTw
                 <TimePickerWrapper>
                     <Form.Item label="Horaires">
                         {weekDay.map(value => (
-                            <div style={{display: "flex", alignItems: "center"}} key={value}>
-                                <h1 style={{ marginRight: "10px", fontWeight: "bold"}}> {weekDay[0]} </h1>
+                            <div style={{ display: "flex", alignItems: "center" }} key={value}>
+                                <h1 style={{ marginRight: "10px", fontWeight: "bold" }}>
+                                    {" "}
+                                    {weekDay[0]}{" "}
+                                </h1>
                                 <Switch
                                     onChange={e => onScheduleChange(value, "close", e)}
                                     checked={
@@ -94,7 +97,7 @@ export const FormStepTwo = ({ changeStep, onChangeStepState, stepState }: StepTw
                                         (stepState.schedule[value].close as boolean)
                                     }
                                 />
-                                <p style={{ marginLeft: "15px", marginRight: "5px"}} >fermé</p>
+                                <p style={{ marginLeft: "15px", marginRight: "5px" }}>fermé</p>
                                 <CustomTimePicker
                                     onChange={e => onScheduleChange(value, "earlyMorning", e)}
                                     value={stepState.schedule.earlyMorning}
@@ -149,16 +152,21 @@ export const FormStepTwo = ({ changeStep, onChangeStepState, stepState }: StepTw
                     </Form.Item>
                 </InputWrapper>
                 <Form.Item label="Upload photos">
-                    <Upload onChange={handleChange} listType="picture-card" multiple={true} fileList={stepState.fileList}>
-                    <div>
-                        <Icon type="plus" />
-                        <div className="ant-upload-text">Upload</div>
-                    </div>
+                    <Upload
+                        onChange={handleChange}
+                        listType="picture-card"
+                        multiple={true}
+                        fileList={stepState.fileList}
+                    >
+                        <div>
+                            <Icon type="plus" />
+                            <div className="ant-upload-text">Upload</div>
+                        </div>
                     </Upload>
                 </Form.Item>
             </Form>
             <ButtonWrapper align="right" layout="aside">
-                <Button style={{ color: "#BFBFBF" }}size="large" onClick={() => changeStep(0)}>
+                <Button style={{ color: "#BFBFBF" }} size="large" onClick={() => changeStep(0)}>
                     Précedent
                 </Button>
                 <Button size="large" type="primary">

@@ -105,7 +105,7 @@ export const FormStepOne = ({ changeStep, onChangeStepState, stepState }: StepOn
                     </Form.Item>
                     <Form.Item label="Téléphone">
                         <CustomInput
-                            placeholder="Téléphone"                            
+                            placeholder="Téléphone"
                             onChange={e => onChangeState("phoneNumber", e.target.value)}
                             value={stepState.phoneNumber}
                         />
@@ -135,8 +135,29 @@ export const FormStepOne = ({ changeStep, onChangeStepState, stepState }: StepOn
                     />
                 </Form.Item>
             </CustomForm>
-            <ButtonWrapper style={{ position: "absolute", bottom: "0", right: "0", marginRight: "82px", marginBottom: "35px"}} align="right" layout="aside">
-                <Button style={{ background: "#F5F5F5", border: "1px solid #D9D9D9", boxSizing: "border-box", borderRadius: "4px", color:"#BFBFBF"}} size="large" type="primary" onClick={() => changeStep(1)}>
+            <ButtonWrapper
+                style={{
+                    position: "absolute",
+                    bottom: "0",
+                    right: "0",
+                    marginRight: "82px",
+                    marginBottom: "35px",
+                }}
+                align="right"
+                layout="aside"
+            >
+                <Button
+                    style={{
+                        background: "#F5F5F5",
+                        border: "1px solid #D9D9D9",
+                        boxSizing: "border-box",
+                        borderRadius: "4px",
+                        color: "#BFBFBF",
+                    }}
+                    size="large"
+                    type="primary"
+                    onClick={() => changeStep(1)}
+                >
                     suivant
                 </Button>
             </ButtonWrapper>

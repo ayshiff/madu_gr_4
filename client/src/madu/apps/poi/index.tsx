@@ -6,7 +6,7 @@ import { Container } from "styles/layout/container";
 
 import { CreatePoi } from "./createPoi";
 import { ListPoi } from "./listPoi";
-import { Map } from "../map"
+import { Map } from "../map";
 
 const PoiApp = ({ match }) => (
     <Container>
