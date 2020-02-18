@@ -1,9 +1,9 @@
-export const pointOfInterestMock1 = {
-    id: "test1",
+export const pointOfInterestMock = {
+    id: "",
     name: "",
     poiType: "",
     street: "",
-    zipCode: 12,
+    zipCode: 0,
     city: "",
     phone: "",
     email: "",
@@ -63,7 +63,7 @@ export const pointOfInterestMock1 = {
                 id: "",
                 question: "",
                 answer: "",
-                score: 12,
+                score: 0,
             },
         ],
     },

@@ -1,15 +1,15 @@
 import PointOfInterestStore from "./index";
-import { pointOfInterestMock1 } from "./mock";
+import { pointOfInterestMock } from "./mock";
 
 import * as services from "madu/services/commun";
 
 describe("PointOfInterestStore", () => {
     beforeEach(() => {
         (services as any).postJson = jest.fn(
-            () => new Promise((res, _) => res(pointOfInterestMock1))
+            () => new Promise((res, _) => res(pointOfInterestMock))
         );
         (services as any).apiDelete = jest.fn(
-            () => new Promise((res, _) => res(pointOfInterestMock1))
+            () => new Promise((res, _) => res(pointOfInterestMock))
         );
     });
 
@@ -24,10 +24,10 @@ describe("PointOfInterestStore", () => {
         it("should add a point of interest to the store", () => {
             const store = new PointOfInterestStore();
             store
-                .add(pointOfInterestMock1)
+                .add(pointOfInterestMock)
                 .then(() => {
                     expect(store.all).toHaveLength(1);
-                    expect(store.all).toEqual([pointOfInterestMock1]);
+                    expect(store.all).toEqual([pointOfInterestMock]);
                 })
                 .catch(err => console.log(err));
         });
@@ -37,10 +37,10 @@ describe("PointOfInterestStore", () => {
         it("should remove an element from the state", async () => {
             const store = new PointOfInterestStore();
             // Populate state
-            await store.add(pointOfInterestMock1);
+            await store.add(pointOfInterestMock);
             // Remove a pointOfInterest
             store
-                .remove("test1")
+                .remove("")
                 .then(() => {
                     expect(store.all).toHaveLength(0);
                     expect(store.all).toEqual([]);
@@ -53,12 +53,12 @@ describe("PointOfInterestStore", () => {
         it("should edit an element from the state", async () => {
             const store = new PointOfInterestStore();
             // Populate state
-            await store.add(pointOfInterestMock1);
+            await store.add(pointOfInterestMock);
             // Edit a pointOfInterest
             store
-                .edit("test1", { ...pointOfInterestMock1, name: "edited" })
+                .edit("", { ...pointOfInterestMock, name: "edited" })
                 .then(() => {
-                    expect(store.all).toEqual([{ ...pointOfInterestMock1, name: "edited" }]);
+                    expect(store.all).toEqual([{ ...pointOfInterestMock, name: "edited" }]);
                 })
                 .catch(err => console.log(err));
         });

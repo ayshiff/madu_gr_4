@@ -6,6 +6,7 @@ import { rem } from "polished";
 import { ButtonWrapper } from "styles/atoms/button-wrapper";
 
 import { StateKeys } from "../index";
+import { observer } from "mobx-react";
 
 const CustomInput = styled(Input)`
     width: ${rem(300)};
@@ -41,32 +42,31 @@ export type StepTwoProps = {
     onChangeStepState: <T>(key: StateKeys, value: T) => void;
     changeStep: (n: number) => void;
     stepState: StepTwoState;
+    onEdit: (args: any) => void;
 };
 
-export const FormStepTwo = ({ changeStep, onChangeStepState, stepState }: StepTwoProps) => {
+export const FormStepTwo = observer(({ changeStep, onChangeStepState, stepState }: StepTwoProps) => {
     const weekDay = ["monday", "thuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
     const onChangeState = (field: string, value) => {
         const newStepTwoState: StepTwoState = {
             ...stepState,
             [field]: value,
         };
-        onChangeStepState<StepTwoState>("stepTwo", newStepTwoState);
-    };
 
-    const handleChange = info => {
-        let fileList = [...info.fileList];
+        const handleChange = info => {
+            let fileList = [...info.fileList];
 
-        fileList = fileList.slice(-2);
+            fileList = fileList.slice(-2);
 
-        fileList = fileList.map(file => {
-            if (file.response) {
-                file.url = file.response.url;
-            }
-            return file;
-        });
+            fileList = fileList.map(file => {
+                if (file.response) {
+                    file.url = file.response.url;
+                }
+                return file;
+            });
 
-        onChangeState("fileList", fileList);
-    };
+            onChangeState("fileList", fileList);
+        };
 
     const onScheduleChange = (day, field, value) => {
         const object = {
@@ -167,4 +167,4 @@ export const FormStepTwo = ({ changeStep, onChangeStepState, stepState }: StepTw
             </ButtonWrapper>
         </>
     );
-};
+});

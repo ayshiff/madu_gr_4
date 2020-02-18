@@ -1,6 +1,7 @@
 import { observable, action } from "mobx";
 import { get, apiDelete, apiPut, postJson } from "madu/services/commun";
 import { editReference, removeReference } from "../utils/index";
+import { pointOfInterestMock } from "./mock";
 
 interface IDay {
     from: string;
@@ -49,7 +50,7 @@ export interface IPointOfInterest {
 
 class PointOfInterestStore {
     @observable all: IPointOfInterest[] = [];
-    @observable byId: IPointOfInterest | null = null;
+    @observable byId: IPointOfInterest = pointOfInterestMock;
 
     @action get = () => {
         const endpoint = `${REACT_APP_API_BASE_URL}/poi`;
@@ -73,6 +74,11 @@ class PointOfInterestStore {
                 return;
             })
             .catch(err => console.log(err));
+    };
+
+    @action setStep = (args: any) => {
+        this.byId = { ...this.byId, ...args };
+        return;
     };
 
     @action add = (pointOfInterest: IPointOfInterest) => {

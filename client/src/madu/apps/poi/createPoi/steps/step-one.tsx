@@ -6,6 +6,9 @@ import { rem } from "polished";
 import { ButtonWrapper } from "styles/atoms/button-wrapper";
 
 import { StateKeys } from "../index";
+import { useStores } from "madu/hooks/use-store";
+
+import { observer } from "mobx-react";
 
 const { TextArea } = Input;
 
@@ -45,16 +48,18 @@ export type StepOneProps = {
     onChangeStepState: <T>(key: StateKeys, value: T) => void;
     changeStep: (n: number) => void;
     stepState: StepOneState;
+    onEdit: (args: any) => void;
 };
 
-export const FormStepOne = ({ changeStep, onChangeStepState, stepState }: StepOneProps) => {
-    const onChangeState = (field: string, value) => {
-        const newStepOneState: StepOneState = {
-            ...stepState,
-            [field]: value,
+export const FormStepOne = observer(
+    ({ changeStep, onChangeStepState, stepState, onEdit }: StepOneProps) => {
+        const onChangeState = (field: string, value) => {
+            const newStepOneState: StepOneState = {
+                ...stepState,
+                [field]: value,
+            };
+            onChangeStepState<StepOneState>("stepOne", newStepOneState);
         };
-        onChangeStepState<StepOneState>("stepOne", newStepOneState);
-    };
 
     return (
         <>
