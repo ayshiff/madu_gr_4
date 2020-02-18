@@ -23,7 +23,7 @@ function loop(data) {
 }
 
 function delete_id(data) {
-  const { _id, __v, password, ...result } = data;
+  const { _id, __v, password, forgottenToken, forgottenTokenTime, ...result } = data;
   return result;
 }
 
