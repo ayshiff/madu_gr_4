@@ -1,4 +1,0 @@
-docker_username: amauryfaveriel
-images:
-  - client: madu-client
-  - back-end: madu-back-end

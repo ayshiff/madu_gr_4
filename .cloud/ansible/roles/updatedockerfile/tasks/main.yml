@@ -17,7 +17,7 @@
       path: "{{ role_path }}/../../../../back-end"
       network: host
     name: madu_back-end
-    repository: "{{ docker_username }}/{{ images.back-end }}"
+    repository: "{{ docker_username }}/{{ images.backend }}"
     tag: 1
     push: yes
     source: build
