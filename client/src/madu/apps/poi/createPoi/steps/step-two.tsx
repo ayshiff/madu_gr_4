@@ -19,12 +19,12 @@ const TimePickerWrapper = styled.div`
 `;
 
 const CustomTimePicker = styled(TimePicker)`
-    &:not(:last-child) {
-        margin-right: ${rem(14)};
-    }
-    &:nth-child(3) {
-        margin-left: ${rem(14)};
-    }
+        margin-right: ${rem(8)};
+        margin-left: ${rem(8)};
+`;
+
+const InputWrapper = styled.div`
+    display: flex;
 `;
 
 export type StepTwoState = {
@@ -32,6 +32,7 @@ export type StepTwoState = {
     webSiteLink: string;
     fileList: any[];
     price: string;
+    category: string;
     description: string;
     schedule: Record<string, Record<string, string | boolean>>;
 };
@@ -84,7 +85,8 @@ export const FormStepTwo = ({ changeStep, onChangeStepState, stepState }: StepTw
                 <TimePickerWrapper>
                     <Form.Item label="Horaires">
                         {weekDay.map(value => (
-                            <div key={value}>
+                            <div style={{display: "flex", alignItems: "center"}} key={value}>
+                                <h1 style={{ marginRight: "10px", fontWeight: "bold"}}> {weekDay[0]} </h1>
                                 <Switch
                                     onChange={e => onScheduleChange(value, "close", e)}
                                     checked={
@@ -92,11 +94,13 @@ export const FormStepTwo = ({ changeStep, onChangeStepState, stepState }: StepTw
                                         (stepState.schedule[value].close as boolean)
                                     }
                                 />
+                                <p style={{ marginLeft: "15px", marginRight: "5px"}} >fermé</p>
                                 <CustomTimePicker
                                     onChange={e => onScheduleChange(value, "earlyMorning", e)}
                                     value={stepState.schedule.earlyMorning}
                                 />
                                 <CustomTimePicker
+                                    style={{ marginRight: "8px" }}
                                     onChange={e => onScheduleChange(value, "lateMorning", e)}
                                     value={stepState.schedule.lateMorning}
                                 />
@@ -116,32 +120,45 @@ export const FormStepTwo = ({ changeStep, onChangeStepState, stepState }: StepTw
 
                 <Form.Item label="Lien du site, réseau sociaux">
                     <CustomInput
+                        placeholder="Lien du site, réseau sociaux"
                         onChange={e => onChangeState("webSiteLink", e.target.value)}
                         value={stepState.webSiteLink}
                     />
                 </Form.Item>
-
-                <Form.Item label="Prix">
-                    <Radio.Group
-                        buttonStyle="solid"
-                        onChange={e => onChangeState("price", e.target.value)}
-                        value={stepState.price}
-                    >
-                        <Radio.Button value="a">€</Radio.Button>
-                        <Radio.Button value="b">€€</Radio.Button>
-                        <Radio.Button value="c">€€€</Radio.Button>
-                    </Radio.Group>
-                </Form.Item>
+                <InputWrapper>
+                    <Form.Item label="Prix">
+                        <Radio.Group
+                            buttonStyle="solid"
+                            onChange={e => onChangeState("price", e.target.value)}
+                            value={stepState.price}
+                        >
+                            <Radio.Button value="a">€</Radio.Button>
+                            <Radio.Button value="b">€€</Radio.Button>
+                            <Radio.Button value="c">€€€</Radio.Button>
+                        </Radio.Group>
+                    </Form.Item>
+                    <Form.Item style={{ marginLeft: "50px" }} label="Catégorie">
+                        <Radio.Group
+                            onChange={e => onChangeState("category", e.target.value)}
+                            value={stepState.category}
+                        >
+                            <Radio.Button value="a">Restaurant</Radio.Button>
+                            <Radio.Button value="b">Boutique</Radio.Button>
+                            <Radio.Button value="c">Expérience</Radio.Button>
+                        </Radio.Group>
+                    </Form.Item>
+                </InputWrapper>
                 <Form.Item label="Upload photos">
-                    <Upload onChange={handleChange} multiple={true} fileList={stepState.fileList}>
-                        <Button>
-                            <Icon type="upload" /> Upload
-                        </Button>
+                    <Upload onChange={handleChange} listType="picture-card" multiple={true} fileList={stepState.fileList}>
+                    <div>
+                        <Icon type="plus" />
+                        <div className="ant-upload-text">Upload</div>
+                    </div>
                     </Upload>
                 </Form.Item>
             </Form>
             <ButtonWrapper align="right" layout="aside">
-                <Button size="large" onClick={() => changeStep(0)}>
+                <Button style={{ color: "#BFBFBF" }}size="large" onClick={() => changeStep(0)}>
                     Précedent
                 </Button>
                 <Button size="large" type="primary">
