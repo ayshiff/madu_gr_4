@@ -1,11 +1,18 @@
 # Déploiment du projet
 
 Dépendances nécessaires :
+- [Python](https://www.python.org/) / [Pip](https://pypi.org/project/pip/)
 - [Terraform](https://www.terraform.io/)
 - [Ansible](https://www.ansible.com/)
-- [Boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html)
 
 Un compte AWS est nécessaires pour déployer le projet, avec des [credentials configurés](https://docs.aws.amazon.com/fr_fr/sdk-for-java/v1/developer-guide/setup-credentials.html).
+
+Des dépendances Python sont nécessaires pour utiliser l'inventaire dynamique d'Ansible.
+
+```
+/.cloud
+$ pip install -r requirement.txt
+```
 
 ## Déploiment du serveur
 
