@@ -1,43 +1,15 @@
-import React from "react";
-import { Layout, Input, Button, Table, Divider } from "antd";
+import React, { useEffect } from "react";
+import { Layout, Input, Button, Table } from "antd";
+import { useStores } from "madu/hooks/use-store";
+import { observer } from "mobx-react";
 
 const { Header, Content } = Layout;
 
-export const ListPoi = () => {
-    const tableData = [
-        {
-            key: "1",
-            nomDuLieu: "Wild & the Moon",
-            categorie: "Restaurant",
-            questionnr: "En Attente",
-            greenscore: 72,
-            address: "10 Downing Street",
-        },
-        {
-            key: "2",
-            nomDuLieu: "Season",
-            categorie: "Restaurant",
-            questionnr: "En attente",
-            greenscore: 42,
-            address: "10 Downing Street",
-        },
-        {
-            key: "3",
-            nomDuLieu: "Nous Valmy",
-            categorie: "Boutique",
-            questionnr: "En Attente",
-            greenscore: 72,
-            address: "10 Downing Street",
-        },
-        {
-            key: "4",
-            nomDuLieu: "Simone Lemon",
-            categorie: "Experience",
-            questionnr: "En attente",
-            greenscore: 42,
-            address: "10 Downing Street",
-        },
-    ];
+export const ListPoi = observer(() => {
+    const { pointOfInterestStore } = useStores();
+    useEffect(() => {
+        pointOfInterestStore.get();
+    }, []);
 
     const columns = [
         {
@@ -65,8 +37,6 @@ export const ListPoi = () => {
             key: "action",
             render: () => (
                 <span>
-                    <span>Edit</span>
-                    <Divider type="vertical" />
                     <span>Delete</span>
                 </span>
             ),
@@ -105,8 +75,22 @@ export const ListPoi = () => {
                     background: "#fff",
                 }}
             >
-                <Table columns={columns} dataSource={tableData} />
+                <Table
+                    columns={columns}
+                    dataSource={
+                        pointOfInterestStore.all.length &&
+                        pointOfInterestStore.all.map((el, ind) => {
+                            return {
+                                key: ind,
+                                nomDuLieu: el.name,
+                                categorie: el.poiType,
+                                questionnr: el.status,
+                                greenscore: el.greenscore,
+                            };
+                        })
+                    }
+                />
             </Content>
         </Layout>
     );
-};
+});
