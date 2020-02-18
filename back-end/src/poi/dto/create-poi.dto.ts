@@ -1,4 +1,4 @@
-import { IsString, IsInt, IsMilitaryTime, ValidateNested, IsUrl, IsPhoneNumber, IsEmail, IsEnum, IsBoolean } from 'class-validator';
+import { IsString, IsInt, IsMilitaryTime, ValidateNested, IsUrl, IsPhoneNumber, IsEmail, IsEnum, IsBoolean, IsOptional } from 'class-validator';
 import { Type } from 'class-transformer';
 import { PoiCategories } from '../model/poi-categories.enum';
 
@@ -59,12 +59,14 @@ export class CreatePoiDto {
   @IsString()
   city: string;
 
+  @IsOptional()
   @IsPhoneNumber('FR')
   phone: string;
 
   @IsEmail()
   email: string;
 
+  @IsOptional()
   @IsString()
   siret: string;
 
@@ -78,18 +80,22 @@ export class CreatePoiDto {
   @IsString()
   description: string;
 
+  @IsOptional()
   @IsUrl()
   website: string;
 
+  @IsOptional()
   @IsUrl()
   socialNetwork: string;
 
   @IsInt()
   greenscore: number;
 
+  @IsOptional()
   @IsString()
   foodPreference: string;
 
+  @IsOptional()
   @IsBoolean()
   takeAway: boolean;
 

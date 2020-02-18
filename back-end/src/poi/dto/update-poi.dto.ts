@@ -1,4 +1,4 @@
-import { IsString, ValidateNested, IsPhoneNumber, IsEmail, IsOptional } from 'class-validator';
+import { IsString, ValidateNested, IsPhoneNumber, IsEmail, IsOptional, IsInt } from 'class-validator';
 import { Type } from 'class-transformer';
 import { Week } from "./create-poi.dto";
 
@@ -23,4 +23,8 @@ export class UpdatePoiDto {
   @IsOptional()
   @IsString()
   description: string;
+
+  @IsOptional()
+  @IsInt()
+  greenscore: number;
 }
