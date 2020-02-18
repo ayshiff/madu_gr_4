@@ -121,7 +121,7 @@ export const CreatePoi = props => {
     const onEdit = (key: string, value: any) => {
         pointOfInterestStore.setStep({ [key]: value });
     };
-    
+
     return (
         <Layout>
             <Header style={{ background: "#fff", paddingLeft: "20%", paddingRight: "20%" }}>
