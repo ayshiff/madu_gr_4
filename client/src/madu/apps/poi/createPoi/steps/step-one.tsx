@@ -178,17 +178,7 @@ const FormStepOneComponent = observer(
                         )}
                     </Form.Item>
                 </CustomForm>
-                <ButtonWrapper
-                    style={{
-                        position: "absolute",
-                        bottom: "0",
-                        right: "0",
-                        marginRight: "82px",
-                        marginBottom: "35px",
-                    }}
-                    align="right"
-                    layout="aside"
-                >
+                <ButtonWrapper align="right" layout="aside">
                     <Button
                         size="large"
                         type="primary"

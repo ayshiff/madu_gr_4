@@ -49,15 +49,7 @@ export type StepTwoProps = {
 
 const FormStepTwoComponent = observer(
     ({ changeStep, onChangeStepState, stepState, onEdit, form }: StepTwoProps) => {
-        const weekDay = [
-            "monday",
-            "thuesday",
-            "wednesday",
-            "thursday",
-            "friday",
-            "saturday",
-            "sunday",
-        ];
+        const weekDay = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
         const onChangeState = (field: string, value) => {
             const newStepTwoState: StepTwoState = {
                 ...stepState,
@@ -114,7 +106,7 @@ const FormStepTwoComponent = observer(
                                 <div key={value} style={{ display: "flex", alignItems: "center" }}>
                                     <h1 style={{ marginRight: "10px", fontWeight: "bold" }}>
                                         {" "}
-                                        {weekDay[0]}{" "}
+                                        {value}{" "}
                                     </h1>
                                     <Switch
                                         onChange={e => onScheduleChange(value, "close", e)}
@@ -151,34 +143,36 @@ const FormStepTwoComponent = observer(
                         })(<CustomInput onChange={e => onEdit("website", e.target.value)} />)}
                     </Form.Item>
 
-                    <Form.Item label="Prix">
-                        {form.getFieldDecorator("priceRange", {
-                            initialValue: byId.priceRange,
-                            setFieldsValue: byId.priceRange,
-                            rules: [
-                                { type: "string", message: "Merci de choisir un type de prix" },
-                            ],
-                        })(
+                    <InputWrapper>
+                        <Form.Item label="Prix">
+                            {form.getFieldDecorator("priceRange", {
+                                initialValue: byId.priceRange,
+                                setFieldsValue: byId.priceRange,
+                                rules: [
+                                    { type: "string", message: "Merci de choisir un type de prix" },
+                                ],
+                            })(
+                                <Radio.Group
+                                    buttonStyle="solid"
+                                    onChange={e => onEdit("priceRange", e.target.value)}
+                                >
+                                    <Radio.Button value="€">€</Radio.Button>
+                                    <Radio.Button value="€€">€€</Radio.Button>
+                                    <Radio.Button value="€€€">€€€</Radio.Button>
+                                </Radio.Group>
+                            )}
+                        </Form.Item>
+                        <Form.Item style={{ marginLeft: "50px" }} label="Catégorie">
                             <Radio.Group
-                                buttonStyle="solid"
-                                onChange={e => onEdit("priceRange", e.target.value)}
+                                onChange={e => onChangeState("category", e.target.value)}
+                                value={stepState.category}
                             >
-                                <Radio.Button value="€">€</Radio.Button>
-                                <Radio.Button value="€€">€€</Radio.Button>
-                                <Radio.Button value="€€€">€€€</Radio.Button>
+                                <Radio.Button value="a">Restaurant</Radio.Button>
+                                <Radio.Button value="b">Boutique</Radio.Button>
+                                <Radio.Button value="c">Expérience</Radio.Button>
                             </Radio.Group>
-                        )}
-                    </Form.Item>
-                    <Form.Item style={{ marginLeft: "50px" }} label="Catégorie">
-                        <Radio.Group
-                            onChange={e => onChangeState("category", e.target.value)}
-                            value={stepState.category}
-                        >
-                            <Radio.Button value="a">Restaurant</Radio.Button>
-                            <Radio.Button value="b">Boutique</Radio.Button>
-                            <Radio.Button value="c">Expérience</Radio.Button>
-                        </Radio.Group>
-                    </Form.Item>
+                        </Form.Item>
+                    </InputWrapper>
                     <Form.Item label="Upload photos">
                         <Upload
                             onChange={handleChange}
