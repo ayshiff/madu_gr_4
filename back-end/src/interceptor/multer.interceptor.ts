@@ -1,7 +1,6 @@
 import * as uuidv4 from 'uuid/v4';
 
 export const imageFileFilter = (req, file, callback) => {
-  console.log('tt', file);
   if (!file.originalname.match(/\.(jpg|jpeg)$/)) {
     return callback(new Error('Only image files are allowed!'), false);
   }
