@@ -7,6 +7,7 @@ import { ButtonWrapper } from "styles/atoms/button-wrapper";
 
 import { StateKeys } from "../index";
 import { observer } from "mobx-react";
+import { useStores } from "madu/hooks/use-store";
 
 const CustomInput = styled(Input)`
     width: ${rem(300)};
@@ -20,8 +21,8 @@ const TimePickerWrapper = styled.div`
 `;
 
 const CustomTimePicker = styled(TimePicker)`
-        margin-right: ${rem(8)};
-        margin-left: ${rem(8)};
+    margin-right: ${rem(8)};
+    margin-left: ${rem(8)};
 `;
 
 const InputWrapper = styled.div`
@@ -42,16 +43,30 @@ export type StepTwoProps = {
     onChangeStepState: <T>(key: StateKeys, value: T) => void;
     changeStep: (n: number) => void;
     stepState: StepTwoState;
-    onEdit: (args: any) => void;
+    onEdit: (key: string, value: any) => void;
+    form: any;
 };
 
-export const FormStepTwo = observer(({ changeStep, onChangeStepState, stepState }: StepTwoProps) => {
-    const weekDay = ["monday", "thuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
-    const onChangeState = (field: string, value) => {
-        const newStepTwoState: StepTwoState = {
-            ...stepState,
-            [field]: value,
+const FormStepTwoComponent = observer(
+    ({ changeStep, onChangeStepState, stepState, onEdit, form }: StepTwoProps) => {
+        const weekDay = [
+            "monday",
+            "thuesday",
+            "wednesday",
+            "thursday",
+            "friday",
+            "saturday",
+            "sunday",
+        ];
+        const onChangeState = (field: string, value) => {
+            const newStepTwoState: StepTwoState = {
+                ...stepState,
+                [field]: value,
+            };
+            onChangeStepState<StepTwoState>("stepTwo", newStepTwoState);
         };
+
+        const { pointOfInterestStore } = useStores();
 
         const handleChange = info => {
             let fileList = [...info.fileList];
@@ -68,74 +83,91 @@ export const FormStepTwo = observer(({ changeStep, onChangeStepState, stepState 
             onChangeState("fileList", fileList);
         };
 
-    const onScheduleChange = (day, field, value) => {
-        const object = {
-            ...stepState.schedule,
-            [day]: {
-                ...stepState.schedule[day],
-                [field]: value,
-            },
+        const onScheduleChange = (day, field, value) => {
+            const object = {
+                ...stepState.schedule,
+                [day]: {
+                    ...stepState.schedule[day],
+                    [field]: value,
+                },
+            };
+            onChangeState("schedule", object);
         };
-        onChangeState("schedule", object);
-    };
 
-    return (
-        <>
-            <Form>
-                <TimePickerWrapper>
-                    <Form.Item label="Horaires">
-                        {weekDay.map(value => (
-                            <div style={{display: "flex", alignItems: "center"}} key={value}>
-                                <h1 style={{ marginRight: "10px", fontWeight: "bold"}}> {weekDay[0]} </h1>
-                                <Switch
-                                    onChange={e => onScheduleChange(value, "close", e)}
-                                    checked={
-                                        stepState.schedule[value] &&
-                                        (stepState.schedule[value].close as boolean)
-                                    }
-                                />
-                                <p style={{ marginLeft: "15px", marginRight: "5px"}} >fermé</p>
-                                <CustomTimePicker
-                                    onChange={e => onScheduleChange(value, "earlyMorning", e)}
-                                    value={stepState.schedule.earlyMorning}
-                                />
-                                <CustomTimePicker
-                                    style={{ marginRight: "8px" }}
-                                    onChange={e => onScheduleChange(value, "lateMorning", e)}
-                                    value={stepState.schedule.lateMorning}
-                                />
-                                {"  -  "}
-                                <CustomTimePicker
-                                    onChange={e => onScheduleChange(value, "earlyAfternoon", e)}
-                                    value={stepState.schedule.earlyAfternoon}
-                                />
-                                <CustomTimePicker
-                                    onChange={e => onScheduleChange(value, "lateAfternoon", e)}
-                                    value={stepState.schedule.lateAfternoon}
-                                />
-                            </div>
-                        ))}
+        const isFieldsValidated = !Object.entries(form.getFieldsError()).some(value => value[1]);
+
+        const onSubmit = () => {
+            pointOfInterestStore.add(pointOfInterestStore.byId);
+            pointOfInterestStore.resetId();
+        };
+
+        const {
+            pointOfInterestStore: { byId },
+        } = useStores();
+
+        return (
+            <>
+                <Form>
+                    <TimePickerWrapper>
+                        <Form.Item label="Horaires">
+                            {weekDay.map(value => (
+                                <div key={value} style={{ display: "flex", alignItems: "center" }}>
+                                    <h1 style={{ marginRight: "10px", fontWeight: "bold" }}>
+                                        {" "}
+                                        {weekDay[0]}{" "}
+                                    </h1>
+                                    <Switch
+                                        onChange={e => onScheduleChange(value, "close", e)}
+                                        checked={
+                                            stepState.schedule[value] &&
+                                            (stepState.schedule[value].close as boolean)
+                                        }
+                                    />
+                                    <p style={{ marginLeft: "15px", marginRight: "5px" }}>fermé</p>
+                                    <CustomTimePicker
+                                        onChange={e => onScheduleChange(value, "earlyMorning", e)}
+                                    />
+                                    <CustomTimePicker
+                                        style={{ marginRight: "8px" }}
+                                        onChange={e => onScheduleChange(value, "lateMorning", e)}
+                                    />
+                                    {"  -  "}
+                                    <CustomTimePicker
+                                        onChange={e => onScheduleChange(value, "earlyAfternoon", e)}
+                                    />
+                                    <CustomTimePicker
+                                        onChange={e => onScheduleChange(value, "lateAfternoon", e)}
+                                    />
+                                </div>
+                            ))}
+                        </Form.Item>
+                    </TimePickerWrapper>
+
+                    <Form.Item label="Lien du site, réseau sociaux">
+                        {form.getFieldDecorator("website", {
+                            initialValue: byId.website,
+                            setFieldsValue: byId.website,
+                            rules: [{ type: "url", message: "Merci de choisir une url valide" }],
+                        })(<CustomInput onChange={e => onEdit("website", e.target.value)} />)}
                     </Form.Item>
-                </TimePickerWrapper>
 
-                <Form.Item label="Lien du site, réseau sociaux">
-                    <CustomInput
-                        placeholder="Lien du site, réseau sociaux"
-                        onChange={e => onChangeState("webSiteLink", e.target.value)}
-                        value={stepState.webSiteLink}
-                    />
-                </Form.Item>
-                <InputWrapper>
                     <Form.Item label="Prix">
-                        <Radio.Group
-                            buttonStyle="solid"
-                            onChange={e => onChangeState("price", e.target.value)}
-                            value={stepState.price}
-                        >
-                            <Radio.Button value="a">€</Radio.Button>
-                            <Radio.Button value="b">€€</Radio.Button>
-                            <Radio.Button value="c">€€€</Radio.Button>
-                        </Radio.Group>
+                        {form.getFieldDecorator("priceRange", {
+                            initialValue: byId.priceRange,
+                            setFieldsValue: byId.priceRange,
+                            rules: [
+                                { type: "string", message: "Merci de choisir un type de prix" },
+                            ],
+                        })(
+                            <Radio.Group
+                                buttonStyle="solid"
+                                onChange={e => onEdit("priceRange", e.target.value)}
+                            >
+                                <Radio.Button value="€">€</Radio.Button>
+                                <Radio.Button value="€€">€€</Radio.Button>
+                                <Radio.Button value="€€€">€€€</Radio.Button>
+                            </Radio.Group>
+                        )}
                     </Form.Item>
                     <Form.Item style={{ marginLeft: "50px" }} label="Catégorie">
                         <Radio.Group
@@ -147,24 +179,35 @@ export const FormStepTwo = observer(({ changeStep, onChangeStepState, stepState 
                             <Radio.Button value="c">Expérience</Radio.Button>
                         </Radio.Group>
                     </Form.Item>
-                </InputWrapper>
-                <Form.Item label="Upload photos">
-                    <Upload onChange={handleChange} listType="picture-card" multiple={true} fileList={stepState.fileList}>
-                    <div>
-                        <Icon type="plus" />
-                        <div className="ant-upload-text">Upload</div>
-                    </div>
-                    </Upload>
-                </Form.Item>
-            </Form>
-            <ButtonWrapper align="right" layout="aside">
-                <Button style={{ color: "#BFBFBF" }}size="large" onClick={() => changeStep(0)}>
-                    Précedent
-                </Button>
-                <Button size="large" type="primary">
-                    Validé
-                </Button>
-            </ButtonWrapper>
-        </>
-    );
-});
+                    <Form.Item label="Upload photos">
+                        <Upload
+                            onChange={handleChange}
+                            listType="picture-card"
+                            multiple={true}
+                            fileList={stepState.fileList}
+                        >
+                            <Button>
+                                <Icon type="upload" /> Upload
+                            </Button>
+                        </Upload>
+                    </Form.Item>
+                </Form>
+                <ButtonWrapper align="right" layout="aside">
+                    <Button style={{ color: "#BFBFBF" }} size="large" onClick={() => changeStep(0)}>
+                        Précedent
+                    </Button>
+                    <Button
+                        size="large"
+                        disabled={!isFieldsValidated}
+                        type="primary"
+                        onClick={() => isFieldsValidated && onSubmit()}
+                    >
+                        Valider
+                    </Button>
+                </ButtonWrapper>
+            </>
+        );
+    }
+);
+
+export const FormStepTwo = Form.create()(FormStepTwoComponent);

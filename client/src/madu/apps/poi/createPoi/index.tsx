@@ -6,8 +6,6 @@ import { Stepper } from "madu/components/stepper";
 
 import { FormStepOne, StepOneState } from "./steps/step-one";
 import { FormStepTwo } from "./steps/step-two";
-import { FormStepThree } from "./steps/step-three";
-import { FormStepFour } from "./steps/step-four";
 import { useStores } from "madu/hooks/use-store";
 
 const { Header, Content } = Layout;
@@ -35,23 +33,23 @@ export const CreatePoi = props => {
                 stepOne: {
                     index: 0,
                     name: "",
-                    email: "",
-                    webSiteLink: "",
-                    establishmentType: "",
-                    socialNetworkLink: "",
-                    description: "",
-                    address: "",
-                    zipcode: "",
-                    phoneNumber: "",
+                    // email: "",
+                    // category: "",
+                    // webSiteLink: "",
+                    // establishmentType: "",
+                    // socialNetworkLink: "",
+                    // description: "",
+                    // address: "",
+                    // zipcode: "",
+                    // phoneNumber: "",
                 },
                 stepTwo: {
                     index: 1,
                     schedule: [],
                     fileList: [],
-                    price: "a",
-                    category: "",
-                    takeaway: false,
-                    accessibility: false,
+                    // price: "a",
+                    // takeaway: false,
+                    // accessibility: false,
                 },
                 stepThree: {
                     index: 2,
@@ -118,8 +116,8 @@ export const CreatePoi = props => {
         ),
     };
 
-    const onEdit = args => {
-        pointOfInterestStore.setStep(args);
+    const onEdit = (key: string, value: any) => {
+        pointOfInterestStore.setStep({ [key]: value });
     };
 
     return (
@@ -140,6 +138,7 @@ export const CreatePoi = props => {
                     }}
                 >
                     <CurrentStepComponent.Component
+                        // @ts-ignore
                         onChangeStepState={onChangeStepState}
                         stepState={CurrentStepComponent.state}
                         changeStep={onChangeStep}

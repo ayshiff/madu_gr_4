@@ -8,6 +8,12 @@ export const pointOfInterestMock = {
     phone: "",
     email: "",
     siret: "",
+    category: "",
+    socialNetwork: "",
+    foodPreference: "",
+    takeAway: false,
+    wheelchair: false,
+    images: [],
     openingTime: {
         monday: [
             {
@@ -55,18 +61,6 @@ export const pointOfInterestMock = {
     priceRange: "",
     description: "",
     website: "",
-    template: {
-        id: "",
-        name: "",
-        questions: [
-            {
-                id: "",
-                question: "",
-                answer: "",
-                score: 0,
-            },
-        ],
-    },
-    token: "",
     status: "",
+    greenscore: 0,
 };

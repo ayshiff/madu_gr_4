@@ -2,17 +2,11 @@ import { observable, action } from "mobx";
 import { get, apiDelete, apiPut, postJson } from "madu/services/commun";
 import { editReference, removeReference } from "../utils/index";
 import { pointOfInterestMock } from "./mock";
+import autoSave from "../utils/autoSave";
 
 interface IDay {
     from: string;
     to: string;
-}
-
-interface IQuestion {
-    id: string;
-    question: string;
-    answer: string;
-    score: number;
 }
 
 const { REACT_APP_API_BASE_URL } = process.env;
@@ -24,9 +18,13 @@ export interface IPointOfInterest {
     street: string;
     zipCode: number;
     city: string;
-    phone: string;
+    phone?: string;
     email: string;
-    siret: string;
+    category: string;
+    socialNetwork?: string;
+    foodPreference: string;
+    takeAway: boolean;
+    wheelchair: boolean;
     openingTime: {
         monday: IDay[];
         tuesday: IDay[];
@@ -38,19 +36,19 @@ export interface IPointOfInterest {
     };
     priceRange: string;
     description: string;
-    website: string;
-    template: {
-        id: string;
-        name: string;
-        questions: IQuestion[];
-    };
-    token: string;
-    status: string;
+    website?: string;
+    status?: string;
+    images: string[];
+    greenscore: number;
 }
 
 class PointOfInterestStore {
     @observable all: IPointOfInterest[] = [];
     @observable byId: IPointOfInterest = pointOfInterestMock;
+
+    constructor() {
+        autoSave(this);
+    }
 
     @action get = () => {
         const endpoint = `${REACT_APP_API_BASE_URL}/poi`;
@@ -111,6 +109,10 @@ class PointOfInterestStore {
             this.all = removeReference(id, this.all);
             return;
         });
+    };
+
+    @action resetId = () => {
+        this.byId = pointOfInterestMock;
     };
 
     @action reset = () => {
