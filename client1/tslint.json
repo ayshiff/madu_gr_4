@@ -1,6 +1,0 @@
-{
-    "extends": "tslint:latest",
-    "linterOptions": {
-        "exclude": ["build/*", "scripts/*", "config/", "public/", "src/react-app-env.d.ts", "src/serviceWorker.ts"]
-    }
-}
