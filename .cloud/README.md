@@ -47,7 +47,7 @@ Pour tout installer et lancer ( installation docker + build image + copie et lan
 $ ansible-playbook -i inventory deployment.yml --key-file=~/.ssh/[clé_ssh_générée]
 ``` 
 
-Pour build les images et déployer avec docker-compose (docker déjà installer sur le serveur) :
+Pour build les images et déployer avec docker-compose (docker déjà installé sur le serveur) :
 ```
 /.cloud/ansible
 $ ansible-playbook -i inventory deployment.yml --tags rebuildimage --key-file=~/.ssh/[clé_ssh_générée]
