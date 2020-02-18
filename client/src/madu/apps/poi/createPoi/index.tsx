@@ -6,6 +6,7 @@ import { Stepper } from "madu/components/stepper";
 
 import { FormStepOne, StepOneState } from "./steps/step-one";
 import { FormStepTwo } from "./steps/step-two";
+
 import { useStores } from "madu/hooks/use-store";
 
 const { Header, Content } = Layout;
@@ -66,6 +67,7 @@ export const CreatePoi = props => {
     };
 
     const [formState, setFormState] = useState<FormState>(defaultFormState);
+
     const { pointOfInterestStore } = useStores();
 
     const setCurrentStep = useCallback((state: FormState) => {
@@ -119,7 +121,7 @@ export const CreatePoi = props => {
     const onEdit = (key: string, value: any) => {
         pointOfInterestStore.setStep({ [key]: value });
     };
-
+    
     return (
         <Layout>
             <Header style={{ background: "#fff", paddingLeft: "20%", paddingRight: "20%" }}>
