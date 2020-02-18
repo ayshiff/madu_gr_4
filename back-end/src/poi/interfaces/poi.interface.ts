@@ -78,4 +78,5 @@ export interface Poi {
   wheelchair: boolean;
   token: string;
   status: string;
+  images: string[];
 }

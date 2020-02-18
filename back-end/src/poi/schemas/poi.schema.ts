@@ -76,5 +76,8 @@ export const PoiSchema = new mongoose.Schema({
   takeAway: Boolean,
   wheelchair: Boolean,
   token: String,
-  status: String
+  status: String,
+  images: [
+    String
+  ]
 });

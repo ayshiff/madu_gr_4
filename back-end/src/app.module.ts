@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { MulterModule } from '@nestjs/platform-express';
 import { AppController } from './app.controller';
 import { CompanyModule } from './company/company.module';
 import { AuthModule } from './auth/auth.module';
@@ -21,6 +22,9 @@ import { GreenscoreModule } from './greenscore/greenscore.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    MulterModule.register({
+      dest: '/upload',
+    }),    
     CompanyModule,
     AuthModule,
     UsersModule,

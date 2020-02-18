@@ -32,7 +32,12 @@ export class PoiService {
   }
 
   async update(poi: Poi, updatePoiDto: UpdatePoiDto): Promise<Poi> {
-    await this.poiModel.updateOne(poi, updatePoiDto);
+    await this.poiModel.updateOne({ id: poi.id }, updatePoiDto);
+    return this.findByUuid(poi.id);
+  }
+
+  async addImages(poi: Poi, images: Array<string>): Promise<Poi> {
+    await this.poiModel.updateOne({ id: poi.id }, { images });
     return this.findByUuid(poi.id);
   }
 
