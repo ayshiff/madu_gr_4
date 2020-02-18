@@ -186,6 +186,59 @@ const FormStepTwoComponent = observer(
                         </Upload>
                     </Form.Item>
                 </Form>
+                <InputWrapper>
+                    <Form.Item label="Type d'établissement">
+                        {form.getFieldDecorator("poiType", {
+                            initialValue: byId.poiType,
+                            setFieldsValue: byId.poiType,
+                            rules: [{ type: "url", message: "Merci de choisir une url valide" }],
+                        })(<CustomInput onChange={e => onEdit("poiType", e.target.value)} />)}
+                    </Form.Item>
+                    <Form.Item label="Préférence alimentaire">
+                        {form.getFieldDecorator("foodPreference", {
+                            initialValue: byId.foodPreference,
+                            setFieldsValue: byId.foodPreference,
+                            rules: [{ type: "url", message: "Merci de choisir une url valide" }],
+                        })(
+                            <CustomInput onChange={e => onEdit("foodPreference", e.target.value)} />
+                        )}
+                    </Form.Item>
+                </InputWrapper>
+                <Form.Item label="Greenscore">
+                    {form.getFieldDecorator("greenscore", {
+                        initialValue: byId.greenscore,
+                        setFieldsValue: byId.greenscore,
+                        rules: [{ type: "url", message: "Merci de choisir une url valide" }],
+                    })(<CustomInput onChange={e => onEdit("greenscore", e.target.value)} />)}
+                </Form.Item>
+                <InputWrapper>
+                    <InputWrapper>
+                        <p style={{ marginRight: "10px", marginLeft: "10px", fontWeight: "bold" }}>
+                            {" "}
+                            A emporter{" "}
+                        </p>
+                        <Switch
+                        // onChange={e => onScheduleChange(value, "close", e)}
+                        // checked={
+                        //     stepState.schedule[value] &&
+                        //     (stepState.schedule[value].close as boolean)
+                        // }
+                        />
+                    </InputWrapper>
+                    <InputWrapper>
+                        <p style={{ marginLeft: "10px", marginRight: "10px", fontWeight: "bold" }}>
+                            {" "}
+                            Accessibilité fauteuil{" "}
+                        </p>
+                        <Switch
+                        // onChange={e => onScheduleChange(value, "close", e)}
+                        // checked={
+                        //     stepState.schedule[value] &&
+                        //     (stepState.schedule[value].close as boolean)
+                        // }
+                        />
+                    </InputWrapper>
+                </InputWrapper>
                 <ButtonWrapper align="right" layout="aside">
                     <Button style={{ color: "#BFBFBF" }} size="large" onClick={() => changeStep(0)}>
                         Précedent
