@@ -2,12 +2,12 @@ import React, { useState, useMemo, useEffect, useCallback } from "react";
 import { Layout } from "antd";
 import { createBrowserHistory as createHistory } from "history";
 
-import { Stepper } from "madu/components/stepper";
+import { TabsMenu } from "madu/components/tabs-menu";
 
 import { FormStepOne, StepOneState } from "./steps/step-one";
 import { FormStepTwo } from "./steps/step-two";
 
-const { Header, Content } = Layout;
+const { Content } = Layout;
 
 const history = createHistory();
 
@@ -113,22 +113,29 @@ export const CreatePoi = () => {
             item => item.index === formState.currentStep
         ),
     };
-    console.log(formState.stepStates.stepTwo.schedule);
+
     return (
         <Layout>
-            <Header style={{ background: "#fff", paddingLeft: "20%", paddingRight: "20%" }}>
-                <Stepper
+            <div
+                style={{
+                    background: "#fff",
+                    padding: 40,
+                }}
+            >
+                <TabsMenu
                     onClickStep={onChangeStep}
-                    steps={[1, 2]}
+                    tabs={[
+                        { key: 0, tabTitle: "Infos  de base" },
+                        { key: 1, tabTitle: "Infos complémentaires" },
+                    ]}
                     indexActiveStep={formState.currentStep}
                 />
-            </Header>
+            </div>
             <Layout style={layoutContentStyle}>
                 <Content
                     style={{
                         margin: "24px 16px",
                         padding: 24,
-                        background: "#fff",
                     }}
                 >
                     <CurrentStepComponent.Component
