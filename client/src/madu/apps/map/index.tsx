@@ -1,18 +1,37 @@
 import React, { useState, useEffect } from "react";
 import mapboxgl from "mapbox-gl";
+
 import datatest from "./datatest.json";
+import { SearchSidebar } from "./searchSidebar/searchSidebar";
+
+import mapfunction from "./mapfunction";
 
 const mapStyle = {
-    width: "100vw",
+    width: "75%",
     height: "100vh",
 };
+
+const containerStyle = {
+    width: "100vw",
+    height: "100vh",
+    display: "flex",
+    alignItems: "center"
+}
+
+const searchSidebarStyle = {
+    width: "25%",
+    height: "100vh",
+    backgroundColor: "#ffffff"
+}
 
 export const Mapboxgl = () => {
     const [map, setMap] = useState<mapboxgl.Map | null>(null);
 
     useEffect(() => {
         if (map) {
-            generatePoints(map, datatest);
+            mapfunction.generatePoints(map, datatest);
+            mapfunction.clickOnPoint(map);
+            mapfunction.clickOneLayer(map);
         }
     }, [map]);
 
@@ -30,29 +49,14 @@ export const Mapboxgl = () => {
         setMap(mapInitializer);
     }, []);
 
-    const generatePoints = (map, data) => {
-        if (map) {
-            console.log("test");
-            map.on("load", () => {
-                map.addSource("points", {
-                    type: "geojson",
-                    features: data,
-                });
-                map.addLayer({
-                    id: "points",
-                    type: "symbol",
-                    source: "points",
-                    layout: {
-                        "icon-image": ["concat", ["get", "icon"], "-15"],
-                        "text-field": ["get", "title"],
-                        "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
-                        "text-offset": [0, 0.6],
-                        "text-anchor": "top",
-                    },
-                });
-            });
-        }
-    };
 
-    return <div style={mapStyle} id="map"></div>;
+
+    return (
+        <div style={containerStyle}>
+            <div style={searchSidebarStyle}>
+                <SearchSidebar/>
+            </div>
+            <div style={mapStyle} id="map"></div>
+        </div>
+    );
 };
