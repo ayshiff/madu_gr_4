@@ -217,14 +217,6 @@ const FormStepTwoComponent = observer(
                         </Form.Item>
                     </TimePickerWrapper>
 
-                    <Form.Item label="Lien du site, réseau sociaux">
-                        {form.getFieldDecorator("website", {
-                            initialValue: byId.website,
-                            setFieldsValue: byId.website,
-                            rules: [{ type: "url", message: "Merci de choisir une url valide" }],
-                        })(<CustomInput onChange={e => onEdit("website", e.target.value)} />)}
-                    </Form.Item>
-
                     <InputWrapper>
                         <Form.Item label="Prix">
                             {form.getFieldDecorator("priceRange", {
