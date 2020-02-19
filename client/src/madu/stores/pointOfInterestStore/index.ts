@@ -2,6 +2,7 @@ import { observable, action } from "mobx";
 import { get, apiDelete, apiPut, postJson } from "madu/services/commun";
 import { editReference, removeReference } from "../utils/index";
 import { pointOfInterestMock } from "./mock";
+const { REACT_APP_API_BASE_URL } = process.env;
 
 interface IDay {
     from: string;
@@ -13,8 +14,6 @@ interface Address {
     lat: number;
     lng: number;
 }
-
-const { REACT_APP_API_BASE_URL } = process.env;
 
 export interface IPointOfInterest {
     id: string;

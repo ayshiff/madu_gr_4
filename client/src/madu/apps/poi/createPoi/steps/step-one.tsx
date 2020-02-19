@@ -2,18 +2,12 @@ import React from "react";
 import { Form, Input, Button } from "antd";
 import styled from "styled-components";
 import { rem } from "polished";
-
 import { ButtonWrapper } from "styles/atoms/button-wrapper";
-
 import { StateKeys } from "../index";
-
 import { observer } from "mobx-react";
 import { useStores } from "madu/hooks/use-store";
-
 import { InstantSearch } from "react-instantsearch-dom";
-
 import algoliasearch from "algoliasearch";
-
 import Places from "../../../../places/widget";
 
 const searchClient = algoliasearch("latency", process.env.ALGOLIA_API_KEY);

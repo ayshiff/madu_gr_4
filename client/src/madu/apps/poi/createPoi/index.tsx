@@ -1,19 +1,24 @@
 import React, { useState, useMemo, useEffect, useCallback } from "react";
 import { Layout } from "antd";
 import { createBrowserHistory as createHistory } from "history";
-
 import { Stepper } from "madu/components/stepper";
-
 import { FormStepOne, StepOneState } from "./steps/step-one";
 import { FormStepTwo } from "./steps/step-two";
-
 import { useStores } from "madu/hooks/use-store";
+import { CustomContent } from "../listPoi";
+import styled from "styled-components";
 
-const { Header, Content } = Layout;
+const { Header } = Layout;
 
 const history = createHistory();
 
 export type StateKeys = "stepOne" | "stepTwo";
+
+const CustomHeader = styled(Header)`
+    background: #fff;
+    paddingleft: 20%;
+    paddingright: 20%;
+`;
 
 type FormState = {
     currentStep: number;
@@ -110,21 +115,15 @@ export const CreatePoi = props => {
 
     return (
         <Layout>
-            <Header style={{ background: "#fff", paddingLeft: "20%", paddingRight: "20%" }}>
+            <CustomHeader>
                 <Stepper
                     onClickStep={onChangeStep}
                     steps={[1, 2]}
                     indexActiveStep={formState.currentStep}
                 />
-            </Header>
+            </CustomHeader>
             <Layout style={layoutContentStyle}>
-                <Content
-                    style={{
-                        margin: "24px 16px",
-                        padding: 24,
-                        background: "#fff",
-                    }}
-                >
+                <CustomContent>
                     <CurrentStepComponent.Component
                         // @ts-ignore
                         onChangeStepState={onChangeStepState}
@@ -132,7 +131,7 @@ export const CreatePoi = props => {
                         changeStep={onChangeStep}
                         onEdit={onEdit}
                     />
-                </Content>
+                </CustomContent>
             </Layout>
         </Layout>
     );
