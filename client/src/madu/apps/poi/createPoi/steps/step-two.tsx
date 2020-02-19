@@ -3,16 +3,11 @@ import { Form, Input, Radio, Button, Upload, Icon, TimePicker, Switch } from "an
 import styled from "styled-components";
 import { rem } from "polished";
 import { useHistory } from "react-router";
-
 import { ButtonWrapper } from "styles/atoms/button-wrapper";
-
 import { StateKeys } from "../index";
-
 import { observer } from "mobx-react";
 import { useStores } from "madu/hooks/use-store";
-
 import { toJS } from "mobx";
-
 import moment from "moment";
 
 const format = "HH:mm";

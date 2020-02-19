@@ -7,11 +7,37 @@ import styled from "styled-components";
 
 const { Header, Content } = Layout;
 
+/** Styled components */
+
 const CustomLink = styled.div`
     color: #1790ff;
     &:hover {
         cursor: pointer;
     }
+`;
+
+const CustomTitle = styled.h1`
+    marginleft: 20px;
+    fontweight: 500;
+    fontsize: 28px;
+`;
+
+export const CustomContent = styled(Content)`
+    margin: 24px 16px;
+    padding: 24;
+    background: #fff;
+`;
+
+const CustomButton = styled(Button)`
+    marginright: 20px;
+    marginleft: 40px;
+`;
+
+const CustomHeader = styled(Header)`
+    background: #fff;
+    padding: 0;
+    display: flex;
+    justifycontent: space-between;
 `;
 
 const hashMap = {
@@ -82,38 +108,19 @@ export const ListPoi = observer(() => {
         },
     ];
 
-    const headerStyle = {
-        background: "#fff",
-        padding: 0,
-        display: "flex",
-        justifyContent: "space-between",
-    };
-
-    const titleStyle = {
-        marginLeft: "20px",
-        fontWeight: 500,
-        fontSize: "28px",
-    };
-
     const { Search } = Input;
     return (
         <Layout style={{ height: "100%" }}>
-            <Header style={headerStyle}>
-                <h1 style={titleStyle}>Liste des points d’intêret</h1>
+            <CustomHeader>
+                <CustomTitle>Liste des points d’intêret</CustomTitle>
                 <div>
                     <Search placeholder="Search" style={{ width: 250 }} />
-                    <Button type="primary" style={{ marginRight: "20px", marginLeft: "40px" }}>
+                    <CustomButton type="primary">
                         <a href="/poi/create">+ Ajouter un point d’intêret</a>
-                    </Button>
+                    </CustomButton>
                 </div>
-            </Header>
-            <Content
-                style={{
-                    margin: "24px 16px",
-                    padding: 24,
-                    background: "#fff",
-                }}
-            >
+            </CustomHeader>
+            <CustomContent>
                 <Table
                     columns={columns}
                     // @ts-ignore
@@ -125,14 +132,14 @@ export const ListPoi = observer(() => {
                                       id: el.id,
                                       nomDuLieu: el.name,
                                       categorie: el.poiType,
-                                      questionnr: el.status || "application",
+                                      questionnr: el.status,
                                       greenscore: el.greenscore,
                                   };
                               })
                             : []
                     }
                 />
-            </Content>
+            </CustomContent>
         </Layout>
     );
 });
