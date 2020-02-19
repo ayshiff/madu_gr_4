@@ -7,19 +7,7 @@ import { UsersModule } from 'src/users/users.module';
 
 @Module({
     imports: [
-      MongooseModule.forFeatureAsync([
-        {
-          name: 'Company',
-          useFactory: () => {
-            const schema = CompanySchema;
-            schema.pre(/^find/, function(next) {
-              this.select({ _id: 0, __v: 0 });
-              next();
-            });
-            return schema;
-          },
-        },
-      ]),
+      MongooseModule.forFeature([{ name: 'Company', schema: CompanySchema }]),
       UsersModule
     ],
     controllers: [CompanyController],

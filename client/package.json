@@ -16,7 +16,7 @@
         "styled-tools": "^1.7.1"
     },
     "scripts": {
-        "start": "react-scripts start",
+        "start": "PORT=3100 react-scripts start",
         "build": "react-scripts build",
         "eslint": "eslint --ext .js,.jsx,.ts,.tsx --ignore-pattern __tests__ src/",
         "prettier:base": "prettier --write --config .prettierrc",
