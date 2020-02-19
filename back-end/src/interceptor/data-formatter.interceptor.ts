@@ -16,7 +16,7 @@ function loop(data) {
   if (Array.isArray(data)) {
     return data.map(loop);
   }
-  if (typeof(data) === 'object') {
+  if (data && typeof(data) === 'object') {
     return loopObject(delete_id(data));
   }
   return data;
