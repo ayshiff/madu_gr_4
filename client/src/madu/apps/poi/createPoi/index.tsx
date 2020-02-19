@@ -7,7 +7,9 @@ import { TabsMenu } from "madu/components/tabs-menu";
 import { FormStepOne, StepOneState } from "./steps/step-one";
 import { FormStepTwo } from "./steps/step-two";
 
-const { Content } = Layout;
+import { useStores } from "madu/hooks/use-store";
+
+const {  Content } = Layout;
 
 const history = createHistory();
 
@@ -24,7 +26,7 @@ type FormState = {
 
 const stepsComponents = [FormStepOne, FormStepTwo];
 
-export const CreatePoi = () => {
+export const CreatePoi = props => {
     const defaultFormState: FormState = useMemo(
         () => ({
             currentStep: 0,
@@ -32,23 +34,23 @@ export const CreatePoi = () => {
                 stepOne: {
                     index: 0,
                     name: "",
-                    email: "",
-                    category: "",
-                    webSiteLink: "",
-                    establishmentType: "",
-                    socialNetworkLink: "",
-                    description: "",
-                    address: "",
-                    zipcode: "",
-                    phoneNumber: "",
+                    // email: "",
+                    // category: "",
+                    // webSiteLink: "",
+                    // establishmentType: "",
+                    // socialNetworkLink: "",
+                    // description: "",
+                    // address: "",
+                    // zipcode: "",
+                    // phoneNumber: "",
                 },
                 stepTwo: {
                     index: 1,
                     schedule: [],
                     fileList: [],
-                    price: "a",
-                    takeaway: false,
-                    accessibility: false,
+                    // price: "a",
+                    // takeaway: false,
+                    // accessibility: false,
                 },
                 stepThree: {
                     index: 2,
@@ -65,6 +67,8 @@ export const CreatePoi = () => {
     };
 
     const [formState, setFormState] = useState<FormState>(defaultFormState);
+
+    const { pointOfInterestStore } = useStores();
 
     const setCurrentStep = useCallback((state: FormState) => {
         if (history.state) {
@@ -114,9 +118,13 @@ export const CreatePoi = () => {
         ),
     };
 
+    const onEdit = (key: string, value: any) => {
+        pointOfInterestStore.setStep({ [key]: value });
+    };
+
     return (
         <Layout>
-            <div
+              <div
                 style={{
                     background: "#fff",
                     padding: 40,
@@ -136,12 +144,15 @@ export const CreatePoi = () => {
                     style={{
                         margin: "24px 16px",
                         padding: 24,
+                        background: "#fff",
                     }}
                 >
                     <CurrentStepComponent.Component
+                        // @ts-ignore
                         onChangeStepState={onChangeStepState}
                         stepState={CurrentStepComponent.state}
                         changeStep={onChangeStep}
+                        onEdit={onEdit}
                     />
                 </Content>
             </Layout>

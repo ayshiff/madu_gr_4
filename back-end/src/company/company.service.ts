@@ -1,9 +1,12 @@
 import { Model } from 'mongoose';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Company } from './interfaces/company.interface';
 import { CreateCompanyDto } from "./dto/create-company.dto";
-const uuidv4 = require('uuid/v4');
+import * as uuidv4 from 'uuid/v4';
+import { User } from 'src/users/interfaces/user.interface';
+import { UserRole } from 'src/auth/userRole.enum';
+import { CompanyStatus } from './model/company-status.enum';
 
 @Injectable()
 export class CompanyService {
@@ -12,11 +15,15 @@ export class CompanyService {
   async create(createCompanyDto: CreateCompanyDto): Promise<Company> {
     let createdCompany = new this.companyModel(createCompanyDto);
     createdCompany.id = uuidv4();
-    return createdCompany.save();
+    createdCompany.status = CompanyStatus.AccountSent;
+    console.log('Send mail : account created')
+    await createdCompany.save();
+    return this.findByUuid(createdCompany.id);
   }
 
   async update(company: Company, createCompanyDto: CreateCompanyDto): Promise<Company> {
-    return this.companyModel.updateOne(company, createCompanyDto);
+    await this.companyModel.updateOne(company, createCompanyDto);
+    return this.findByUuid(company.id);
   }
 
   async delete(company: Company): Promise<Company> {
@@ -33,5 +40,11 @@ export class CompanyService {
       throw new NotFoundException('Company not found');
     }
     return company;
+  }
+
+  denyAccessByCompany(user: User, company: Company) {
+    if (!user.roles.includes(UserRole.Admin) && company.id+'' !== user.company_id+'') {
+      throw new UnauthorizedException();
+    }
   }
 }
