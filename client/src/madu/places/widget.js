@@ -26,10 +26,15 @@ const Places = observer(({ refine, defaultRefinement }) => {
             refine(defaultRefinement);
         });
     }, []);
-
     return (
         <div style={{ marginBottom: 20 }}>
-            <input ref={ref} type="search" id="address-input" placeholder="Rechercher..." />
+            <input
+                defaultValue={pointOfInterestStore.byId.address.value}
+                ref={ref}
+                type="search"
+                id="address-input"
+                placeholder="Rechercher..."
+            />
         </div>
     );
 });
