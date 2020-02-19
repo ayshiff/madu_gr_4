@@ -2,3 +2,6 @@ docker_username: amauryfaveriel
 images:
   client: madu-client
   backend: madu-back-end
+tags:
+  client: 1
+  backend: 1

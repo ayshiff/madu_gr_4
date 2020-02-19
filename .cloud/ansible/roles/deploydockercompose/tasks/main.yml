@@ -1,7 +1,7 @@
 ---
 
 - name: Copy docker-compose
-  copy:
+  template:
     src: ../files/docker-compose.yml
     dest: ~/site/docker-compose.yml
     owner: ubuntu
