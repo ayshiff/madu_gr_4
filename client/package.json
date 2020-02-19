@@ -6,6 +6,7 @@
         "@testing-library/jest-dom": "^4.2.4",
         "@testing-library/react": "^9.3.2",
         "@testing-library/user-event": "^7.1.2",
+        "@types/mapbox-gl": "^1.7.0",
         "antd": "^3.26.7",
         "mapbox-gl": "^1.7.0",
         "polished": "^3.4.4",
