@@ -6,9 +6,11 @@ export interface Poi {
   name: string;
   category: string;
   poiType: string;
-  street: string;
-  zipCode: number;
-  city: string;
+  address: {
+    value: string,
+    lat: number,
+    lng: number
+  };
   phone: string;
   email: string;
   siret: string;
