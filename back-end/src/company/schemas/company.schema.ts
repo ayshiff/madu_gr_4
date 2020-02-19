@@ -4,8 +4,10 @@ export const CompanySchema = new mongoose.Schema({
   id: String,
   name: String,
   domainName: String,
-  street: String,
-  zipCode: Number,
-  city: String,
+  address: {
+    value: String,
+    lat: Number,
+    lng: Number
+  },
   status: String
 });
