@@ -9,7 +9,7 @@ import { FormStepTwo } from "./steps/step-two";
 
 import { useStores } from "madu/hooks/use-store";
 
-const {  Content } = Layout;
+const { Content } = Layout;
 
 const history = createHistory();
 
@@ -26,7 +26,7 @@ type FormState = {
 
 const stepsComponents = [FormStepOne, FormStepTwo];
 
-export const CreatePoi = props => {
+export const CreatePoi = () => {
     const defaultFormState: FormState = useMemo(
         () => ({
             currentStep: 0,
@@ -104,12 +104,12 @@ export const CreatePoi = props => {
         setFormState(newState);
     };
 
-    const onChangeStepState = function<T>(key: StateKeys, value: T) {
-        setFormState({
-            ...formState,
-            stepStates: { ...formState.stepStates, [key]: value },
-        });
-    };
+    // const onChangeStepState = function<T>(key: StateKeys, value: T) {
+    //     setFormState({
+    //         ...formState,
+    //         stepStates: { ...formState.stepStates, [key]: value },
+    //     });
+    // };
 
     const CurrentStepComponent = {
         Component: stepsComponents[formState.currentStep],
@@ -118,13 +118,13 @@ export const CreatePoi = props => {
         ),
     };
 
-    const onEdit = (key: string, value: any) => {
+    const onChangeState = (key: string, value: any) => {
         pointOfInterestStore.setStep({ [key]: value });
     };
 
     return (
         <Layout>
-              <div
+            <div
                 style={{
                     background: "#fff",
                     padding: 40,
@@ -149,10 +149,9 @@ export const CreatePoi = props => {
                 >
                     <CurrentStepComponent.Component
                         // @ts-ignore
-                        onChangeStepState={onChangeStepState}
                         stepState={CurrentStepComponent.state}
                         changeStep={onChangeStep}
-                        onEdit={onEdit}
+                        onChangeState={onChangeState}
                     />
                 </Content>
             </Layout>

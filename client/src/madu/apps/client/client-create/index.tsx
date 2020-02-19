@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect, useCallback } from "react";
 import { Layout } from "antd";
 import { createBrowserHistory as createHistory } from "history";
 
-import { Stepper } from "madu/components/stepper";
+import { TabsMenu } from "madu/components/tabs-menu";
 
 import { FormStepOne, StepOneState } from "./steps/step-one";
 import { FormStepTwo, StepTwoState } from "./steps/step-two";
@@ -48,7 +48,7 @@ export const CreateClient = () => {
     );
 
     const layoutContentStyle = {
-        backgroundColor: "#ffffff",
+        backgroundColor: "#fff",
     };
 
     const [formState, setFormState] = useState<FormState>(defaultFormState);
@@ -103,10 +103,14 @@ export const CreateClient = () => {
     return (
         <Layout>
             <Header style={{ background: "#fff", paddingLeft: "20%", paddingRight: "20%" }}>
-                <Stepper
+                <TabsMenu
                     onClickStep={onChangeStep}
-                    steps={[1, 2]}
+                    tabs={[
+                        { key: 0, tabTitle: "Infos  de base" },
+                        { key: 1, tabTitle: "Infos complémentaires" },
+                    ]}
                     indexActiveStep={formState.currentStep}
+                />
                 />
             </Header>
             <Layout style={layoutContentStyle}>
