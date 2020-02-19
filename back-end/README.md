@@ -18,8 +18,7 @@ Madu is a digital map that references ecoresponsible addresses (activities, rest
 
 ## Database schema
 
-<img src="./db-schema.jpg" width="320" alt="Database schema" />
-[Database schema](./db-schema.jpg)
+<img src="./db-schema.jpg" alt="Database schema" />
 
 ## Used libraries
 
