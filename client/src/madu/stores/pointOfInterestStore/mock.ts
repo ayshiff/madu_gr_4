@@ -2,9 +2,11 @@ export const pointOfInterestMock = {
     id: "",
     name: "",
     poiType: "",
-    street: "",
-    zipCode: null,
-    city: "",
+    address: {
+        value: "",
+        lat: null,
+        lng: null,
+    },
     phone: "",
     email: "",
     siret: "",
@@ -17,72 +19,72 @@ export const pointOfInterestMock = {
     openingTime: {
         monday: [
             {
-                from: "00:00",
-                to: "00:00",
+                from: null,
+                to: null,
             },
             {
-                from: "00:00",
-                to: "00:00",
+                from: null,
+                to: null,
             },
         ],
         tuesday: [
             {
-                from: "00:00",
-                to: "00:00",
+                from: null,
+                to: null,
             },
             {
-                from: "00:00",
-                to: "00:00",
+                from: null,
+                to: null,
             },
         ],
         wednesday: [
             {
-                from: "00:00",
-                to: "00:00",
+                from: null,
+                to: null,
             },
             {
-                from: "00:00",
-                to: "00:00",
+                from: null,
+                to: null,
             },
         ],
         thursday: [
             {
-                from: "00:00",
-                to: "00:00",
+                from: null,
+                to: null,
             },
             {
-                from: "00:00",
-                to: "00:00",
+                from: null,
+                to: null,
             },
         ],
         friday: [
             {
-                from: "00:00",
-                to: "00:00",
+                from: null,
+                to: null,
             },
             {
-                from: "00:00",
-                to: "00:00",
+                from: null,
+                to: null,
             },
         ],
         saturday: [
             {
-                from: "00:00",
-                to: "00:00",
+                from: null,
+                to: null,
             },
             {
-                from: "00:00",
-                to: "00:00",
+                from: null,
+                to: null,
             },
         ],
         sunday: [
             {
-                from: "00:00",
-                to: "00:00",
+                from: null,
+                to: null,
             },
             {
-                from: "00:00",
-                to: "00:00",
+                from: null,
+                to: null,
             },
         ],
     },

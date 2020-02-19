@@ -8,16 +8,20 @@ interface IDay {
     to: string;
 }
 
+interface Address {
+    value: string;
+    lat: number;
+    lng: number;
+}
+
 const { REACT_APP_API_BASE_URL } = process.env;
 
 export interface IPointOfInterest {
     id: string;
     name: string;
     poiType: string;
-    street: string;
-    zipCode: number;
-    city: string;
     phone?: string;
+    address: Address;
     email: string;
     category: string;
     socialNetwork?: string;
