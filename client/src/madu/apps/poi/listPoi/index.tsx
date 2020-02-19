@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Layout, Input, Button, Table, Popconfirm, Icon, Tag } from "antd";
 import { useStores } from "madu/hooks/use-store";
 import { observer } from "mobx-react";
@@ -16,10 +16,18 @@ const CustomLink = styled.div`
     }
 `;
 
+const CustomTag = styled(Tag)`
+    width: 150px;
+    text-align: center;
+    &:hover {
+        cursor: pointer;
+    }
+`;
+
 const CustomTitle = styled.h1`
-    marginleft: 20px;
-    fontweight: 500;
-    fontsize: 28px;
+    margin-left: 20px;
+    font-weight: 500;
+    font-size: 28px;
 `;
 
 export const CustomContent = styled(Content)`
@@ -29,32 +37,39 @@ export const CustomContent = styled(Content)`
 `;
 
 const CustomButton = styled(Button)`
-    marginright: 20px;
-    marginleft: 40px;
+    margin-right: 20px;
+    margin-left: 40px;
 `;
 
 const CustomHeader = styled(Header)`
     background: #fff;
     padding: 0;
     display: flex;
-    justifycontent: space-between;
+    justify-content: space-between;
 `;
 
 const hashMap = {
-    application: "grey",
-    canvassing: "orange",
-    surver_sent: "orange",
-    surver_completed: "blue",
+    canvassing: "red",
+    surver_completed: "orange",
     valid: "green",
 };
 
 export const ListPoi = observer(() => {
     const { pointOfInterestStore } = useStores();
+    const [filter, setFilter] = useState("");
     const history = useHistory();
 
     useEffect(() => {
         pointOfInterestStore.get();
     }, []);
+
+    const onChangeTag = (id: string) => {
+        const element = pointOfInterestStore.all.find(el => el.id === id);
+        const value = Object.entries(hashMap).findIndex(el => el[0] === element.status);
+        const new_index = (value + 1) % 3;
+        const new_value = Object.entries(hashMap)[new_index];
+        pointOfInterestStore.edit(id, { ...element, status: new_value[0] });
+    };
 
     const edit = (id: string) => {
         pointOfInterestStore.getById(id);
@@ -82,9 +97,13 @@ export const ListPoi = observer(() => {
             render: (text, record) =>
                 record.questionnr && (
                     <span>
-                        <Tag color={hashMap[record.questionnr]} key={record.questionnr}>
+                        <CustomTag
+                            onClick={() => onChangeTag(record.id)}
+                            color={hashMap[record.questionnr]}
+                            key={record.questionnr}
+                        >
                             {record.questionnr.toUpperCase()}
-                        </Tag>
+                        </CustomTag>
                     </span>
                 ),
         },
@@ -115,7 +134,11 @@ export const ListPoi = observer(() => {
             <CustomHeader>
                 <CustomTitle>Liste des points d’intêret</CustomTitle>
                 <div>
-                    <Search placeholder="Search" style={{ width: 250 }} />
+                    <Search
+                        onChange={e => setFilter(e.target.value)}
+                        placeholder="Search"
+                        style={{ width: 250 }}
+                    />
                     <CustomButton type="primary">
                         <a href="/poi/create">+ Ajouter un point d’intêret</a>
                     </CustomButton>
@@ -127,16 +150,22 @@ export const ListPoi = observer(() => {
                     // @ts-ignore
                     dataSource={
                         pointOfInterestStore.all.length
-                            ? pointOfInterestStore.all.map((el, ind) => {
-                                  return {
-                                      key: ind,
-                                      id: el.id,
-                                      nomDuLieu: el.name,
-                                      categorie: el.poiType,
-                                      questionnr: el.status,
-                                      greenscore: el.greenscore,
-                                  };
-                              })
+                            ? pointOfInterestStore.all
+                                  .map((el, ind) => {
+                                      return {
+                                          key: ind,
+                                          id: el.id,
+                                          nomDuLieu: el.name,
+                                          categorie: el.poiType,
+                                          questionnr: el.status,
+                                          greenscore: el.greenscore,
+                                      };
+                                  })
+                                  .filter(
+                                      el =>
+                                          el.nomDuLieu &&
+                                          el.nomDuLieu.toLowerCase().includes(filter.toLowerCase())
+                                  )
                             : []
                     }
                 />
