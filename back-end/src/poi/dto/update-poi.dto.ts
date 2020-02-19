@@ -4,7 +4,7 @@ import { PoiCategories } from '../model/poi-categories.enum';
 import { Address } from "./address.dto";
 import { Week } from "./week.dto";
 
-export class CreatePoiDto {
+export class UpdatePoiDto {
   @IsOptional()
   @IsString()
   name: string;
