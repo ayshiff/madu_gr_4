@@ -2,7 +2,6 @@ import { observable, action } from "mobx";
 import { get, apiDelete, apiPut, postJson } from "madu/services/commun";
 import { editReference, removeReference } from "../utils/index";
 import { pointOfInterestMock } from "./mock";
-import autoSave from "../utils/autoSave";
 
 interface IDay {
     from: string;
@@ -45,18 +44,19 @@ export interface IPointOfInterest {
 class PointOfInterestStore {
     @observable all: IPointOfInterest[] = [];
     @observable byId: IPointOfInterest = pointOfInterestMock;
+    @observable isEditing: boolean = false;
 
-    constructor() {
-        autoSave(this);
-    }
+    @action setEditing = (value: boolean) => {
+        this.isEditing = value;
+    };
 
     @action get = () => {
         const endpoint = `${REACT_APP_API_BASE_URL}/poi`;
         return get(endpoint)
             .then((data: any) => {
-                const processedData: IPointOfInterest[] = data;
+                const processedData: any = data;
                 // Process store once the call has succeed
-                this.all = processedData;
+                this.all = processedData.value;
                 return;
             })
             .catch(err => console.log(err));
@@ -66,9 +66,9 @@ class PointOfInterestStore {
         const endpoint = `${REACT_APP_API_BASE_URL}/poi/${id}`;
         return get(endpoint)
             .then((data: any) => {
-                const processedData: IPointOfInterest = data;
+                const processedData: any = data;
                 // Process store once the call has succeed
-                this.byId = processedData;
+                this.byId = processedData.value;
                 return;
             })
             .catch(err => console.log(err));
@@ -97,6 +97,7 @@ class PointOfInterestStore {
             .then(data => {
                 // Process store once the call has succeed
                 this.all = editReference(id, pointOfInterest, this.all);
+                console.log(data);
                 return;
             })
             .catch(err => console.log(err));

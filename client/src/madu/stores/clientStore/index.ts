@@ -22,9 +22,9 @@ class ClientStore {
         const endpoint = `${REACT_APP_API_BASE_URL}/`;
         return get(endpoint)
             .then((data: any) => {
-                const processedData: IClient[] = data;
+                const processedData: any = data;
                 // Process store once the call has succeed
-                this.all = processedData;
+                this.all = processedData.value;
                 return;
             })
             .catch(err => console.log(err));
@@ -34,9 +34,9 @@ class ClientStore {
         const endpoint = `${REACT_APP_API_BASE_URL}/${id}`;
         return get(endpoint)
             .then((data: any) => {
-                const processedData: IClient = data;
+                const processedData: any = data;
                 // Process store once the call has succeed
-                this.byId = processedData;
+                this.byId = processedData.value;
                 return;
             })
             .catch(err => console.log(err));

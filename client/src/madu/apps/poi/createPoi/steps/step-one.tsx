@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Button, Radio } from "antd";
+import { Form, Input, Button } from "antd";
 import styled from "styled-components";
 import { rem } from "polished";
 
@@ -57,7 +57,6 @@ const FormStepOneComponent = observer(
                 }
             });
         };
-        console.log(form.isFieldTouched());
         return (
             <>
                 <CustomForm>
@@ -67,31 +66,6 @@ const FormStepOneComponent = observer(
                             setFieldsValue: byId.name,
                             rules: [{ required: true, message: "Merci de renseigner un nom" }],
                         })(<CustomInput onChange={e => onEdit("name", e.target.value)} />)}
-                    </Form.Item>
-                    <Form.Item label="Catégorie">
-                        {form.getFieldDecorator("category", {
-                            initialValue: byId.category,
-                            setFieldsValue: byId.category,
-                            rules: [{ required: true, message: "Merci de choisir une catégorie" }],
-                        })(
-                            <Radio.Group onChange={e => onEdit("category", e.target.value)}>
-                                <Radio.Button value="a">Restaurant</Radio.Button>
-                                <Radio.Button value="b">Boutique</Radio.Button>
-                                <Radio.Button value="c">Expérience</Radio.Button>
-                            </Radio.Group>
-                        )}
-                    </Form.Item>
-                    <Form.Item label="Type d'établissement">
-                        {form.getFieldDecorator("poiType", {
-                            initialValue: byId.poiType,
-                            setFieldsValue: byId.poiType,
-                            rules: [
-                                {
-                                    required: true,
-                                    message: "Merci de choisir un type d'établissement",
-                                },
-                            ],
-                        })(<CustomInput onChange={e => onEdit("poiType", e.target.value)} />)}
                     </Form.Item>
                     <InputWrapper>
                         <Form.Item label="Adresse">
@@ -110,7 +84,11 @@ const FormStepOneComponent = observer(
                                 rules: [
                                     { required: true, message: "Merci de choisir un code postale" },
                                 ],
-                            })(<CustomInput onChange={e => onEdit("zipCode", e.target.value)} />)}
+                            })(
+                                <CustomInput
+                                    onChange={e => onEdit("zipCode", parseInt(e.target.value, 10))}
+                                />
+                            )}
                         </Form.Item>
                     </InputWrapper>
                     <InputWrapper>
@@ -182,7 +160,7 @@ const FormStepOneComponent = observer(
                     <Button
                         size="large"
                         type="primary"
-                        disabled={!form.isFieldsTouched()}
+                        // disabled={!form.isFieldsTouched()}
                         onClick={() => checkForm()}
                     >
                         suivant
