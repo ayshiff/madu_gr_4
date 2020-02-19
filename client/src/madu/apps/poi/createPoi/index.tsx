@@ -7,6 +7,8 @@ import { Stepper } from "madu/components/stepper";
 import { FormStepOne, StepOneState } from "./steps/step-one";
 import { FormStepTwo } from "./steps/step-two";
 
+import { useStores } from "madu/hooks/use-store";
+
 const { Header, Content } = Layout;
 
 const history = createHistory();
@@ -24,7 +26,7 @@ type FormState = {
 
 const stepsComponents = [FormStepOne, FormStepTwo];
 
-export const CreatePoi = () => {
+export const CreatePoi = props => {
     const defaultFormState: FormState = useMemo(
         () => ({
             currentStep: 0,
@@ -32,23 +34,23 @@ export const CreatePoi = () => {
                 stepOne: {
                     index: 0,
                     name: "",
-                    email: "",
-                    category: "",
-                    webSiteLink: "",
-                    establishmentType: "",
-                    socialNetworkLink: "",
-                    description: "",
-                    address: "",
-                    zipcode: "",
-                    phoneNumber: "",
+                    // email: "",
+                    // category: "",
+                    // webSiteLink: "",
+                    // establishmentType: "",
+                    // socialNetworkLink: "",
+                    // description: "",
+                    // address: "",
+                    // zipcode: "",
+                    // phoneNumber: "",
                 },
                 stepTwo: {
                     index: 1,
                     schedule: [],
                     fileList: [],
-                    price: "a",
-                    takeaway: false,
-                    accessibility: false,
+                    // price: "a",
+                    // takeaway: false,
+                    // accessibility: false,
                 },
                 stepThree: {
                     index: 2,
@@ -65,6 +67,8 @@ export const CreatePoi = () => {
     };
 
     const [formState, setFormState] = useState<FormState>(defaultFormState);
+
+    const { pointOfInterestStore } = useStores();
 
     const setCurrentStep = useCallback((state: FormState) => {
         if (history.state) {
@@ -113,7 +117,11 @@ export const CreatePoi = () => {
             item => item.index === formState.currentStep
         ),
     };
-    console.log(formState.stepStates.stepTwo.schedule);
+
+    const onEdit = (key: string, value: any) => {
+        pointOfInterestStore.setStep({ [key]: value });
+    };
+
     return (
         <Layout>
             <Header style={{ background: "#fff", paddingLeft: "20%", paddingRight: "20%" }}>
@@ -132,9 +140,11 @@ export const CreatePoi = () => {
                     }}
                 >
                     <CurrentStepComponent.Component
+                        // @ts-ignore
                         onChangeStepState={onChangeStepState}
                         stepState={CurrentStepComponent.state}
                         changeStep={onChangeStep}
+                        onEdit={onEdit}
                     />
                 </Content>
             </Layout>
