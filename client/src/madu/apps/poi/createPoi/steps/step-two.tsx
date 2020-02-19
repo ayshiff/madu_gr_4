@@ -107,6 +107,7 @@ const FormStepTwoComponent = observer(
                             pointOfInterestStore.byId.id,
                             pointOfInterestStore.byId
                         );
+                        console.log(toJS(pointOfInterestStore.byId));
                         pointOfInterestStore.setEditing(false);
                     } else {
                         // Creating

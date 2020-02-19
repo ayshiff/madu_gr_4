@@ -96,7 +96,9 @@ class PointOfInterestStore {
     @action edit = (id: string, pointOfInterest: IPointOfInterest) => {
         const endpoint = `${REACT_APP_API_BASE_URL}/poi/${id}`;
 
-        return apiPut(endpoint, pointOfInterest)
+        return apiPut(endpoint, JSON.stringify(pointOfInterest), {
+            "Content-Type": "application/json",
+        })
             .then(data => {
                 // Process store once the call has succeed
                 this.all = editReference(id, pointOfInterest, this.all);
@@ -117,6 +119,10 @@ class PointOfInterestStore {
 
     @action resetId = () => {
         this.byId = pointOfInterestMock;
+    };
+
+    @action setAdress = (address: Address) => {
+        this.byId.address = address;
     };
 
     @action reset = () => {
