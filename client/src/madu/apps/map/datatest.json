@@ -1,47 +1,38 @@
 {
     "type": "FeatureCollection",
     "features": [
-      {
-        "type": "Feature",
-        "properties": {
-          "title": "petit golfeur 1",
-          "icon": "golf"
+        {
+            "type": "Feature",
+            "properties": {
+                "title": "petit golfeur 1",
+                "icon": "golf"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [2.30438232421875, 48.88007028454358]
+            }
         },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            2.30438232421875,
-            48.88007028454358
-          ]
-        }
-      },
-      {
-        "type": "Feature",
-        "properties": {
-          "title": "petit golfeur 2",
-          "icon": "golf"
+        {
+            "type": "Feature",
+            "properties": {
+                "title": "petit golfeur 2",
+                "icon": "golf"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [2.335109710693359, 48.84867675994344]
+            }
         },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            2.335109710693359,
-            48.84867675994344
-          ]
+        {
+            "type": "Feature",
+            "properties": {
+                "title": "petit golfeur 3",
+                "icon": "golf"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [2.3720169067382812, 48.876006045998984]
+            }
         }
-      },
-      {
-        "type": "Feature",
-        "properties": {
-          "title": "petit golfeur 3",
-          "icon": "golf"
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            2.3720169067382812,
-            48.876006045998984
-          ]
-        }
-      }
     ]
-  }
+}

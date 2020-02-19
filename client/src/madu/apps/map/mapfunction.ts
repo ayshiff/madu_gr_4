@@ -1,3 +1,4 @@
+
 export default {
     generatePoints: (map, data) => {
         if (map) {
@@ -13,41 +14,41 @@ export default {
                     source: "points",
                     layout: {
                         "icon-image": "{icon}-15",
-                        "icon-size": 2
+                        "icon-size": 2,
                     },
                 });
             });
         }
     },
 
-    clickOnPoint: (map) => {
-        map.on('click', 'points', (e) => {
-            console.log(map.getSource('oneLayer'))
-            if (map.getLayer('oneLayer')) {
-                map.removeLayer('oneLayer');
-                map.removeSource('oneLayer');
+    clickOnPoint: map => {
+        map.on("click", "points", e => {
+            console.log(map.getSource("oneLayer"));
+            if (map.getLayer("oneLayer")) {
+                map.removeLayer("oneLayer");
+                map.removeSource("oneLayer");
             }
 
-            console.log(e.features[0].properties.title)
-            console.log(e.features[0])
+            console.log(e.features[0].properties.title);
+            console.log(e.features[0]);
             map.addSource("oneLayer", {
                 type: "geojson",
                 data: {
-                    "type": "FeatureCollection",
-                    "features": [
+                    type: "FeatureCollection",
+                    features: [
                         {
-                            "type": "Feature",
-                            "properties": {
-                                "title": "petit golfeur 1",
-                                "icon": "marker"
+                            type: "Feature",
+                            properties: {
+                                title: "petit golfeur 1",
+                                icon: "marker",
                             },
-                            "geometry": {
-                                "type": "Point",
-                                "coordinates": e.features[0].geometry.coordinates
-                            }
-                        }
-                    ]
-                }
+                            geometry: {
+                                type: "Point",
+                                coordinates: e.features[0].geometry.coordinates,
+                            },
+                        },
+                    ],
+                },
             });
             map.addLayer({
                 id: "oneLayer",
@@ -55,16 +56,16 @@ export default {
                 source: "oneLayer",
                 layout: {
                     "icon-image": "{icon}-15",
-                    "icon-size": 4
+                    "icon-size": 4,
                 },
             });
-        })
+        });
     },
 
-    clickOneLayer: (map) => {
-        map.on('click', 'oneLayer', () => {
-            map.removeLayer('oneLayer');
-            map.removeSource('oneLayer');
-        })
-    }
-}
+    clickOneLayer: map => {
+        map.on("click", "oneLayer", () => {
+            map.removeLayer("oneLayer");
+            map.removeSource("oneLayer");
+        });
+    },
+};

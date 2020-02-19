@@ -15,23 +15,26 @@ const containerStyle = {
     width: "100vw",
     height: "100vh",
     display: "flex",
-    alignItems: "center"
-}
+    alignItems: "center",
+};
 
 const searchSidebarStyle = {
     width: "25%",
     height: "100vh",
-    backgroundColor: "#ffffff"
-}
+    backgroundColor: "#ffffff",
+};
 
 export const Mapboxgl = () => {
     const [map, setMap] = useState<mapboxgl.Map | null>(null);
+    const [titleProperties, setTitleProperties] = useState<string>("")
 
     useEffect(() => {
         if (map) {
+            titlePropertiesProps(map)
             mapfunction.generatePoints(map, datatest);
             mapfunction.clickOnPoint(map);
             mapfunction.clickOneLayer(map);
+            console.log(titlePropertiesProps(map));     
         }
     }, [map]);
 
@@ -49,12 +52,17 @@ export const Mapboxgl = () => {
         setMap(mapInitializer);
     }, []);
 
-
+    const titlePropertiesProps = (map) => {
+        map.on("click", "points", e => {
+            setTitleProperties(e.features[0].properties.title)
+            console.log(e.features[0].properties.title);    
+        })
+    }
 
     return (
         <div style={containerStyle}>
             <div style={searchSidebarStyle}>
-                <SearchSidebar/>
+                <SearchSidebar titleProperties={titleProperties}/>
             </div>
             <div style={mapStyle} id="map"></div>
         </div>
