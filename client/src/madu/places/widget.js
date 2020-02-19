@@ -15,15 +15,11 @@ const Places = observer(({ refine, defaultRefinement }) => {
 
         autocomplete.on("change", event => {
             refine(event.suggestion.latlng);
-            const newPOI = {
-                ...pointOfInterestStore.byId,
-                address: {
-                    value: event.suggestion.name,
-                    lat: event.suggestion.latlng.lat,
-                    lng: event.suggestion.latlng.lng,
-                },
-            };
-            pointOfInterestStore.edit(pointOfInterestStore.byId.id, newPOI);
+            pointOfInterestStore.setAdress({
+                value: event.suggestion.name,
+                lat: parseFloat(event.suggestion.latlng.lat),
+                lng: parseFloat(event.suggestion.latlng.lng),
+            });
         });
 
         autocomplete.on("clear", () => {
@@ -33,12 +29,7 @@ const Places = observer(({ refine, defaultRefinement }) => {
 
     return (
         <div style={{ marginBottom: 20 }}>
-            <input
-                ref={ref}
-                type="search"
-                id="address-input"
-                placeholder="Adresse de l'établissement"
-            />
+            <input ref={ref} type="search" id="address-input" placeholder="Rechercher..." />
         </div>
     );
 });

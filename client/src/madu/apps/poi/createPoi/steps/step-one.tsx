@@ -60,7 +60,7 @@ const FormStepOneComponent = observer(({ changeStep, onEdit, form }: StepOneProp
     };
     return (
         <>
-            <CustomForm>
+            <CustomForm hideRequiredMark>
                 <Form.Item label="Nom de l'établissement">
                     {form.getFieldDecorator("name", {
                         initialValue: byId.name,
@@ -68,18 +68,20 @@ const FormStepOneComponent = observer(({ changeStep, onEdit, form }: StepOneProp
                         rules: [{ required: true, message: "Merci de renseigner un nom" }],
                     })(<CustomInput onChange={e => onEdit("name", e.target.value)} />)}
                 </Form.Item>
-                <InstantSearch indexName="airports" searchClient={searchClient}>
-                    <div className="search-panel">
-                        <div className="search-panel__results">
-                            <Places
-                                defaultRefinement={{
-                                    lat: 37.7793,
-                                    lng: -122.419,
-                                }}
-                            />
+                <Form.Item label="Addresse">
+                    <InstantSearch indexName="airports" searchClient={searchClient}>
+                        <div className="search-panel" style={{ width: "300px" }}>
+                            <div className="search-panel__results">
+                                <Places
+                                    defaultRefinement={{
+                                        lat: 37.7793,
+                                        lng: -122.419,
+                                    }}
+                                />
+                            </div>
                         </div>
-                    </div>
-                </InstantSearch>
+                    </InstantSearch>
+                </Form.Item>
                 <InputWrapper>
                     <Form.Item label="Email">
                         {form.getFieldDecorator("email", {

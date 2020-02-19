@@ -79,13 +79,14 @@ export const ListPoi = observer(() => {
             title: "Statut",
             dataIndex: "questionnr",
             key: "questionnr",
-            render: (text, record) => (
-                <span>
-                    <Tag color={hashMap[record.questionnr]} key={record.questionnr}>
-                        {record.questionnr.toUpperCase()}
-                    </Tag>
-                </span>
-            ),
+            render: (text, record) =>
+                record.questionnr && (
+                    <span>
+                        <Tag color={hashMap[record.questionnr]} key={record.questionnr}>
+                            {record.questionnr.toUpperCase()}
+                        </Tag>
+                    </span>
+                ),
         },
         {
             title: "Greenscore",
