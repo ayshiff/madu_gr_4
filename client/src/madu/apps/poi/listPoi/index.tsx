@@ -1,12 +1,31 @@
 import React, { useEffect } from "react";
-import { Layout, Input, Button, Table } from "antd";
+import { Layout, Input, Button, Table, Popconfirm, Icon, Tag } from "antd";
 import { useStores } from "madu/hooks/use-store";
 import { observer } from "mobx-react";
+import { useHistory } from "react-router";
+import styled from "styled-components";
 
 const { Header, Content } = Layout;
 
+const CustomLink = styled.div`
+    color: #1790ff;
+    &:hover {
+        cursor: pointer;
+    }
+`;
+
+const hashMap = {
+    application: "grey",
+    canvassing: "orange",
+    surver_sent: "orange",
+    surver_completed: "blue",
+    valid: "green",
+};
+
 export const ListPoi = observer(() => {
     const { pointOfInterestStore } = useStores();
+    const history = useHistory();
+
     useEffect(() => {
         pointOfInterestStore.get();
     }, []);
@@ -14,8 +33,19 @@ export const ListPoi = observer(() => {
     const columns = [
         {
             title: "Nom du lieu",
-            dataIndex: "nomDuLieu",
             key: "nomDuLieu",
+            render: (text, record) => (
+                <CustomLink
+                    onClick={() => {
+                        console.log(text);
+                        pointOfInterestStore.getById(text.id);
+                        pointOfInterestStore.setEditing(true);
+                        history.push("/poi/create");
+                    }}
+                >
+                    {text.nomDuLieu}
+                </CustomLink>
+            ),
         },
         {
             title: "Catégorie",
@@ -23,9 +53,16 @@ export const ListPoi = observer(() => {
             key: "categorie",
         },
         {
-            title: "Suivi question",
+            title: "Statut",
             dataIndex: "questionnr",
             key: "questionnr",
+            render: (text, record) => (
+                <span>
+                    <Tag color={hashMap[record.questionnr]} key={record.questionnr}>
+                        {record.questionnr.toUpperCase()}
+                    </Tag>
+                </span>
+            ),
         },
         {
             title: "Greenscore",
@@ -35,11 +72,16 @@ export const ListPoi = observer(() => {
         {
             title: "Action",
             key: "action",
-            render: () => (
-                <span>
-                    <span>Delete</span>
-                </span>
-            ),
+            render: (text, record) => {
+                return (
+                    <Popconfirm
+                        title="Etes vous sûr de vouloir supprimer ?"
+                        onConfirm={() => pointOfInterestStore.remove(record.id)}
+                    >
+                        <Icon style={{ textAlign: "center" }} type="delete" />
+                    </Popconfirm>
+                );
+            },
         },
     ];
 
@@ -77,14 +119,16 @@ export const ListPoi = observer(() => {
             >
                 <Table
                     columns={columns}
+                    // @ts-ignore
                     dataSource={
                         pointOfInterestStore.all.length &&
                         pointOfInterestStore.all.map((el, ind) => {
                             return {
                                 key: ind,
+                                id: el.id,
                                 nomDuLieu: el.name,
                                 categorie: el.poiType,
-                                questionnr: el.status,
+                                questionnr: el.status || "application",
                                 greenscore: el.greenscore,
                             };
                         })
