@@ -30,21 +30,18 @@ export const ListPoi = observer(() => {
         pointOfInterestStore.get();
     }, []);
 
+    const edit = (id: string) => {
+        pointOfInterestStore.getById(id);
+        pointOfInterestStore.setEditing(true);
+        history.push("/poi/create");
+    };
+
     const columns = [
         {
             title: "Nom du lieu",
             key: "nomDuLieu",
             render: (text, record) => (
-                <CustomLink
-                    onClick={() => {
-                        console.log(text);
-                        pointOfInterestStore.getById(text.id);
-                        pointOfInterestStore.setEditing(true);
-                        history.push("/poi/create");
-                    }}
-                >
-                    {text.nomDuLieu}
-                </CustomLink>
+                <CustomLink onClick={() => edit(text.id)}>{text.nomDuLieu}</CustomLink>
             ),
         },
         {
@@ -121,17 +118,18 @@ export const ListPoi = observer(() => {
                     columns={columns}
                     // @ts-ignore
                     dataSource={
-                        pointOfInterestStore.all.length &&
-                        pointOfInterestStore.all.map((el, ind) => {
-                            return {
-                                key: ind,
-                                id: el.id,
-                                nomDuLieu: el.name,
-                                categorie: el.poiType,
-                                questionnr: el.status || "application",
-                                greenscore: el.greenscore,
-                            };
-                        })
+                        pointOfInterestStore.all.length
+                            ? pointOfInterestStore.all.map((el, ind) => {
+                                  return {
+                                      key: ind,
+                                      id: el.id,
+                                      nomDuLieu: el.name,
+                                      categorie: el.poiType,
+                                      questionnr: el.status || "application",
+                                      greenscore: el.greenscore,
+                                  };
+                              })
+                            : []
                     }
                 />
             </Content>
