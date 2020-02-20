@@ -6,6 +6,7 @@ import { Container } from "styles/layout/container";
 
 import { CreatePoi } from "./createPoi";
 import { ListPoi } from "./listPoi";
+
 import { Mapboxgl } from "../map/index";
 
 const PoiApp = ({ match }) => (
