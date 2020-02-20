@@ -1,18 +1,26 @@
-import { IsString, ValidateNested, IsFQDN } from 'class-validator';
+import { IsString, ValidateNested, IsOptional, IsFQDN } from 'class-validator';
 import { Type } from 'class-transformer';
 import { Address } from 'src/poi/dto/address.dto';
 
-export class CreateCompanyDto {
+export class UpdateCompanyDto {
+  @IsOptional()
   @IsString()
   name: string;
 
+  @IsOptional()
   @IsFQDN()
   domainName: string;
 
+  @IsOptional()
   @ValidateNested()
   @Type(() => Address)
   address: Address;
 
+  @IsOptional()
   @IsString()
   employees: string;
+
+  @IsOptional()
+  @IsString()
+  status: string;
 }

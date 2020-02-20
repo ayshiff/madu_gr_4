@@ -1,6 +1,0 @@
----
-
-- name: Update and deploy dockerfile on hub
-  hosts: local
-  roles:
-    - { role: updatedockerfile }
