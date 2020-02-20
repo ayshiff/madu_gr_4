@@ -245,7 +245,7 @@ export const ListClient = observer(() => {
                 return (
                     <Popconfirm
                         title="Etes vous sûr de vouloir supprimer ?"
-                        onConfirm={() => pointOfInterestStore.remove(record.id)}
+                        onConfirm={() => companyStore.remove(record.id)}
                     >
                         <Icon style={{ textAlign: "center" }} type="delete" />
                     </Popconfirm>

@@ -16,6 +16,7 @@ export interface ICompany {
     companyPosition: string;
     salaryNumber: string;
     mailNameDomain: string;
+    status?: string;
 }
 
 class CompanyStore {
