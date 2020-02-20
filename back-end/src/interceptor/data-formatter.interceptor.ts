@@ -16,14 +16,14 @@ function loop(data) {
   if (Array.isArray(data)) {
     return data.map(loop);
   }
-  if (typeof(data) === 'object') {
+  if (data && typeof(data) === 'object') {
     return loopObject(delete_id(data));
   }
   return data;
 }
 
 function delete_id(data) {
-  const { _id, __v, password, ...result } = data;
+  const { _id, __v, password, forgottenToken, forgottenTokenTime, ...result } = data;
   return result;
 }
 

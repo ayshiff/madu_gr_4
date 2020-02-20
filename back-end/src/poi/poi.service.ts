@@ -10,6 +10,7 @@ import { AnswerPoiGreenscoreDto } from './dto/answer-poi-greenscore.dto';
 import { UpdatePoiDto } from './dto/update-poi.dto';
 import { PoiStatus } from "./model/poi-status.enum";
 import { ValidatePoiGreenscoreDto } from './dto/validate-poi-greenscore.dto';
+import { PoiCategories } from './model/poi-categories.enum';
 
 @Injectable()
 export class PoiService {
@@ -22,12 +23,21 @@ export class PoiService {
     let createdPoi = new this.poiModel(createPoiDto);
     createdPoi.id = uuidv4();
     createdPoi.status = PoiStatus.Canvassing;
+    if (createdPoi.category !== PoiCategories.Restoration) {
+      createdPoi.foodPreference = undefined
+      createdPoi.takeAway = undefined
+    }
     await createdPoi.save();
     return this.findByUuid(createdPoi.id);
   }
 
   async update(poi: Poi, updatePoiDto: UpdatePoiDto): Promise<Poi> {
-    await this.poiModel.updateOne(poi, updatePoiDto);
+    await this.poiModel.updateOne({ id: poi.id }, updatePoiDto);
+    return this.findByUuid(poi.id);
+  }
+
+  async addImages(poi: Poi, images: Array<string>): Promise<Poi> {
+    await this.poiModel.updateOne({ id: poi.id }, { images });
     return this.findByUuid(poi.id);
   }
 
@@ -95,5 +105,23 @@ export class PoiService {
     console.log('Send mail : Poi survey' + (status ? 'valid' : 'refused'));
     await this.poiModel.updateOne({ id: poi.id }, { status });
     return this.findByUuid(poi.id);
+  }
+
+  private convertRad(input: number): number{
+    return (Math.PI * input)/180;
+  }
+
+  private distance(lat: number, lng: number, lat_: number, lng_: number){
+    const R = 6378000; // Earth radius in meters
+
+    return R * (Math.PI/2 - Math.asin( 
+      Math.sin(this.convertRad(lat_)) * Math.sin(this.convertRad(lat)) + 
+      Math.cos(this.convertRad(lng_) - this.convertRad(lng)) * Math.cos(this.convertRad(lat_)) * Math.cos(this.convertRad(lat))
+    ));
+  }
+
+  async findByCoordinates(lat: number, lng: number): Promise<Poi[]> {
+    const allPoi = await this.poiModel.find().exec();
+    return allPoi.filter((poi: Poi) => this.distance(lat, lng, poi.address.lat, poi.address.lng) < 1000);
   }
 }

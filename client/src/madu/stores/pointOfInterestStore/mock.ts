@@ -2,9 +2,11 @@ export const pointOfInterestMock = {
     id: "",
     name: "",
     poiType: "",
-    street: "",
-    zipCode: 0,
-    city: "",
+    address: {
+        value: "",
+        lat: null,
+        lng: null,
+    },
     phone: "",
     email: "",
     siret: "",
@@ -17,44 +19,72 @@ export const pointOfInterestMock = {
     openingTime: {
         monday: [
             {
-                from: "",
-                to: "",
+                from: null,
+                to: null,
+            },
+            {
+                from: null,
+                to: null,
             },
         ],
         tuesday: [
             {
-                from: "",
-                to: "",
+                from: null,
+                to: null,
+            },
+            {
+                from: null,
+                to: null,
             },
         ],
         wednesday: [
             {
-                from: "",
-                to: "",
+                from: null,
+                to: null,
+            },
+            {
+                from: null,
+                to: null,
             },
         ],
         thursday: [
             {
-                from: "",
-                to: "",
+                from: null,
+                to: null,
+            },
+            {
+                from: null,
+                to: null,
             },
         ],
         friday: [
             {
-                from: "",
-                to: "",
+                from: null,
+                to: null,
+            },
+            {
+                from: null,
+                to: null,
             },
         ],
         saturday: [
             {
-                from: "",
-                to: "",
+                from: null,
+                to: null,
+            },
+            {
+                from: null,
+                to: null,
             },
         ],
         sunday: [
             {
-                from: "",
-                to: "",
+                from: null,
+                to: null,
+            },
+            {
+                from: null,
+                to: null,
             },
         ],
     },
@@ -62,5 +92,5 @@ export const pointOfInterestMock = {
     description: "",
     website: "",
     status: "",
-    greenscore: 0,
+    greenscore: null,
 };

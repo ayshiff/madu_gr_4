@@ -1,19 +1,24 @@
 import React, { useState, useMemo, useEffect, useCallback } from "react";
 import { Layout } from "antd";
 import { createBrowserHistory as createHistory } from "history";
-
-import { TabsMenu } from "madu/components/tabs-menu";
-
+import { Stepper } from "madu/components/stepper";
 import { FormStepOne, StepOneState } from "./steps/step-one";
 import { FormStepTwo } from "./steps/step-two";
-
 import { useStores } from "madu/hooks/use-store";
+import { CustomContent } from "../listPoi";
+import styled from "styled-components";
 
-const { Content } = Layout;
+const { Header } = Layout;
 
 const history = createHistory();
 
 export type StateKeys = "stepOne" | "stepTwo";
+
+const CustomHeader = styled(Header)`
+    background: #fff;
+    paddingleft: 20%;
+    paddingright: 20%;
+`;
 
 type FormState = {
     currentStep: number;
@@ -26,7 +31,7 @@ type FormState = {
 
 const stepsComponents = [FormStepOne, FormStepTwo];
 
-export const CreatePoi = () => {
+export const CreatePoi = props => {
     const defaultFormState: FormState = useMemo(
         () => ({
             currentStep: 0,
@@ -34,28 +39,14 @@ export const CreatePoi = () => {
                 stepOne: {
                     index: 0,
                     name: "",
-                    // email: "",
-                    // category: "",
-                    // webSiteLink: "",
-                    // establishmentType: "",
-                    // socialNetworkLink: "",
-                    // description: "",
-                    // address: "",
-                    // zipcode: "",
-                    // phoneNumber: "",
                 },
                 stepTwo: {
                     index: 1,
                     schedule: [],
                     fileList: [],
-                    // price: "a",
-                    // takeaway: false,
-                    // accessibility: false,
                 },
                 stepThree: {
                     index: 2,
-                    greenScore: "",
-                    description: "",
                 },
             },
         }),
@@ -104,12 +95,12 @@ export const CreatePoi = () => {
         setFormState(newState);
     };
 
-    // const onChangeStepState = function<T>(key: StateKeys, value: T) {
-    //     setFormState({
-    //         ...formState,
-    //         stepStates: { ...formState.stepStates, [key]: value },
-    //     });
-    // };
+    const onChangeStepState = function<T>(key: StateKeys, value: T) {
+        setFormState({
+            ...formState,
+            stepStates: { ...formState.stepStates, [key]: value },
+        });
+    };
 
     const CurrentStepComponent = {
         Component: stepsComponents[formState.currentStep],
@@ -118,42 +109,29 @@ export const CreatePoi = () => {
         ),
     };
 
-    const onChangeState = (key: string, value: any) => {
+    const onEdit = (key: string, value: any) => {
         pointOfInterestStore.setStep({ [key]: value });
     };
 
     return (
         <Layout>
-            <div
-                style={{
-                    background: "#fff",
-                    padding: 40,
-                }}
-            >
-                <TabsMenu
+            <CustomHeader>
+                <Stepper
                     onClickStep={onChangeStep}
-                    tabs={[
-                        { key: 0, tabTitle: "Infos  de base" },
-                        { key: 1, tabTitle: "Infos complémentaires" },
-                    ]}
+                    steps={[1, 2]}
                     indexActiveStep={formState.currentStep}
                 />
-            </div>
+            </CustomHeader>
             <Layout style={layoutContentStyle}>
-                <Content
-                    style={{
-                        margin: "24px 16px",
-                        padding: 24,
-                        background: "#fff",
-                    }}
-                >
+                <CustomContent>
                     <CurrentStepComponent.Component
                         // @ts-ignore
+                        onChangeStepState={onChangeStepState}
                         stepState={CurrentStepComponent.state}
                         changeStep={onChangeStep}
-                        onChangeState={onChangeState}
+                        onEdit={onEdit}
                     />
-                </Content>
+                </CustomContent>
             </Layout>
         </Layout>
     );

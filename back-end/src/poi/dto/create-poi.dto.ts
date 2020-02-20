@@ -1,66 +1,31 @@
-import { IsString, IsInt, IsMilitaryTime, ValidateNested, IsUrl, IsPhoneNumber, IsEmail } from 'class-validator';
+import { IsString, IsInt, ValidateNested, IsUrl, IsPhoneNumber, IsEmail, IsEnum, IsBoolean, IsOptional } from 'class-validator';
 import { Type } from 'class-transformer';
-
-export class Week {
-  @ValidateNested()
-  @Type(() => Day)
-  monday: Day[];
-
-  @ValidateNested()
-  @Type(() => Day)
-  tuesday: Day[];
-
-  @ValidateNested()
-  @Type(() => Day)
-  wednesday: Day[];
-
-  @ValidateNested()
-  @Type(() => Day)
-  thursday: Day[];
-
-  @ValidateNested()
-  @Type(() => Day)
-  friday: Day[];
-
-  @ValidateNested()
-  @Type(() => Day)
-  saturday: Day[];
-
-  @ValidateNested()
-  @Type(() => Day)
-  sunday: Day[];
-}
-
-export class Day {
-  @IsMilitaryTime()
-  from: string;
-
-  @IsMilitaryTime()
-  to: string;
-}
+import { PoiCategories } from '../model/poi-categories.enum';
+import { Address } from "./address.dto";
+import { Week } from "./week.dto";
 
 export class CreatePoiDto {
   @IsString()
   name: string;
 
+  @IsEnum(PoiCategories)
+  category: string;
+
   @IsString()
   poiType: string;
 
-  @IsString()
-  street: string;
+  @ValidateNested()
+  @Type(() => Address)
+  address: Address;
 
-  @IsInt()
-  zipCode: number;
-
-  @IsString()
-  city: string;
-
+  @IsOptional()
   @IsPhoneNumber('FR')
   phone: string;
 
   @IsEmail()
   email: string;
 
+  @IsOptional()
   @IsString()
   siret: string;
 
@@ -74,9 +39,26 @@ export class CreatePoiDto {
   @IsString()
   description: string;
 
+  @IsOptional()
   @IsUrl()
   website: string;
 
+  @IsOptional()
+  @IsUrl()
+  socialNetwork: string;
+
+  @IsOptional()
   @IsInt()
   greenscore: number;
+
+  @IsOptional()
+  @IsString()
+  foodPreference: string;
+
+  @IsOptional()
+  @IsBoolean()
+  takeAway: boolean;
+
+  @IsBoolean()
+  wheelchair: boolean;
 }
