@@ -13,6 +13,14 @@ Madu is a digital map that references ecoresponsible addresses (activities, rest
 $ npm install
 ```
 
+## Create .env file
+
+```
+JWT_SECRET=tototo
+SALT_ROUNDS=10
+MONGO_URI=mongodb://localhost/madu
+```
+
 ## Running MongoDB
 
 ```

@@ -10,4 +10,6 @@ export const UserSchema = new mongoose.Schema({
     String
   ],
   company_id: String,
+  forgottenToken: String,
+  forgottenTokenTime: Number,
 });
