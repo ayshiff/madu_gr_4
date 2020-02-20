@@ -3,9 +3,11 @@
 </p>
 
 
-## Description
+# Description
 
 Madu is a digital map that references ecoresponsible addresses (activities, restaurants, shops) and evaluates their environmental impact through a greenscore.
+
+# Argumentation file
 
 ## Backend developer
 
@@ -37,6 +39,8 @@ Madu is a digital map that references ecoresponsible addresses (activities, rest
 
 ## Authentication and permissions
 
+You can see the AuthModule [here](./src/auth).
+
 ### Authentication
 
 Authentication is an essential part of most applications. **Passport** is the most popular node.js authentication library, well-known by the community and successfully used in many production applications. Passport has a rich ecosystem of **strategies** that implement various authentication mechanisms. For this use case, clients will **start by authenticating with a username and password** using the local startegy. Once authenticated, the server will issue a JWT that can be sent as a **bearer token in an authorization header** on subsequent requests to prove authentication, that's the jwt strategy. 
@@ -49,6 +53,8 @@ Now that our user is authenticated, we need to verify his credentials.
 ## Deployment
 
 The **api** and **swagger's documentation** are deployed on `http://18.130.189.198:3000/`.
+
+# Development
 
 ## Installation
 
