@@ -3,6 +3,7 @@ import { Layout } from "antd";
 import { createBrowserHistory as createHistory } from "history";
 
 import { TabsMenu } from "madu/components/tabs-menu";
+import { useStores } from "madu/hooks/use-store";
 
 import { FormStepOne, StepOneState } from "./steps/step-one";
 import { FormStepTwo, StepTwoState } from "./steps/step-two";
@@ -53,6 +54,8 @@ export const CreateClient = () => {
 
     const [formState, setFormState] = useState<FormState>(defaultFormState);
 
+    const { companyStore } = useStores();
+
     const setCurrentStep = useCallback((state: FormState) => {
         if (history.state) {
             const { currentStep } = history.state;
@@ -87,19 +90,17 @@ export const CreateClient = () => {
         setFormState(newState);
     };
 
-    const onChangeStepState = function<T>(key: StateKeys, value: T) {
-        setFormState({
-            ...formState,
-            stepStates: { ...formState.stepStates, [key]: value },
-        });
-    };
-
     const CurrentStepComponent = {
         Component: stepsComponents[formState.currentStep],
         state: Object.values(formState.stepStates).find(
             item => item.index === formState.currentStep
         ),
     };
+
+    const onEdit = (key: string, value: any) => {
+        companyStore.setStep({ [key]: value });
+    };
+
     return (
         <Layout>
             <div
@@ -126,9 +127,9 @@ export const CreateClient = () => {
                     }}
                 >
                     <CurrentStepComponent.Component
-                        onChangeStepState={onChangeStepState}
-                        stepState={CurrentStepComponent.state as StepOneState & StepTwoState}
+                        // @ts-ignore
                         changeStep={onChangeStep}
+                        onEdit={onEdit}
                     />
                 </Content>
             </Layout>

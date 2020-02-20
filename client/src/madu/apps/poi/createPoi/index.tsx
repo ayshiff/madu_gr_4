@@ -31,7 +31,7 @@ type FormState = {
 
 const stepsComponents = [FormStepOne, FormStepTwo];
 
-export const CreatePoi = props => {
+export const CreatePoi = () => {
     const defaultFormState: FormState = useMemo(
         () => ({
             currentStep: 0,

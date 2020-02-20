@@ -2,10 +2,11 @@ import React from "react";
 import { Form, Input, Button } from "antd";
 import styled from "styled-components";
 import { rem } from "polished";
+import { useHistory } from "react-router";
 
 import { ButtonWrapper } from "styles/atoms/button-wrapper";
 
-import { StateKeys } from "../index";
+import { useStores } from "madu/hooks/use-store";
 
 const CustomInput = styled(Input)`
     width: ${rem(300)};
@@ -28,34 +29,53 @@ export type StepTwoState = {
 };
 
 export type StepTwoProps = {
-    onChangeStepState: <T>(key: StateKeys, value: T) => void;
     changeStep: (n: number) => void;
-    stepState: StepTwoState;
+    onEdit: (key: string, value: any) => void;
+    form: any;
 };
 
-export const FormStepTwo = ({ changeStep, onChangeStepState, stepState }: StepTwoProps) => {
-    const onChangeState = (field: string, value) => {
-        const newStepTwoState: StepTwoState = {
-            ...stepState,
-            [field]: value,
-        };
-        onChangeStepState<StepTwoState>("stepTwo", newStepTwoState);
+const FormStepTwoComponent = ({ onEdit, changeStep, form }: StepTwoProps) => {
+    const { companyStore } = useStores();
+    const history = useHistory();
+
+    const onSubmit = () => {
+        form.validateFields((err, values) => {
+            if (!err) {
+                if (companyStore.isEditing) {
+                    // Editing
+                    companyStore.edit(companyStore.byId.id, companyStore.byId);
+                    companyStore.setEditing(false);
+                } else {
+                    // Creating
+                    companyStore.add(companyStore.byId);
+                }
+
+                companyStore.resetId();
+                history.push("/poi/list");
+            }
+        });
     };
+
+    const {
+        companyStore: { byId },
+    } = useStores();
 
     return (
         <StepWrapper>
             <Form>
                 <Form.Item label="Nombre de salariés / élèves">
-                    <CustomInput
-                        onChange={e => onChangeState("salaryNumber", e.target.value)}
-                        value={stepState.salaryNumber}
-                    />
+                    {form.getFieldDecorator("mailNameDomain", {
+                        initialValue: byId.mailNameDomain,
+                        setFieldsValue: byId.mailNameDomain,
+                        rules: [{ required: true, message: "Merci de renseigner un nom" }],
+                    })(<CustomInput onChange={e => onEdit("salaryNumber", e.target.value)} />)}
                 </Form.Item>
                 <Form.Item label="Nom de domaine mail">
-                    <CustomInput
-                        onChange={e => onChangeState("mailNameDomain", e.target.value)}
-                        value={stepState.mailNameDomain}
-                    />
+                    {form.getFieldDecorator("companmailNameDomainyPosition", {
+                        initialValue: byId.mailNameDomain,
+                        setFieldsValue: byId.mailNameDomain,
+                        rules: [{ required: true, message: "Merci de renseigner un nom" }],
+                    })(<CustomInput onChange={e => onEdit("mailNameDomain", e.target.value)} />)}
                 </Form.Item>
             </Form>
 
@@ -63,10 +83,12 @@ export const FormStepTwo = ({ changeStep, onChangeStepState, stepState }: StepTw
                 <Button size="large" onClick={() => changeStep(0)}>
                     Précedent
                 </Button>
-                <Button size="large" type="primary">
+                <Button size="large" type="primary" onClick={() => onSubmit()}>
                     Validé
                 </Button>
             </ButtonWrapper>
         </StepWrapper>
     );
 };
+
+export const FormStepTwo = Form.create()(FormStepTwoComponent);

@@ -39,7 +39,7 @@ export const SideBar = () => (
             <Menu.Item key="2">
                 <Icon type="upload" />
                 <span>Clients</span>
-                <a href="/poi/list">Clients</a>
+                <a href="/client/list">Clients</a>
             </Menu.Item>
             <Menu.Item key="3">
                 <Icon type="upload" />

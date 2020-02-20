@@ -5,7 +5,7 @@ import { rem } from "polished";
 
 import { ButtonWrapper } from "styles/atoms/button-wrapper";
 
-import { StateKeys } from "../index";
+import { useStores } from "madu/hooks/use-store";
 
 const StepWrapper = styled.div`
     height: 100%;
@@ -40,72 +40,84 @@ export type StepOneState = {
 };
 
 export type StepOneProps = {
-    onChangeStepState: <T>(key: StateKeys, value: T) => void;
     changeStep: (n: number) => void;
-    stepState: StepOneState;
+    onEdit: (key: string, value: any) => void;
+    form: any;
 };
 
-export const FormStepOne = ({ changeStep, onChangeStepState, stepState }: StepOneProps) => {
-    const onChangeState = (field: string, value) => {
-        const newStepOneState: StepOneState = {
-            ...stepState,
-            [field]: value,
-        };
-        onChangeStepState<StepOneState>("stepOne", newStepOneState);
+const FormStepOneComponent = ({ onEdit, changeStep, form }: StepOneProps) => {
+    const {
+        companyStore: { byId },
+    } = useStores();
+
+    const checkForm = () => {
+        form.validateFields((err, values) => {
+            if (!err) {
+                changeStep(1);
+            }
+        });
     };
 
     return (
         <StepWrapper>
             <CustomForm>
                 <Form.Item label="Nom de l’entreprise/ école">
-                    <CustomInput
-                        onChange={e => onChangeState("companyName", e.target.value)}
-                        value={stepState.companyName}
-                    />
+                    {form.getFieldDecorator("companyName", {
+                        initialValue: byId.companyName,
+                        setFieldsValue: byId.companyName,
+                        rules: [{ required: true, message: "Merci de renseigner un nom" }],
+                    })(<CustomInput onChange={e => onEdit("companyName", e.target.value)} />)}
                 </Form.Item>
                 <InputWrapper>
                     <Form.Item label="Adresse">
-                        <CustomInput
-                            onChange={e => onChangeState("address", e.target.value)}
-                            value={stepState.address}
-                        />
+                        {form.getFieldDecorator("address", {
+                            initialValue: byId.address,
+                            setFieldsValue: byId.address,
+                            rules: [{ required: true, message: "Merci de renseigner un nom" }],
+                        })(<CustomInput onChange={e => onEdit("address", e.target.value)} />)}
                     </Form.Item>
                     <Form.Item label="Code postal">
-                        <CustomInput
-                            onChange={e => onChangeState("zipcode", e.target.value)}
-                            value={stepState.zipcode}
-                        />
+                        {form.getFieldDecorator("zipcode", {
+                            initialValue: byId.zipcode,
+                            setFieldsValue: byId.zipcode,
+                            rules: [{ required: true, message: "Merci de renseigner un nom" }],
+                        })(<CustomInput onChange={e => onEdit("zipcode", e.target.value)} />)}
                     </Form.Item>
                 </InputWrapper>
 
                 <InputWrapper>
                     <Form.Item label="Nom">
-                        <CustomInput
-                            onChange={e => onChangeState("name", e.target.value)}
-                            value={stepState.name}
-                        />
+                        {form.getFieldDecorator("name", {
+                            initialValue: byId.name,
+                            setFieldsValue: byId.name,
+                            rules: [{ required: true, message: "Merci de renseigner un nom" }],
+                        })(<CustomInput onChange={e => onEdit("name", e.target.value)} />)}
                     </Form.Item>
                     <Form.Item label="Téléphone">
-                        <CustomInput
-                            onChange={e => onChangeState("phoneNumber", e.target.value)}
-                            value={stepState.phoneNumber}
-                        />
+                        {form.getFieldDecorator("phoneNumber", {
+                            initialValue: byId.phoneNumber,
+                            setFieldsValue: byId.phoneNumber,
+                            rules: [{ required: true, message: "Merci de renseigner un nom" }],
+                        })(<CustomInput onChange={e => onEdit("phoneNumber", e.target.value)} />)}
                     </Form.Item>
                 </InputWrapper>
 
                 <Form.Item label="Poste">
-                    <CustomInput
-                        onChange={e => onChangeState("companyPosition", e.target.value)}
-                        value={stepState.companyPosition}
-                    />
+                    {form.getFieldDecorator("companyPosition", {
+                        initialValue: byId.companyPosition,
+                        setFieldsValue: byId.companyPosition,
+                        rules: [{ required: true, message: "Merci de renseigner un nom" }],
+                    })(<CustomInput onChange={e => onEdit("companyPosition", e.target.value)} />)}
                 </Form.Item>
             </CustomForm>
 
             <ButtonWrapper align="right" layout="aside">
-                <Button size="large" type="primary" onClick={() => changeStep(1)}>
+                <Button size="large" type="primary" onClick={() => checkForm()}>
                     suivant
                 </Button>
             </ButtonWrapper>
         </StepWrapper>
     );
 };
+
+export const FormStepOne = Form.create()(FormStepOneComponent);

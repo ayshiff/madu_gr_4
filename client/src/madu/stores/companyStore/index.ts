@@ -2,21 +2,30 @@ import { observable, action } from "mobx";
 import { get, apiDelete, postJson } from "madu/services/commun";
 import { editReference, removeReference } from "../utils/index";
 
+import { companyStoreMock } from "./mock";
+
 const { REACT_APP_API_BASE_URL } = process.env;
 
 export interface ICompany {
     id: string;
+    companyName: string;
     name: string;
-    domainName: string;
-    street: string;
-    zipCode: string;
-    city: string;
-    status: string;
+    address: string;
+    zipcode: string;
+    phoneNumber: string;
+    companyPosition: string;
+    salaryNumber: string;
+    mailNameDomain: string;
 }
 
 class CompanyStore {
     @observable all: ICompany[] = [];
-    @observable byId: ICompany | null = null;
+    @observable byId: ICompany = companyStoreMock;
+    @observable isEditing: boolean = false;
+
+    @action setEditing = (value: boolean) => {
+        this.isEditing = value;
+    };
 
     @action get = () => {
         const endpoint = `${REACT_APP_API_BASE_URL}/`;
@@ -40,6 +49,11 @@ class CompanyStore {
                 return;
             })
             .catch(err => console.log(err));
+    };
+
+    @action setStep = (args: any) => {
+        this.byId = { ...this.byId, ...args };
+        return;
     };
 
     @action add = (company: ICompany) => {
@@ -78,6 +92,10 @@ class CompanyStore {
 
     @action reset = () => {
         this.all = [];
+    };
+
+    @action resetId = () => {
+        this.byId = companyStoreMock;
     };
 }
 
