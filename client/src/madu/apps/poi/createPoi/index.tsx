@@ -25,13 +25,12 @@ type FormState = {
     stepStates: {
         stepOne: StepOneState;
         stepTwo: any;
-        stepThree: any;
     };
 };
 
 const stepsComponents = [FormStepOne, FormStepTwo];
 
-export const CreatePoi = props => {
+export const CreatePoi = () => {
     const defaultFormState: FormState = useMemo(
         () => ({
             currentStep: 0,
@@ -44,9 +43,6 @@ export const CreatePoi = props => {
                     index: 1,
                     schedule: [],
                     fileList: [],
-                },
-                stepThree: {
-                    index: 2,
                 },
             },
         }),
