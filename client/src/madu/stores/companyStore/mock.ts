@@ -5,6 +5,7 @@ export const companyStoreMock = {
     address: "",
     zipcode: "",
     phoneNumber: "",
+    email: "",
     companyPosition: "",
     salaryNumber: "",
     mailNameDomain: "",

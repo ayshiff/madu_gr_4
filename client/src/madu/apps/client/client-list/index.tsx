@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Layout, Input, Button, Table, Tag, Popconfirm, Icon } from "antd";
 import styled from "styled-components";
 import { rem } from "polished";
@@ -47,6 +47,7 @@ const hashMap = {
 };
 
 export const ListClient = observer(() => {
+    const [filter, setFilter] = useState("");
     const { companyStore } = useStores();
     const history = useHistory();
 
@@ -67,142 +68,6 @@ export const ListClient = observer(() => {
         companyStore.setEditing(true);
         history.push("/poi/create");
     };
-
-    const tableData = [
-        {
-            key: "1",
-            companyName: "Wild & the Moon",
-            poiNumber: "Restaurant",
-            status: "En Attente",
-            email: 72,
-        },
-        {
-            key: "2",
-            companyName: "Wild & the Moon",
-            poiNumber: "Restaurant",
-            status: "En Attente",
-            email: 72,
-        },
-        {
-            key: "3",
-            companyName: "Wild & the Moon",
-            poiNumber: "Restaurant",
-            status: "En Attente",
-            email: 72,
-        },
-        {
-            key: "4",
-            companyName: "Wild & the Moon",
-            poiNumber: "Restaurant",
-            status: "En Attente",
-            email: 72,
-        },
-        {
-            key: "5",
-            companyName: "Wild & the Moon",
-            poiNumber: "Restaurant",
-            status: "En Attente",
-            email: 72,
-        },
-        {
-            key: "6",
-            companyName: "Wild & the Moon",
-            poiNumber: "Restaurant",
-            status: "En Attente",
-            email: 72,
-        },
-        {
-            key: "7",
-            companyName: "Wild & the Moon",
-            poiNumber: "Restaurant",
-            status: "En Attente",
-            email: 72,
-        },
-        {
-            key: "8",
-            companyName: "Wild & the Moon",
-            poiNumber: "Restaurant",
-            status: "En Attente",
-            email: 72,
-        },
-        {
-            key: "9",
-            companyName: "Wild & the Moon",
-            poiNumber: "Restaurant",
-            status: "En Attente",
-            email: 72,
-        },
-        {
-            key: "10",
-            companyName: "Wild & the Moon",
-            poiNumber: "Restaurant",
-            status: "En Attente",
-            email: 72,
-        },
-        {
-            key: "11",
-            companyName: "Wild & the Moon",
-            poiNumber: "Restaurant",
-            status: "En Attente",
-            email: 72,
-        },
-        {
-            key: "12",
-            companyName: "Wild & the Moon",
-            poiNumber: "Restaurant",
-            status: "En Attente",
-            email: 72,
-        },
-        {
-            key: "13",
-            companyName: "Wild & the Moon",
-            poiNumber: "Restaurant",
-            status: "En Attente",
-            email: 72,
-        },
-        {
-            key: "14",
-            companyName: "Wild & the Moon",
-            poiNumber: "Restaurant",
-            status: "En Attente",
-            email: 72,
-        },
-        {
-            key: "15",
-            companyName: "Wild & the Moon",
-            poiNumber: "Restaurant",
-            status: "En Attente",
-            email: 72,
-        },
-        {
-            key: "16",
-            companyName: "Wild & the Moon",
-            poiNumber: "Restaurant",
-            status: "En Attente",
-            email: 72,
-        },
-        {
-            key: "17",
-            companyName: "Wild & the Moon",
-            poiNumber: "Restaurant",
-            status: "En Attente",
-            email: 72,
-        },
-        {
-            key: "18",
-            companyName: "Wild & the Moon",
-            poiNumber: "Restaurant",
-            status: "En Attente",
-            email: 72,
-        },
-        {
-            key: "19",
-            companyName: "Test",
-            poiNumber: "Restaurant",
-            status: "En Attente",
-            email: 72,
-        },
-    ];
 
     const columns = [
         {
@@ -274,16 +139,42 @@ export const ListClient = observer(() => {
             <Header style={headerStyle}>
                 <h1 style={titleStyle}>Liste des clients</h1>
                 <div>
-                    <Search placeholder="Search" style={{ width: 250 }} />
+                    <Search
+                        placeholder="Search"
+                        style={{ width: 250 }}
+                        onChange={e => setFilter(e.target.value)}
+                    />
                     <Button type="primary" style={{ marginRight: "20px", marginLeft: "40px" }}>
                         <a href="/client/create">+ Ajouter un point client</a>
                     </Button>
                 </div>
             </Header>
             <CustomContent>
+                {console.log("companyStore.all", companyStore.all)}
                 <Table
                     columns={columns}
-                    dataSource={tableData}
+                    dataSource={
+                        companyStore.all.length
+                            ? companyStore.all
+                                  .map((el, ind) => {
+                                      return {
+                                          key: ind,
+                                          id: el.id,
+                                          companyName: el.companyName,
+                                          poiNumber: el.poiNumber,
+                                          status: el.status,
+                                          email: el.email,
+                                      };
+                                  })
+                                  .filter(
+                                      el =>
+                                          el.companyName &&
+                                          el.companyName
+                                              .toLowerCase()
+                                              .includes(filter.toLowerCase())
+                                  )
+                            : []
+                    }
                     pagination={{ pageSize: 10 }}
                     scroll={{ y: 400 }}
                 />

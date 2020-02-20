@@ -145,6 +145,7 @@ export const ListPoi = observer(() => {
                 </div>
             </CustomHeader>
             <CustomContent>
+                {console.log(pointOfInterestStore.all)}
                 <Table
                     columns={columns}
                     // @ts-ignore

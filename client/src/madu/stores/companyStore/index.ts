@@ -9,6 +9,7 @@ const { REACT_APP_API_BASE_URL } = process.env;
 export interface ICompany {
     id: string;
     companyName: string;
+    email: string;
     name: string;
     address: string;
     zipcode: string;
@@ -17,6 +18,7 @@ export interface ICompany {
     salaryNumber: string;
     mailNameDomain: string;
     status?: string;
+    poiNumber?: string;
 }
 
 class CompanyStore {
@@ -29,7 +31,7 @@ class CompanyStore {
     };
 
     @action get = () => {
-        const endpoint = `${REACT_APP_API_BASE_URL}/`;
+        const endpoint = `${REACT_APP_API_BASE_URL}/companies `;
         return get(endpoint)
             .then((data: any) => {
                 const processedData: any = data;
@@ -41,7 +43,7 @@ class CompanyStore {
     };
 
     @action getById = (id: string) => {
-        const endpoint = `${REACT_APP_API_BASE_URL}/${id}`;
+        const endpoint = `${REACT_APP_API_BASE_URL}/companies/${id}`;
         return get(endpoint)
             .then((data: any) => {
                 const processedData: any = data;
@@ -58,7 +60,7 @@ class CompanyStore {
     };
 
     @action add = (company: ICompany) => {
-        const endpoint = `${REACT_APP_API_BASE_URL}/`;
+        const endpoint = `${REACT_APP_API_BASE_URL}/companies`;
         return postJson(endpoint, company)
             .then(data => {
                 // Process store once the call has succeed
@@ -69,7 +71,7 @@ class CompanyStore {
     };
 
     @action edit = (id: string, company: ICompany) => {
-        const endpoint = `${REACT_APP_API_BASE_URL}/${id}`;
+        const endpoint = `${REACT_APP_API_BASE_URL}/companies/${id}`;
 
         return postJson(endpoint, company)
             .then(data => {
@@ -81,7 +83,7 @@ class CompanyStore {
     };
 
     @action remove = (id: string) => {
-        const endpoint = `${REACT_APP_API_BASE_URL}/${id}`;
+        const endpoint = `${REACT_APP_API_BASE_URL}/companies/${id}`;
         return apiDelete(endpoint)
             .then(_data => {
                 // Process store once the call has succeed
