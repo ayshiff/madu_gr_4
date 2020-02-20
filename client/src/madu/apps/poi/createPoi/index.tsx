@@ -1,24 +1,16 @@
 import React, { useState, useMemo, useEffect, useCallback } from "react";
 import { Layout } from "antd";
 import { createBrowserHistory as createHistory } from "history";
-import { Stepper } from "madu/components/stepper";
+import { TabsMenu } from "madu/components/tabs-menu";
 import { FormStepOne, StepOneState } from "./steps/step-one";
 import { FormStepTwo } from "./steps/step-two";
 import { useStores } from "madu/hooks/use-store";
-import { CustomContent } from "../listPoi";
-import styled from "styled-components";
 
-const { Header } = Layout;
+const { Content } = Layout;
 
 const history = createHistory();
 
 export type StateKeys = "stepOne" | "stepTwo";
-
-const CustomHeader = styled(Header)`
-    background: #fff;
-    paddingleft: 20%;
-    paddingright: 20%;
-`;
 
 type FormState = {
     currentStep: number;
@@ -111,15 +103,29 @@ export const CreatePoi = () => {
 
     return (
         <Layout>
-            <CustomHeader>
-                <Stepper
+            <div
+                style={{
+                    background: "#fff",
+                    padding: 40,
+                }}
+            >
+                <TabsMenu
                     onClickStep={onChangeStep}
-                    steps={[1, 2]}
+                    tabs={[
+                        { key: 0, tabTitle: "Infos  de base" },
+                        { key: 1, tabTitle: "Infos complémentaires" },
+                    ]}
                     indexActiveStep={formState.currentStep}
                 />
-            </CustomHeader>
+            </div>
             <Layout style={layoutContentStyle}>
-                <CustomContent>
+                <Content
+                    style={{
+                        margin: "24px 16px",
+                        padding: 24,
+                        background: "#fff",
+                    }}
+                >
                     <CurrentStepComponent.Component
                         // @ts-ignore
                         onChangeStepState={onChangeStepState}
@@ -127,7 +133,7 @@ export const CreatePoi = () => {
                         changeStep={onChangeStep}
                         onEdit={onEdit}
                     />
-                </CustomContent>
+                </Content>
             </Layout>
         </Layout>
     );

@@ -70,30 +70,21 @@ const FormStepOneComponent = observer(({ onEdit, changeStep, form }: StepOneProp
                         rules: [{ required: true, message: "Merci de renseigner un nom" }],
                     })(<CustomInput onChange={e => onEdit("companyName", e.target.value)} />)}
                 </Form.Item>
-                <InputWrapper>
-                    <Form.Item label="Adresse">
-                        <InstantSearch indexName="airports" searchClient={searchClient}>
-                            <div className="search-panel" style={{ width: "300px" }}>
-                                <div className="search-panel__results">
-                                    <Places
-                                        store={companyStore}
-                                        defaultRefinement={{
-                                            lat: 37.7793,
-                                            lng: -122.419,
-                                        }}
-                                    />
-                                </div>
+                <Form.Item label="Adresse">
+                    <InstantSearch indexName="airports" searchClient={searchClient}>
+                        <div className="search-panel" style={{ width: "300px" }}>
+                            <div className="search-panel__results">
+                                <Places
+                                    store={companyStore}
+                                    defaultRefinement={{
+                                        lat: 37.7793,
+                                        lng: -122.419,
+                                    }}
+                                />
                             </div>
-                        </InstantSearch>
-                    </Form.Item>
-                    <Form.Item label="Code postal">
-                        {form.getFieldDecorator("zipcode", {
-                            initialValue: byId.zipcode,
-                            setFieldsValue: byId.zipcode,
-                            rules: [{ required: true, message: "Merci de renseigner un nom" }],
-                        })(<CustomInput onChange={e => onEdit("zipcode", e.target.value)} />)}
-                    </Form.Item>
-                </InputWrapper>
+                        </div>
+                    </InstantSearch>
+                </Form.Item>
 
                 <InputWrapper>
                     <Form.Item label="Nom">
