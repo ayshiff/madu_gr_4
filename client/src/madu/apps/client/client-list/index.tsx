@@ -1,12 +1,22 @@
-import React from "react";
-import { Layout, Input, Button, Table, Tag, Icon } from "antd";
+import React, { useEffect } from "react";
+import { Layout, Input, Button, Table, Tag, Popconfirm, Icon } from "antd";
 import styled from "styled-components";
 import { rem } from "polished";
+import { observer } from "mobx-react";
+import { useStores } from "madu/hooks/use-store";
+import { useHistory } from "react-router";
 
-const trash = require("assets/icons/trash.svg");
-const localisation = require("assets/icons/localisation.svg");
+// const trash = require("assets/icons/trash.svg");
+// const localisation = require("assets/icons/localisation.svg");
 
 const { Header, Content } = Layout;
+
+const CustomLink = styled.div`
+    color: #1790ff;
+    &:hover {
+        cursor: pointer;
+    }
+`;
 
 const CustomLayout = styled(Layout)`
     background: #fff;
@@ -22,7 +32,42 @@ const CustomContent = styled(Content)`
     border-radius: ${rem(12)};
 `;
 
-export const ListClient = () => {
+const CustomTag = styled(Tag)`
+    width: 150px;
+    text-align: center;
+    &:hover {
+        cursor: pointer;
+    }
+`;
+
+const hashMap = {
+    canvassing: "red",
+    surver_completed: "orange",
+    valid: "green",
+};
+
+export const ListClient = observer(() => {
+    const { companyStore } = useStores();
+    const history = useHistory();
+
+    useEffect(() => {
+        companyStore.get();
+    }, []);
+
+    const onChangeTag = (id: string) => {
+        const element = companyStore.all.find(el => el.id === id);
+        const value = Object.entries(hashMap).findIndex(el => el[0] === element.status);
+        const new_index = (value + 1) % 3;
+        const new_value = Object.entries(hashMap)[new_index];
+        companyStore.edit(id, { ...element, status: new_value[0] });
+    };
+
+    const edit = (id: string) => {
+        companyStore.getById(id);
+        companyStore.setEditing(true);
+        history.push("/poi/create");
+    };
+
     const tableData = [
         {
             key: "1",
@@ -162,8 +207,10 @@ export const ListClient = () => {
     const columns = [
         {
             title: "Nom de l'entreprise",
-            dataIndex: "companyName",
             key: "companyName",
+            render: (text, record) => (
+                <CustomLink onClick={() => edit(text.id)}>{text.companyName}</CustomLink>
+            ),
         },
         {
             title: "Nombre de POI",
@@ -173,11 +220,18 @@ export const ListClient = () => {
         {
             title: "Statut",
             key: "status",
-            render: () => (
-                <span>
-                    <Tag color="volcano">Test</Tag>
-                </span>
-            ),
+            render: (text, record) =>
+                record.status && (
+                    <span>
+                        <CustomTag
+                            onClick={() => onChangeTag(record.id)}
+                            color={hashMap[record.status]}
+                            key={record.status}
+                        >
+                            {record.status.toUpperCase()}
+                        </CustomTag>
+                    </span>
+                ),
         },
         {
             title: "Email",
@@ -187,15 +241,16 @@ export const ListClient = () => {
         {
             title: "Action",
             key: "action",
-            render: () => (
-                <span>
-                    <Icon
-                        style={{ marginRight: rem(16) }}
-                        component={() => <img src={localisation} alt="localisation-icon" />}
-                    />
-                    <Icon component={() => <img src={trash} alt="trash-icon" />} />
-                </span>
-            ),
+            render: (text, record) => {
+                return (
+                    <Popconfirm
+                        title="Etes vous sûr de vouloir supprimer ?"
+                        onConfirm={() => pointOfInterestStore.remove(record.id)}
+                    >
+                        <Icon style={{ textAlign: "center" }} type="delete" />
+                    </Popconfirm>
+                );
+            },
         },
     ];
 
@@ -235,4 +290,4 @@ export const ListClient = () => {
             </CustomContent>
         </CustomLayout>
     );
-};
+});
