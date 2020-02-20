@@ -14,8 +14,8 @@ export class UpdatePoiDto {
   category: string;
 
   @IsOptional()
-  @IsString()
-  poiType: string;
+  @IsString({each: true})
+  poiType: [string];
 
   @IsOptional()
   @ValidateNested()
@@ -70,4 +70,8 @@ export class UpdatePoiDto {
   @IsOptional()
   @IsBoolean()
   wheelchair: boolean;
+
+  @IsOptional()
+  @IsString()
+  status: string;
 }

@@ -11,8 +11,8 @@ export class CreatePoiDto {
   @IsEnum(PoiCategories)
   category: string;
 
-  @IsString()
-  poiType: string;
+  @IsString({each: true})
+  poiType: [string];
 
   @ValidateNested()
   @Type(() => Address)

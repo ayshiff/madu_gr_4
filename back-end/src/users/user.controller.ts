@@ -2,7 +2,7 @@ import { Controller, Get, Request, UseGuards, Body, Post, Put, Delete, Param, Us
 import { UsersService } from "./users.service";
 import { User } from './interfaces/user.interface';
 import { UserRole } from 'src/auth/userRole.enum';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags, ApiResponse } from '@nestjs/swagger';
 import { Roles } from 'src/auth/decorator/roles.decorator';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
@@ -11,6 +11,7 @@ import { CreateAdminDto } from './dto/create-admin.dto';
 import { CustomValidationPipe } from './pipes/CustomValidationPipe';
 import { ForgottenPasswordDto } from './dto/forgotten-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
+import { Token } from 'src/auth/interfaces/token.interface';
 
 @ApiTags('User')
 @Controller('users')
@@ -33,6 +34,7 @@ export class UserController {
   }
 
   @Get('/password/:token')
+  @ApiResponse({ type: Token })
   async checkResetToken(@Param('token') token: string) {
     const user = await this.usersService.checkForgottenTokenValidity(token);
     if (!user) {
@@ -54,6 +56,7 @@ export class UserController {
 
   @Get('profile')
   @Roles(UserRole.User)
+  @ApiResponse({ type: User })
   getProfile(@Request() req) {
     return req.user;
   }
