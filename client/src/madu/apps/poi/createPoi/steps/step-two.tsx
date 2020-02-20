@@ -1,11 +1,16 @@
 import React from "react";
-import { Form, Input, Radio, Button, Upload, Icon, TimePicker } from "antd";
+import { Form, Input, Radio, Button, Upload, Icon, TimePicker, Switch } from "antd";
 import styled from "styled-components";
 import { rem } from "polished";
-
+import { useHistory } from "react-router";
 import { ButtonWrapper } from "styles/atoms/button-wrapper";
-
 import { StateKeys } from "../index";
+import { observer } from "mobx-react";
+import { useStores } from "madu/hooks/use-store";
+import { toJS } from "mobx";
+import moment from "moment";
+
+const format = "HH:mm";
 
 const CustomInput = styled(Input)`
     width: ${rem(300)};
@@ -19,12 +24,12 @@ const TimePickerWrapper = styled.div`
 `;
 
 const CustomTimePicker = styled(TimePicker)`
-    &:not(:last-child) {
-        margin-right: ${rem(14)};
-    }
-    &:nth-child(3) {
-        margin-left: ${rem(14)};
-    }
+    margin-right: ${rem(8)};
+    margin-left: ${rem(8)};
+`;
+
+const InputWrapper = styled.div`
+    display: flex;
 `;
 
 export type StepTwoState = {
@@ -32,97 +37,302 @@ export type StepTwoState = {
     webSiteLink: string;
     fileList: any[];
     price: string;
+    category: string;
     description: string;
+    schedule: Record<string, Record<string, string | boolean>>;
 };
 
 export type StepTwoProps = {
     onChangeStepState: <T>(key: StateKeys, value: T) => void;
     changeStep: (n: number) => void;
     stepState: StepTwoState;
+    onEdit: (key: string, value: any) => void;
+    form: any;
 };
 
-export const FormStepTwo = ({ changeStep, onChangeStepState, stepState }: StepTwoProps) => {
-    const onChangeState = (field: string, value) => {
-        const newStepTwoState: StepTwoState = {
-            ...stepState,
-            [field]: value,
+const FormStepTwoComponent = observer(
+    ({ changeStep, onChangeStepState, stepState, onEdit, form }: StepTwoProps) => {
+        const weekDay = [
+            { value: "Lundi", key: "monday" },
+            { value: "Mardi", key: "tuesday" },
+            { value: "Mercredi", key: "wednesday" },
+            { value: "Jeudi", key: "thursday" },
+            { value: "Vendredi", key: "friday" },
+            { value: "Samedi", key: "saturday" },
+            { value: "Dimanche", key: "sunday" },
+        ];
+        const onChangeState = (field: string, value) => {
+            const newStepTwoState: StepTwoState = {
+                ...stepState,
+                [field]: value,
+            };
+            onChangeStepState<StepTwoState>("stepTwo", newStepTwoState);
         };
-        onChangeStepState<StepTwoState>("stepTwo", newStepTwoState);
-    };
 
-    const handleChange = info => {
-        let fileList = [...info.fileList];
+        const { pointOfInterestStore } = useStores();
+        const history = useHistory();
 
-        fileList = fileList.slice(-2);
+        const handleChange = info => {
+            let fileList = [...info.fileList];
 
-        fileList = fileList.map(file => {
-            if (file.response) {
-                file.url = file.response.url;
-            }
-            return file;
-        });
+            fileList = fileList.slice(-2);
 
-        onChangeState("fileList", fileList);
-    };
+            fileList = fileList.map(file => {
+                if (file.response) {
+                    file.url = file.response.url;
+                }
+                return file;
+            });
 
-    return (
-        <>
-            <Form>
-                <TimePickerWrapper>
-                    <Form.Item label="TimePicker">
-                        <CustomTimePicker
-                            onChange={e => onChangeState("earlyMorning", e)}
-                            // value={stepState.earlyMorning}
-                        />
-                        <CustomTimePicker
-                            onChange={e => onChangeState("lateMorning", e)}
-                            // value={stepState.lateMorning}
-                        />
-                        {"  -  "}
-                        <CustomTimePicker
-                            onChange={e => onChangeState("earlyAfternoon", e)}
-                            // value={stepState.earlyAfternoon}
-                        />
-                        <CustomTimePicker
-                            onChange={e => onChangeState("lateAfternoon", e)}
-                            // value={stepState.lateAfternoon}
-                        />
+            onChangeState("fileList", fileList);
+        };
+
+        const onScheduleChange = (day, field, value) => {
+            const object = {
+                ...stepState.schedule,
+                [day]: {
+                    ...stepState.schedule[day],
+                    [field]: value,
+                },
+            };
+            onChangeState("schedule", object);
+        };
+
+        const onSubmit = () => {
+            form.validateFields((err, values) => {
+                if (!err) {
+                    if (pointOfInterestStore.isEditing) {
+                        // Editing
+                        pointOfInterestStore.edit(
+                            pointOfInterestStore.byId.id,
+                            pointOfInterestStore.byId
+                        );
+                        console.log(toJS(pointOfInterestStore.byId));
+                        pointOfInterestStore.setEditing(false);
+                    } else {
+                        // Creating
+                        pointOfInterestStore.add(pointOfInterestStore.byId);
+                    }
+
+                    pointOfInterestStore.resetId();
+                    history.push("/poi/list");
+                }
+            });
+        };
+
+        const {
+            pointOfInterestStore: { byId },
+        } = useStores();
+
+        const updateOpeningRanges = (day: string, isFrom: boolean, index: number, value: any) => {
+            pointOfInterestStore.byId.openingTime[day][isFrom ? 1 : 0][
+                index ? "to" : "from"
+            ] = value.format("HH:mm");
+        };
+
+        console.log(toJS(byId));
+
+        return (
+            <>
+                <Form>
+                    <TimePickerWrapper>
+                        <Form.Item label="Horaires">
+                            {weekDay.map(day => (
+                                <div
+                                    key={day.value}
+                                    style={{ display: "flex", alignItems: "center" }}
+                                >
+                                    <h1 style={{ marginRight: "10px", fontWeight: "bold" }}>
+                                        {" "}
+                                        {day.value}{" "}
+                                    </h1>
+                                    <Switch
+                                        onChange={e => onScheduleChange(day, "close", e)}
+                                        checked={
+                                            stepState.schedule[day.value] &&
+                                            (stepState.schedule[day.value].close as boolean)
+                                        }
+                                    />
+                                    <p style={{ marginLeft: "15px", marginRight: "5px" }}>fermé</p>
+                                    <CustomTimePicker
+                                        format={format}
+                                        defaultValue={
+                                            pointOfInterestStore.byId.openingTime[day.key][0].from
+                                                ? moment(
+                                                      pointOfInterestStore.byId.openingTime[
+                                                          day.key
+                                                      ][0].from,
+                                                      "HH:mm"
+                                                  )
+                                                : null
+                                        }
+                                        onChange={e => updateOpeningRanges(day.key, false, 0, e)}
+                                    />
+                                    <CustomTimePicker
+                                        format={format}
+                                        defaultValue={
+                                            pointOfInterestStore.byId.openingTime[day.key][0].to
+                                                ? moment(
+                                                      pointOfInterestStore.byId.openingTime[
+                                                          day.key
+                                                      ][0].to,
+                                                      "HH:mm"
+                                                  )
+                                                : null
+                                        }
+                                        style={{ marginRight: "8px" }}
+                                        onChange={e => updateOpeningRanges(day.key, false, 1, e)}
+                                    />
+                                    {"  -  "}
+                                    <CustomTimePicker
+                                        format={format}
+                                        defaultValue={
+                                            pointOfInterestStore.byId.openingTime[day.key][1].from
+                                                ? moment(
+                                                      pointOfInterestStore.byId.openingTime[
+                                                          day.key
+                                                      ][1].from,
+                                                      "HH:mm"
+                                                  )
+                                                : null
+                                        }
+                                        onChange={e => updateOpeningRanges(day.key, true, 0, e)}
+                                    />
+                                    <CustomTimePicker
+                                        format={format}
+                                        defaultValue={
+                                            pointOfInterestStore.byId.openingTime[day.key][1].to
+                                                ? moment(
+                                                      pointOfInterestStore.byId.openingTime[
+                                                          day.key
+                                                      ][1].to,
+                                                      "HH:mm"
+                                                  )
+                                                : null
+                                        }
+                                        onChange={e => updateOpeningRanges(day.key, true, 1, e)}
+                                    />
+                                </div>
+                            ))}
+                        </Form.Item>
+                    </TimePickerWrapper>
+
+                    <InputWrapper>
+                        <Form.Item label="Prix">
+                            {form.getFieldDecorator("priceRange", {
+                                initialValue: byId.priceRange,
+                                setFieldsValue: byId.priceRange,
+                                rules: [
+                                    { type: "string", message: "Merci de choisir un type de prix" },
+                                ],
+                            })(
+                                <Radio.Group
+                                    buttonStyle="solid"
+                                    onChange={e => onEdit("priceRange", e.target.value)}
+                                >
+                                    <Radio.Button value="€">€</Radio.Button>
+                                    <Radio.Button value="€€">€€</Radio.Button>
+                                    <Radio.Button value="€€€">€€€</Radio.Button>
+                                </Radio.Group>
+                            )}
+                        </Form.Item>
+                        <Form.Item style={{ marginLeft: "20px" }} label="Catégorie">
+                            {form.getFieldDecorator("category", {
+                                initialValue: byId.category,
+                                setFieldsValue: byId.category,
+                                rules: [
+                                    { required: true, message: "Merci de choisir une catégorie" },
+                                ],
+                            })(
+                                <Radio.Group onChange={e => onEdit("category", e.target.value)}>
+                                    <Radio.Button value="restoration">Restaurant</Radio.Button>
+                                    <Radio.Button value="shop">Boutique</Radio.Button>
+                                    <Radio.Button value="experience">Expérience</Radio.Button>
+                                </Radio.Group>
+                            )}
+                        </Form.Item>
+                    </InputWrapper>
+                    <Form.Item label="Upload photos">
+                        <Upload
+                            onChange={handleChange}
+                            listType="picture-card"
+                            multiple={true}
+                            fileList={stepState.fileList}
+                        >
+                            <Button>
+                                <Icon type="upload" /> Upload
+                            </Button>
+                        </Upload>
                     </Form.Item>
-                </TimePickerWrapper>
-                <Form.Item label="Lien du site, réseau sociaux">
-                    <CustomInput
-                        onChange={e => onChangeState("webSiteLink", e.target.value)}
-                        value={stepState.webSiteLink}
-                    />
+                </Form>
+                <InputWrapper>
+                    <Form.Item label="Type d'établissement">
+                        {form.getFieldDecorator("poiType", {
+                            initialValue: byId.poiType,
+                            setFieldsValue: byId.poiType,
+                            rules: [{ required: true, message: "Merci de choisir une url valide" }],
+                        })(<CustomInput onChange={e => onEdit("poiType", e.target.value)} />)}
+                    </Form.Item>
+                    {console.log(byId.category)}
+                    {byId.category === "restoration" && (
+                        <Form.Item label="Préférence alimentaire">
+                            {form.getFieldDecorator("foodPreference", {
+                                initialValue: byId.foodPreference,
+                                setFieldsValue: byId.foodPreference,
+                            })(
+                                <CustomInput
+                                    onChange={e => onEdit("foodPreference", e.target.value)}
+                                />
+                            )}
+                        </Form.Item>
+                    )}
+                </InputWrapper>
+                <Form.Item label="Greenscore">
+                    {form.getFieldDecorator("greenscore", {
+                        initialValue: byId.greenscore,
+                        setFieldsValue: byId.greenscore,
+                        rules: [{ required: true, message: "Merci de choisir une url valide" }],
+                    })(
+                        <CustomInput
+                            onChange={e => onEdit("greenscore", parseInt(e.target.value))}
+                        />
+                    )}
                 </Form.Item>
+                <InputWrapper>
+                    {byId.category === "restoration" && (
+                        <InputWrapper>
+                            <p
+                                style={{
+                                    marginRight: "10px",
+                                    marginLeft: "10px",
+                                    fontWeight: "bold",
+                                }}
+                            >
+                                {" "}
+                                A emporter{" "}
+                            </p>
+                            <Switch onChange={e => onEdit("takeAway", e)} checked={byId.takeAway} />
+                        </InputWrapper>
+                    )}
+                    <InputWrapper>
+                        <p style={{ marginLeft: "10px", marginRight: "10px", fontWeight: "bold" }}>
+                            {" "}
+                            Accessibilité fauteuil{" "}
+                        </p>
+                        <Switch onChange={e => onEdit("wheelchair", e)} checked={byId.wheelchair} />
+                    </InputWrapper>
+                </InputWrapper>
+                <ButtonWrapper align="right" layout="aside">
+                    <Button style={{ color: "#BFBFBF" }} size="large" onClick={() => changeStep(0)}>
+                        Précedent
+                    </Button>
+                    <Button size="large" type="primary" onClick={() => onSubmit()}>
+                        Valider
+                    </Button>
+                </ButtonWrapper>
+            </>
+        );
+    }
+);
 
-                <Form.Item label="Prix">
-                    <Radio.Group
-                        buttonStyle="solid"
-                        onChange={e => onChangeState("price", e.target.value)}
-                        value={stepState.price}
-                    >
-                        <Radio.Button value="a">€</Radio.Button>
-                        <Radio.Button value="b">€€</Radio.Button>
-                        <Radio.Button value="c">€€€</Radio.Button>
-                    </Radio.Group>
-                </Form.Item>
-                <Form.Item label="Upload photos">
-                    <Upload onChange={handleChange} multiple={true} fileList={stepState.fileList}>
-                        <Button>
-                            <Icon type="upload" /> Upload
-                        </Button>
-                    </Upload>
-                </Form.Item>
-            </Form>
-            <ButtonWrapper align="right" layout="aside">
-                <Button size="large" onClick={() => changeStep(0)}>
-                    précedent
-                </Button>
-                <Button size="large" type="primary" onClick={() => changeStep(2)}>
-                    suivant
-                </Button>
-            </ButtonWrapper>
-        </>
-    );
-};
+export const FormStepTwo = Form.create()(FormStepTwoComponent);

@@ -4,10 +4,13 @@ export interface Poi {
   _id: mongoose.Schema.Types.ObjectId;
   id: string;
   name: string;
+  category: string;
   poiType: string;
-  street: string;
-  zipCode: number;
-  city: string;
+  address: {
+    value: string,
+    lat: number,
+    lng: number
+  };
   phone: string;
   email: string;
   siret: string;
@@ -70,7 +73,12 @@ export interface Poi {
       }
     ]
   };
+  socialNetwork: string;
   greenscore: number;
+  foodPreference: string;
+  takeAway: boolean;
+  wheelchair: boolean;
   token: string;
   status: string;
+  images: string[];
 }

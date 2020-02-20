@@ -1,4 +1,4 @@
-import { Controller, Get, Request, UseGuards, Body, Post, Put, Delete, Param, UsePipes, UnauthorizedException } from '@nestjs/common';
+import { Controller, Get, Request, UseGuards, Body, Post, Put, Delete, Param, UsePipes, UnauthorizedException, NotFoundException } from '@nestjs/common';
 import { UsersService } from "./users.service";
 import { User } from './interfaces/user.interface';
 import { UserRole } from 'src/auth/userRole.enum';
@@ -9,6 +9,8 @@ import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { CreateUserDto } from './dto/create-user.dto';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { CustomValidationPipe } from './pipes/CustomValidationPipe';
+import { ForgottenPasswordDto } from './dto/forgotten-password.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 
 @ApiTags('User')
 @Controller('users')
@@ -23,6 +25,25 @@ export class UserController {
       throw new UnauthorizedException();
     }
     return this.usersService.createAdmin(createAdminDto);
+  }
+
+  @Post('/password/forgotten')
+  async forgottenPassword(@Body() forgottenPasswordDto: ForgottenPasswordDto) {
+    return this.usersService.forgottenPassword(forgottenPasswordDto);
+  }
+
+  @Get('/password/:token')
+  async checkResetToken(@Param('token') token: string) {
+    const user = await this.usersService.checkForgottenTokenValidity(token);
+    if (!user) {
+      throw new NotFoundException('Token not found');
+    }
+    return { token };
+  }
+
+  @Post('/password/reset')
+  async resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
+    return this.usersService.resetPassword(resetPasswordDto);
   }
 
   @Get()

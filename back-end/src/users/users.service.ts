@@ -8,6 +8,8 @@ import { UserRole } from 'src/auth/userRole.enum';
 import * as uuidv4 from 'uuid/v4';
 import { hashSync } from 'bcrypt';
 import { CreateAdminDto } from './dto/create-admin.dto';
+import { ForgottenPasswordDto } from './dto/forgotten-password.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 
 
 @Injectable()
@@ -96,6 +98,41 @@ export class UsersService {
       throw new NotFoundException('User not found');
     }
     return user;
+  }
+
+  async checkForgottenTokenValidity(token: string) {
+    const user = await this.userModel.findOne({forgottenToken: token});
+    if (!user) {
+      return false;
+    }
+    if ((user.forgottenTokenTime + parseInt(this.configService.get<string>('FORGOTTEN_TOKEN_TIME')) - Date.now()) < 0) {
+      await this.userModel.updateOne({ id: user.id }, { forgottenToken: null, forgottenTokenTime: null });
+      return false;
+    }
+    return user;
+  }
+
+  async forgottenPassword(forgottenPasswordDto: ForgottenPasswordDto) {
+    const user = await this.findByEmail(forgottenPasswordDto.email);
+    if (user) {
+      const forgottenToken = uuidv4().replace(/-/gi, '');
+      console.log(`Send mail to ${user.email} with forgottenToken = ${forgottenToken}`);
+      await this.userModel.updateOne({ id: user.id }, { forgottenToken, forgottenTokenTime: Date.now() });
+    }
+    return "An email has been sent to your account";
+  }
+
+  async resetPassword(resetPasswordDto: ResetPasswordDto) {
+    const user = await this.checkForgottenTokenValidity(resetPasswordDto.token);
+    if (!user) {
+      throw new NotFoundException('Token not found');
+    }
+    const password = await hashSync(
+      resetPasswordDto.password,
+      parseInt(this.configService.get<string>('SALT_ROUNDS'))
+    );
+    await this.userModel.updateOne({ id: user.id }, { password, forgottenToken: null, forgottenTokenTime: null });
+    return "Your password has been edited";
   }
 
   denyAccessByCompany(user: User, resource: User) {

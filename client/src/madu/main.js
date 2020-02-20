@@ -1,22 +1,19 @@
 import React, { lazy } from "react";
 
 import { OuterAppFrame } from "madu/startup";
-import "./app.css";
+import { stores, StoreProvider } from "./stores/index";
+import "antd/dist/antd.css";
 
-const SurveyApp = lazy(() => import("madu/apps/survey"));
 const PoiApp = lazy(() => import("madu/apps/poi"));
 
-const launchers = [
-    ["/survey", SurveyApp],
-    ["/poi", PoiApp],
-];
+const launchers = [["/poi", PoiApp]];
 
 const getApp = () => {
     const currentPath = window.document.location.pathname;
 
     if (currentPath === "/") {
-        window.history.replaceState(null, null, "/survey");
-        return SurveyApp;
+        window.history.replaceState(null, null, "/poi/list");
+        return PoiApp;
     }
 
     const maybeApp = launchers.find(([pathPrefix]) => currentPath.startsWith(pathPrefix));
@@ -28,10 +25,15 @@ const getApp = () => {
     }
 };
 
+// For easier debugging
+window._____APP_STATE_____ = stores;
+
 const AppExportedWithContext = ({ App }) => {
     return (
         <OuterAppFrame>
-            <App />
+            <StoreProvider value={stores}>
+                <App />
+            </StoreProvider>
         </OuterAppFrame>
     );
 };

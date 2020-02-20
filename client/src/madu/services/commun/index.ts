@@ -105,6 +105,20 @@ export const post = <T>(
         })
     );
 
+export const apiPut = <T>(
+    url,
+    payload,
+    headers?: CustomRequestHeaders,
+    withTimeoutMs?: number
+): Promise<ApiResponse<T>> =>
+    doCall<T>(withTimeoutMs, { url })(() =>
+        fetch(url, {
+            method: "PUT",
+            headers: buildHeaders(headers),
+            ...(payload && { body: payload }),
+        })
+    );
+
 export const postJson = <T>(
     url: string,
     payload: {},

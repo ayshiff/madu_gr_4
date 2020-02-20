@@ -1,29 +1,34 @@
 import React, { useState, useMemo, useEffect, useCallback } from "react";
 import { Layout } from "antd";
 import { createBrowserHistory as createHistory } from "history";
-
 import { Stepper } from "madu/components/stepper";
-
 import { FormStepOne, StepOneState } from "./steps/step-one";
 import { FormStepTwo } from "./steps/step-two";
-import { FormStepThree } from "./steps/step-three";
+import { useStores } from "madu/hooks/use-store";
+import { CustomContent } from "../listPoi";
+import styled from "styled-components";
 
-const { Header, Content } = Layout;
+const { Header } = Layout;
 
 const history = createHistory();
 
-export type StateKeys = "stepOne" | "stepTwo" | "stepThree";
+export type StateKeys = "stepOne" | "stepTwo";
+
+const CustomHeader = styled(Header)`
+    background: #fff;
+    paddingleft: 20%;
+    paddingright: 20%;
+`;
 
 type FormState = {
     currentStep: number;
     stepStates: {
         stepOne: StepOneState;
         stepTwo: any;
-        stepThree: any;
     };
 };
 
-const stepsComponents = [FormStepOne, FormStepTwo, FormStepThree];
+const stepsComponents = [FormStepOne, FormStepTwo];
 
 export const CreatePoi = () => {
     const defaultFormState: FormState = useMemo(
@@ -33,91 +38,24 @@ export const CreatePoi = () => {
                 stepOne: {
                     index: 0,
                     name: "",
-                    email: "",
-                    category: "",
-                    webSiteLink: "",
-                    establishmentType: "",
-                    socialNetworkLink: "",
-                    description: "",
-                    address: "",
-                    zipcode: "",
-                    phoneNumber: "",
                 },
                 stepTwo: {
                     index: 1,
-                    // schedule: {
-                    //     monday: {
-                    //         earlyMorning: "",
-                    //         lateMorning: "",
-                    //         earlyAfternoon: "",
-                    //         lateAfternoon: "",
-                    //         close: false,
-                    //     },
-                    //     thuesday: {
-                    //         earlyMorning: "",
-                    //         lateMorning: "",
-                    //         earlyAfternoon: "",
-                    //         lateAfternoon: "",
-                    //         close: false,
-                    //     },
-                    //     wednesday: {
-                    //         earlyMorning: "",
-                    //         lateMorning: "",
-                    //         earlyAfternoon: "",
-                    //         lateAfternoon: "",
-                    //         close: false,
-                    //     },
-                    //     thursday: {
-                    //         earlyMorning: "",
-                    //         lateMorning: "",
-                    //         earlyAfternoon: "",
-                    //         lateAfternoon: "",
-                    //         close: false,
-                    //     },
-                    //     friday: {
-                    //         earlyMorning: "",
-                    //         lateMorning: "",
-                    //         earlyAfternoon: "",
-                    //         lateAfternoon: "",
-                    //         close: false,
-                    //     },
-                    //     saturday: {
-                    //         earlyMorning: "",
-                    //         lateMorning: "",
-                    //         earlyAfternoon: "",
-                    //         lateAfternoon: "",
-                    //         close: false,
-                    //     },
-                    //     sunday: {
-                    //         earlyMorning: "",
-                    //         lateMorning: "",
-                    //         earlyAfternoon: "",
-                    //         lateAfternoon: "",
-                    //         close: false,
-                    //     },
-                    // },
+                    schedule: [],
                     fileList: [],
-                    price: "a",
-                    takeaway: false,
-                    accessibility: false,
-                },
-                stepThree: {
-                    index: 2,
-                    greenScore: "",
-                    description: "",
                 },
             },
         }),
         []
     );
 
-    const titleStyle = {
-        marginLeft: "20px",
-        fontWeight: 500,
-        fontSize: "28px",
+    const layoutContentStyle = {
+        backgroundColor: "#ffffff",
     };
 
     const [formState, setFormState] = useState<FormState>(defaultFormState);
+
+    const { pointOfInterestStore } = useStores();
 
     const setCurrentStep = useCallback((state: FormState) => {
         if (history.state) {
@@ -126,7 +64,7 @@ export const CreatePoi = () => {
         } else history.goBack();
     }, []);
 
-    // Page load set current step at -1
+    // Page load set current step at 0
     useEffect(() => {
         if (window !== undefined && history) {
             history.push({ currentStep: 0 });
@@ -166,31 +104,30 @@ export const CreatePoi = () => {
             item => item.index === formState.currentStep
         ),
     };
-    console.log(formState);
+
+    const onEdit = (key: string, value: any) => {
+        pointOfInterestStore.setStep({ [key]: value });
+    };
+
     return (
         <Layout>
-            <Header style={{ background: "#fff", padding: 0 }}>
-                <h1 style={titleStyle}>Créer P.O.I</h1>
-            </Header>
-            <Layout>
-                <Content
-                    style={{
-                        margin: "24px 16px",
-                        padding: 24,
-                        background: "#fff",
-                    }}
-                >
-                    <Stepper
-                        onClickStep={onChangeStep}
-                        steps={[1, 2, 3]}
-                        indexActiveStep={formState.currentStep}
-                    />
+            <CustomHeader>
+                <Stepper
+                    onClickStep={onChangeStep}
+                    steps={[1, 2]}
+                    indexActiveStep={formState.currentStep}
+                />
+            </CustomHeader>
+            <Layout style={layoutContentStyle}>
+                <CustomContent>
                     <CurrentStepComponent.Component
+                        // @ts-ignore
                         onChangeStepState={onChangeStepState}
                         stepState={CurrentStepComponent.state}
                         changeStep={onChangeStep}
+                        onEdit={onEdit}
                     />
-                </Content>
+                </CustomContent>
             </Layout>
         </Layout>
     );

@@ -4,9 +4,12 @@ export const PoiSchema = new mongoose.Schema({
   id: String,
   name: String,
   poiType: String,
-  street: String,
-  zipCode: Number,
-  city: String,
+  category: String,
+  address: {
+    value: String,
+    lat: Number,
+    lng: Number
+  },
   phone: String,
   email: String,
   siret: String,
@@ -69,7 +72,14 @@ export const PoiSchema = new mongoose.Schema({
       }
     ]
   },
+  socialNetwork: String,
   greenscore: Number,
+  foodPreference: String,
+  takeAway: Boolean,
+  wheelchair: Boolean,
   token: String,
-  status: String
+  status: String,
+  images: [
+    String
+  ]
 });
