@@ -1,9 +1,3 @@
-import React, { Suspense } from "react";
-import { GlobalStyle } from "../styles";
+import React from "react";
 
-export const OuterAppFrame = ({ children }: { children: JSX.Element }) => (
-    <Suspense fallback={<div>Chargement...</div>}>
-        <GlobalStyle />
-        {children}
-    </Suspense>
-);
+export const OuterAppFrame = ({ children }: { children: JSX.Element }) => <div>{children}</div>;

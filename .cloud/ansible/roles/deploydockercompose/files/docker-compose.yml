@@ -1,7 +1,22 @@
 version: "3"
 
 services:
-  server:
-    image: nginx:alpine
+  client:
+    image: "{{ docker_username }}/{{ images.client }}:{{ tags.client }}"
     ports:
       - 80:80
+
+  back-end:
+    image: "{{ docker_username }}/{{ images.backend }}:{{ tags.backend }}"
+    ports:
+      - 3000:3000
+    networks:
+      - backend
+
+  database:
+    image: mongo:latest
+    networks:
+      - backend
+
+networks:
+  backend:

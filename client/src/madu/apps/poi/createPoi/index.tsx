@@ -25,7 +25,6 @@ type FormState = {
     stepStates: {
         stepOne: StepOneState;
         stepTwo: any;
-        stepThree: any;
     };
 };
 
@@ -44,9 +43,6 @@ export const CreatePoi = () => {
                     index: 1,
                     schedule: [],
                     fileList: [],
-                },
-                stepThree: {
-                    index: 2,
                 },
             },
         }),
