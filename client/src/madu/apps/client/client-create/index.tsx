@@ -7,7 +7,7 @@ import { TabsMenu } from "madu/components/tabs-menu";
 import { FormStepOne, StepOneState } from "./steps/step-one";
 import { FormStepTwo, StepTwoState } from "./steps/step-two";
 
-const { Header, Content } = Layout;
+const { Content } = Layout;
 
 const history = createHistory();
 
@@ -102,7 +102,12 @@ export const CreateClient = () => {
     };
     return (
         <Layout>
-            <Header style={{ background: "#fff", paddingLeft: "20%", paddingRight: "20%" }}>
+            <div
+                style={{
+                    background: "#fff",
+                    padding: 40,
+                }}
+            >
                 <TabsMenu
                     onClickStep={onChangeStep}
                     tabs={[
@@ -111,8 +116,7 @@ export const CreateClient = () => {
                     ]}
                     indexActiveStep={formState.currentStep}
                 />
-                />
-            </Header>
+            </div>
             <Layout style={layoutContentStyle}>
                 <Content
                     style={{
