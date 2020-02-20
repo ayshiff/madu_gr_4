@@ -44,7 +44,7 @@ export const SideBar = () => (
             <Menu.Item key="3">
                 <Icon type="upload" />
                 <span>Map</span>
-                <a href="/map">Map</a>
+                <a href="/poi/map">Map</a>
             </Menu.Item>
         </Menu>
     </CustomSider>
