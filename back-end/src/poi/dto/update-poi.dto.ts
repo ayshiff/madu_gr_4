@@ -14,8 +14,8 @@ export class UpdatePoiDto {
   category: string;
 
   @IsOptional()
-  @IsString()
-  poiType: string;
+  @IsString({each: true})
+  poiType: [string];
 
   @IsOptional()
   @ValidateNested()

@@ -1,6 +1,6 @@
 import { Controller, Post, Body, Get, Put, Delete, Param, UseGuards, UseInterceptors, UploadedFiles, Res, Header } from '@nestjs/common';
 import { PoiService } from './poi.service';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags, ApiResponse } from '@nestjs/swagger';
 import { Roles } from 'src/auth/decorator/roles.decorator';
 import { UserRole } from 'src/auth/userRole.enum';
 import { CreatePoiDto } from './dto/create-poi.dto';
@@ -72,6 +72,7 @@ export class PoiController {
   @Get('/images/:image_id')
   @Header('Content-Type', 'image/jpeg')
   @Roles(UserRole.Admin)
+  @ApiResponse({ description: 'An image in jpg format.'})
   async getImage(@Param('image_id') id: string, @Res() res) {
     return res.sendFile(id, { root: 'upload' });
   }

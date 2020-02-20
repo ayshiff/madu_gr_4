@@ -10,7 +10,7 @@ export class Poi {
   @ApiProperty()
   category: string;
   @ApiProperty()
-  poiType: string;
+  poiType: [string];
   @ApiProperty()
   address: {
     value: string,
