@@ -10,7 +10,7 @@ import { InstantSearch } from "react-instantsearch-dom";
 import algoliasearch from "algoliasearch";
 import Places from "../../../../places/widget";
 
-const searchClient = algoliasearch("latency", process.env.ALGOLIA_API_KEY);
+const searchClient = algoliasearch("latency", "97797269710d54d6054b399b1f777c5c");
 
 const { TextArea } = Input;
 
@@ -49,6 +49,7 @@ export type StepOneProps = {
 const FormStepOneComponent = observer(({ changeStep, onEdit, form }: StepOneProps) => {
     const {
         pointOfInterestStore: { byId },
+        pointOfInterestStore,
     } = useStores();
 
     const checkForm = () => {
@@ -73,6 +74,7 @@ const FormStepOneComponent = observer(({ changeStep, onEdit, form }: StepOneProp
                         <div className="search-panel" style={{ width: "300px" }}>
                             <div className="search-panel__results">
                                 <Places
+                                    store={pointOfInterestStore}
                                     defaultRefinement={{
                                         lat: 37.7793,
                                         lng: -122.419,

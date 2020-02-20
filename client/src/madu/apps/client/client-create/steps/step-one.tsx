@@ -2,10 +2,14 @@ import React from "react";
 import { Form, Input, Button } from "antd";
 import styled from "styled-components";
 import { rem } from "polished";
+import { InstantSearch } from "react-instantsearch-dom";
+import { observer } from "mobx-react";
 
 import { ButtonWrapper } from "styles/atoms/button-wrapper";
 
 import { useStores } from "madu/hooks/use-store";
+import algoliasearch from "algoliasearch";
+import Places from "../../../../places/widget";
 
 const StepWrapper = styled.div`
     height: 100%;
@@ -31,12 +35,6 @@ const InputWrapper = styled.div`
 
 export type StepOneState = {
     index: number;
-    companyName: string;
-    address: string;
-    zipcode: string;
-    name: string;
-    phoneNumber: string;
-    companyPosition: string;
 };
 
 export type StepOneProps = {
@@ -45,10 +43,14 @@ export type StepOneProps = {
     form: any;
 };
 
-const FormStepOneComponent = ({ onEdit, changeStep, form }: StepOneProps) => {
+const searchClient = algoliasearch("latency", "97797269710d54d6054b399b1f777c5c");
+
+const FormStepOneComponent = observer(({ onEdit, changeStep, form }: StepOneProps) => {
     const {
         companyStore: { byId },
     } = useStores();
+
+    const { companyStore } = useStores();
 
     const checkForm = () => {
         form.validateFields((err, values) => {
@@ -70,11 +72,19 @@ const FormStepOneComponent = ({ onEdit, changeStep, form }: StepOneProps) => {
                 </Form.Item>
                 <InputWrapper>
                     <Form.Item label="Adresse">
-                        {form.getFieldDecorator("address", {
-                            initialValue: byId.address,
-                            setFieldsValue: byId.address,
-                            rules: [{ required: true, message: "Merci de renseigner un nom" }],
-                        })(<CustomInput onChange={e => onEdit("address", e.target.value)} />)}
+                        <InstantSearch indexName="airports" searchClient={searchClient}>
+                            <div className="search-panel" style={{ width: "300px" }}>
+                                <div className="search-panel__results">
+                                    <Places
+                                        store={companyStore}
+                                        defaultRefinement={{
+                                            lat: 37.7793,
+                                            lng: -122.419,
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                        </InstantSearch>
                     </Form.Item>
                     <Form.Item label="Code postal">
                         {form.getFieldDecorator("zipcode", {
@@ -118,6 +128,6 @@ const FormStepOneComponent = ({ onEdit, changeStep, form }: StepOneProps) => {
             </ButtonWrapper>
         </StepWrapper>
     );
-};
+});
 
 export const FormStepOne = Form.create()(FormStepOneComponent);

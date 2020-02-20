@@ -1,5 +1,5 @@
-import * as mongoose from 'mongoose';
-import { ApiProperty } from '@nestjs/swagger';
+import * as mongoose from "mongoose";
+import { ApiProperty } from "@nestjs/swagger";
 
 export class Company {
   _id: mongoose.Schema.Types.ObjectId;
@@ -8,12 +8,14 @@ export class Company {
   @ApiProperty()
   name: string;
   @ApiProperty()
+  companyName: string;
+  @ApiProperty()
   domainName: string;
   @ApiProperty()
   address: {
-    value: string,
-    lat: number,
-    lng: number
+    value: string;
+    lat: number;
+    lng: number;
   };
   @ApiProperty()
   employees: string;

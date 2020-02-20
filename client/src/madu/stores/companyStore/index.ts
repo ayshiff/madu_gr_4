@@ -1,22 +1,28 @@
 import { observable, action } from "mobx";
-import { get, apiDelete, postJson } from "madu/services/commun";
+import { get, apiDelete, postJson, apiPut } from "madu/services/commun";
 import { editReference, removeReference } from "../utils/index";
 
 import { companyStoreMock } from "./mock";
 
 const { REACT_APP_API_BASE_URL } = process.env;
 
+interface Address {
+    value: string;
+    lat: number;
+    lng: number;
+}
+
 export interface ICompany {
     id: string;
     companyName: string;
     email: string;
     name: string;
-    address: string;
+    address: Address;
     zipcode: string;
     phoneNumber: string;
     companyPosition: string;
-    salaryNumber: string;
-    mailNameDomain: string;
+    employees: string;
+    domainName: string;
     status?: string;
     poiNumber?: string;
 }
@@ -34,6 +40,7 @@ class CompanyStore {
         const endpoint = `${REACT_APP_API_BASE_URL}/companies `;
         return get(endpoint)
             .then((data: any) => {
+                console.log(data);
                 const processedData: any = data;
                 // Process store once the call has succeed
                 this.all = processedData.value;
@@ -63,6 +70,7 @@ class CompanyStore {
         const endpoint = `${REACT_APP_API_BASE_URL}/companies`;
         return postJson(endpoint, company)
             .then(data => {
+                console.log(data);
                 // Process store once the call has succeed
                 this.all.push(data as any);
                 return;
@@ -73,7 +81,9 @@ class CompanyStore {
     @action edit = (id: string, company: ICompany) => {
         const endpoint = `${REACT_APP_API_BASE_URL}/companies/${id}`;
 
-        return postJson(endpoint, company)
+        return apiPut(endpoint, JSON.stringify(company), {
+            "Content-Type": "application/json",
+        })
             .then(data => {
                 // Process store once the call has succeed
                 this.all = editReference(id, company, this.all);
@@ -95,6 +105,10 @@ class CompanyStore {
 
     @action reset = () => {
         this.all = [];
+    };
+
+    @action setAdress = (address: Address) => {
+        this.byId.address = address;
     };
 
     @action resetId = () => {

@@ -2,11 +2,15 @@ export const companyStoreMock = {
     id: "",
     companyName: "",
     name: "",
-    address: "",
+    address: {
+        value: "",
+        lat: null,
+        lng: null,
+    },
     zipcode: "",
     phoneNumber: "",
     email: "",
     companyPosition: "",
-    salaryNumber: "",
-    mailNameDomain: "",
+    employees: "",
+    domainName: "",
 };

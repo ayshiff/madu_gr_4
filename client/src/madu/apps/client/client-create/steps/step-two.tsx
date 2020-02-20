@@ -24,8 +24,6 @@ const StepWrapper = styled.div`
 
 export type StepTwoState = {
     index: number;
-    salaryNumber: number | null;
-    mailNameDomain: string | null;
 };
 
 export type StepTwoProps = {
@@ -51,7 +49,7 @@ const FormStepTwoComponent = ({ onEdit, changeStep, form }: StepTwoProps) => {
                 }
 
                 companyStore.resetId();
-                history.push("/poi/list");
+                history.push("/client/list");
             }
         });
     };
@@ -64,18 +62,18 @@ const FormStepTwoComponent = ({ onEdit, changeStep, form }: StepTwoProps) => {
         <StepWrapper>
             <Form>
                 <Form.Item label="Nombre de salariés / élèves">
-                    {form.getFieldDecorator("mailNameDomain", {
-                        initialValue: byId.mailNameDomain,
-                        setFieldsValue: byId.mailNameDomain,
+                    {form.getFieldDecorator("employees", {
+                        initialValue: byId.employees,
+                        setFieldsValue: byId.employees,
                         rules: [{ required: true, message: "Merci de renseigner un nom" }],
-                    })(<CustomInput onChange={e => onEdit("salaryNumber", e.target.value)} />)}
+                    })(<CustomInput onChange={e => onEdit("employees", e.target.value)} />)}
                 </Form.Item>
                 <Form.Item label="Nom de domaine mail">
-                    {form.getFieldDecorator("companmailNameDomainyPosition", {
-                        initialValue: byId.mailNameDomain,
-                        setFieldsValue: byId.mailNameDomain,
+                    {form.getFieldDecorator("domainName", {
+                        initialValue: byId.domainName,
+                        setFieldsValue: byId.domainName,
                         rules: [{ required: true, message: "Merci de renseigner un nom" }],
-                    })(<CustomInput onChange={e => onEdit("mailNameDomain", e.target.value)} />)}
+                    })(<CustomInput onChange={e => onEdit("domainName", e.target.value)} />)}
                 </Form.Item>
             </Form>
 

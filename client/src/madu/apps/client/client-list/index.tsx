@@ -66,7 +66,7 @@ export const ListClient = observer(() => {
     const edit = (id: string) => {
         companyStore.getById(id);
         companyStore.setEditing(true);
-        history.push("/poi/create");
+        history.push("/client/create");
     };
 
     const columns = [
@@ -150,15 +150,15 @@ export const ListClient = observer(() => {
                 </div>
             </Header>
             <CustomContent>
-                {console.log("companyStore.all", companyStore.all)}
                 <Table
                     columns={columns}
                     dataSource={
                         companyStore.all.length
                             ? companyStore.all
-                                  .map((el, ind) => {
+                                  .map((el, i) => {
+                                      // console.log(el);
                                       return {
-                                          key: ind,
+                                          key: i,
                                           id: el.id,
                                           companyName: el.companyName,
                                           poiNumber: el.poiNumber,
@@ -166,13 +166,15 @@ export const ListClient = observer(() => {
                                           email: el.email,
                                       };
                                   })
-                                  .filter(
-                                      el =>
+                                  .filter(el => {
+                                      console.log(el);
+                                      return (
                                           el.companyName &&
                                           el.companyName
                                               .toLowerCase()
                                               .includes(filter.toLowerCase())
-                                  )
+                                      );
+                                  })
                             : []
                     }
                     pagination={{ pageSize: 10 }}

@@ -4,9 +4,8 @@ import connect from "./connector";
 import { observer } from "mobx-react";
 import { useStores } from "madu/hooks/use-store";
 
-const Places = observer(({ refine, defaultRefinement }) => {
+const Places = observer(({ refine, defaultRefinement, store }) => {
     let ref = useRef(<input />);
-    const { pointOfInterestStore } = useStores();
 
     useEffect(() => {
         const autocomplete = places({
@@ -15,7 +14,7 @@ const Places = observer(({ refine, defaultRefinement }) => {
 
         autocomplete.on("change", event => {
             refine(event.suggestion.latlng);
-            pointOfInterestStore.setAdress({
+            store.setAdress({
                 value: event.suggestion.name,
                 lat: parseFloat(event.suggestion.latlng.lat),
                 lng: parseFloat(event.suggestion.latlng.lng),
@@ -29,7 +28,7 @@ const Places = observer(({ refine, defaultRefinement }) => {
     return (
         <div style={{ marginBottom: 20 }}>
             <input
-                defaultValue={pointOfInterestStore.byId.address.value}
+                defaultValue={store.byId.address.value}
                 ref={ref}
                 type="search"
                 id="address-input"

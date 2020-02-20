@@ -31,17 +31,9 @@ export const CreateClient = () => {
             stepStates: {
                 stepOne: {
                     index: 0,
-                    companyName: "",
-                    address: "",
-                    zipcode: "",
-                    name: "",
-                    phoneNumber: "",
-                    companyPosition: "",
                 },
                 stepTwo: {
                     index: 1,
-                    salaryNumber: null,
-                    mailNameDomain: null,
                 },
             },
         }),
