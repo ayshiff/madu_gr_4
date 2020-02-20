@@ -4,6 +4,7 @@ import { useStores } from "madu/hooks/use-store";
 import { observer } from "mobx-react";
 import { useHistory } from "react-router";
 import styled from "styled-components";
+import { rem } from "polished";
 
 const { Header, Content } = Layout;
 
@@ -16,6 +17,20 @@ const CustomLink = styled.div`
     }
 `;
 
+const CustomLayout = styled(Layout)`
+    background: #fff;
+    padding: ${rem(24)};
+`;
+
+const CustomContent = styled(Content)`
+    margin: ${rem(24)} ${rem(16)};
+    padding: ${rem(24)};
+    background: #fff;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1), 0px 3px 10px rgba(0, 0, 0, 0.06),
+        0px 1px 30px rgba(0, 0, 0, 0.04);
+    border-radius: ${rem(12)};
+`;
+
 const CustomTag = styled(Tag)`
     width: 150px;
     text-align: center;
@@ -24,17 +39,11 @@ const CustomTag = styled(Tag)`
     }
 `;
 
-const CustomTitle = styled.h1`
-    margin-left: 20px;
-    font-weight: 500;
-    font-size: 28px;
-`;
-
-export const CustomContent = styled(Content)`
-    margin: 24px 16px;
-    padding: 24;
-    background: #fff;
-`;
+const titleStyle = {
+    marginLeft: "20px",
+    fontWeight: 500,
+    fontSize: "28px",
+};
 
 const CustomButton = styled(Button)`
     margin-right: 20px;
@@ -130,9 +139,9 @@ export const ListPoi = observer(() => {
 
     const { Search } = Input;
     return (
-        <Layout style={{ height: "100%" }}>
+        <CustomLayout>
             <CustomHeader>
-                <CustomTitle>Liste des points d’intêret</CustomTitle>
+                <h1 style={titleStyle}>Liste des points d’intêret</h1>
                 <div>
                     <Search
                         onChange={e => setFilter(e.target.value)}
@@ -145,8 +154,9 @@ export const ListPoi = observer(() => {
                 </div>
             </CustomHeader>
             <CustomContent>
-                {console.log(pointOfInterestStore.all)}
                 <Table
+                    pagination={{ pageSize: 10 }}
+                    scroll={{ y: 400 }}
                     columns={columns}
                     // @ts-ignore
                     dataSource={
@@ -171,6 +181,6 @@ export const ListPoi = observer(() => {
                     }
                 />
             </CustomContent>
-        </Layout>
+        </CustomLayout>
     );
 });
