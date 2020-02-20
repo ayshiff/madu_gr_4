@@ -120,3 +120,115 @@ describe("PointOfInterestStore", () => {
     });
     ...
 ```
+
+## WIP
+
+## react 
+
+React est une librarie javascript développé par Facebook. Elle a pour principale but de facilité la création d'application web en proposant plusieurs notions : 
+```js 
+function Example() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>Vous avez cliqué {count} fois</p>
+      <button onClick={() => setCount(count + 1)}>
+        Cliquez ici
+      </button>
+    </div>
+  );
+}
+```
+
+**hooks** : 
+```js 
+    const [count, setCount] = useState(0);
+```
+nouveauté proposer par react 16.8, Ils permettent de bénéficier d’un état local et d’autres fonctionnalités de React sans avoir à écrire de classes.
+
+**jsx**
+```js 
+      <button onClick={() => setCount(count + 1)}>
+```
+utilisé par react permettant d'utilisé des balises html et du code javascript
+
+plusieurs avantages a utilisé React : 
+
+Haute performance :
+Virtual-Dom : abstraction du Dom, permettant une représentation idéale, ou « virtuelle », d’une interface utilisateur (UI) est conservée en mémoire et synchronisée avec le DOM « réel » par une bibliothèque telle que ReactDOM.
+
+Grande communauté :
+Documentation et aide facile à trouver
+
+Transition aisé via React Native :
+Réutilisation de composant aisé pour l'application mobile
+
+## Ant Design
+
+Librairie de composant facilement personnalisables, populaire bénéficiant d'un gros soutien de la communauté et d'une documentation claire
+
+exemple : 
+
+```js
+class App extends React.Component {
+  state = {
+    date: null,
+  };
+
+  handleChange = date => {
+    message.info(`Selected Date: ${date ? date.format('YYYY-MM-DD') : 'None'}`);
+    this.setState({ date });
+  };
+
+  render() {
+    const { date } = this.state;
+    return (
+      <div style={{ width: 400, margin: '100px auto' }}>
+        <DatePicker onChange={this.handleChange} />
+        <div style={{ marginTop: 20 }}>
+          Selected Date: {date ? date.format('YYYY-MM-DD') : 'None'}
+        </div>
+      </div>
+    );
+  }
+}
+```
+
+## Mapbox
+
+Mapbox est une plateforme de développement utilisée par plusieurs industries pour créer des applications personnalisées qui résolvent les problèmes liés aux cartes, aux données et à l'analyse spatiale. Mapbox est une alternative solide a google maps ayant un plan gratuit attratif, open-source.
+
+## Typescript
+
+Langage de programmation développé par Microsoft en 2012. Son ambition principale est d’améliorer la productivité de développement d’applications complexes. Typescript introduit des fonctionnalités optionnelles comme le typage ou encore la programmation orientée objet.
+
+exemple : 
+
+```ts
+class Greeter {
+    greeting: string;
+    constructor(message: string) {
+        this.greeting = message;
+    }
+    greet() {
+        return "Hello, " + this.greeting;
+    }
+}
+
+let greeter = new Greeter("world");
+```
+
+Les intérêts d'utiliser typescript sont multiples : 
+
+- TypeScript aide les développeurs à travailler ensemble sur une base de code commune
+
+- Code plus simple de compréhension
+
+- Code plus simple à refractorer
+
+- Moins propice aux bugs
+
+- Aide le developpeur à avoir un bon workflow
+
+
