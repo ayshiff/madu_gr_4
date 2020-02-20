@@ -5,9 +5,9 @@ import { AuthGuard as PassportAuthGuard } from '@nestjs/passport';
 export class AuthGuard extends PassportAuthGuard('jwt') {
 
   handleRequest(err, user, info) {
-    // if (info.name === 'TokenExpiredError') {
-    //   throw new UnauthorizedException();
-    // }
+    if (info && info.name === 'TokenExpiredError') {
+      throw new UnauthorizedException();
+    }
     return user;
   }
 

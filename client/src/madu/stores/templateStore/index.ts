@@ -17,9 +17,9 @@ class TemplateStore {
         const endpoint = "";
         get(endpoint)
             .then((data: any) => {
-                const processedData: ITemplate[] = data;
+                const processedData: any = data;
                 // Process store once the call has succeed
-                this.all = processedData;
+                this.all = processedData.value;
             })
             .catch(err => console.log(err));
     };
@@ -28,9 +28,9 @@ class TemplateStore {
         const endpoint = `${id}`;
         get(endpoint)
             .then((data: any) => {
-                const processedData: ITemplate = data;
+                const processedData: any = data;
                 // Process store once the call has succeed
-                this.byId = processedData;
+                this.byId = processedData.value;
             })
             .catch(err => console.log(err));
     };

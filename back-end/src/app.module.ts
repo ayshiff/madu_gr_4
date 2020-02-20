@@ -9,7 +9,7 @@ import { UsersModule } from './users/users.module';
 import { PoiModule } from './poi/poi.module';
 import { GreenscoreModule } from './greenscore/greenscore.module';
 
-// todo forgotten password, localisation, mail
+// todo localisation, mail
 @Module({
   imports: [
     MongooseModule.forRootAsync({
