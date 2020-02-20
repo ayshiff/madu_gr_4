@@ -1,7 +1,0 @@
----
-
-- name: Deploy docker-compose
-  hosts: tag_Name_serveur_madu
-
-  roles:
-    - { role: deploydockercompose }

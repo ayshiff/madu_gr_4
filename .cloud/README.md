@@ -1,3 +1,19 @@
+# Structure du projet
+
+### Terraform
+
+Instances:
+- Un serveur EC2.
+- Un groupe de sécurité autorisant les connexions entrantes sur les ports 22 (ssh), 80 (back-office) et 3000 (api) ainsi que toutes les connexions sortantes.
+- Une paire de clé utilisé pour la conexion ssh par le serveur.
+
+### Ansible
+
+Rôles :
+- installdocker: Installe docker sur le serveur et crée un dossier de déploiment.
+- deploydockercompose: Copie le fichier docker compose et le lance.
+- updatedockerfile: Build les images docker en local et les push sur docker hub.
+
 # Déploiment du projet
 
 Dépendances nécessaires :
