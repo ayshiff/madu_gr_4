@@ -18,11 +18,7 @@ export const SearchSidebar = ({ titleProperties }: { titleProperties: string }) 
     return (
         <Tabs defaultActiveKey="1">
             <TabPane style={tabPaneStyle} tab="Recherche" key="1">
-                <Search
-                    placeholder="Rechercher une adresse"
-                    onSearch={value => console.log(value)}
-                    style={searchBarStyle}
-                />
+                <Search placeholder="Rechercher une adresse" style={searchBarStyle} />
             </TabPane>
             <TabPane style={tabPaneStyle} tab="Infos" key="2">
                 <p>{titleProperties}</p>

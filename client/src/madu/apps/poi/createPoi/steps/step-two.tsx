@@ -7,7 +7,6 @@ import { ButtonWrapper } from "styles/atoms/button-wrapper";
 import { StateKeys } from "../index";
 import { observer } from "mobx-react";
 import { useStores } from "madu/hooks/use-store";
-import { toJS } from "mobx";
 import moment from "moment";
 
 const format = "HH:mm";
@@ -107,7 +106,6 @@ const FormStepTwoComponent = observer(
                             pointOfInterestStore.byId.id,
                             pointOfInterestStore.byId
                         );
-                        console.log(toJS(pointOfInterestStore.byId));
                         pointOfInterestStore.setEditing(false);
                     } else {
                         // Creating
@@ -129,8 +127,6 @@ const FormStepTwoComponent = observer(
                 index ? "to" : "from"
             ] = value.format("HH:mm");
         };
-
-        console.log(toJS(byId));
 
         return (
             <>
@@ -273,7 +269,7 @@ const FormStepTwoComponent = observer(
                             rules: [{ required: true, message: "Merci de choisir une url valide" }],
                         })(<CustomInput onChange={e => onEdit("poiType", e.target.value)} />)}
                     </Form.Item>
-                    {console.log(byId.category)}
+
                     {byId.category === "restoration" && (
                         <Form.Item label="Préférence alimentaire">
                             {form.getFieldDecorator("foodPreference", {
