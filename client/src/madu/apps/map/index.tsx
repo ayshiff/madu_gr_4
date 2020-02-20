@@ -1,10 +1,6 @@
 import React, { useEffect } from "react";
-
 import { SearchSidebar } from "./searchSidebar/searchSidebar";
-
 import ReactMapboxGl, { Layer, Feature } from "react-mapbox-gl";
-
-// import mapfunction from "./mapfunction";
 import { useStores } from "../../hooks/use-store";
 import { observer } from "mobx-react";
 
@@ -20,6 +16,9 @@ const searchSidebarStyle = {
     height: "100vh",
     backgroundColor: "#ffffff",
 };
+
+const metersToPixelsAtMaxZoom = (meters, latitude) =>
+    meters / 0.075 / Math.cos((latitude * Math.PI) / 180);
 
 const Map = ReactMapboxGl({
     accessToken:
@@ -39,20 +38,75 @@ export const Mapboxgl = observer(() => {
                 <SearchSidebar titleProperties={"titleProperties"} />
             </div>
             <Map
-                style="mapbox://styles/mapbox/streets-v9"
+                style="mapbox://styles/mapbox/streets-v8"
                 containerStyle={{
                     height: "100vh",
                     width: "100vw",
                 }}
-                center={[2.30438232421875, 48.88007028454358]}
+                zoom={pointOfInterestStore.byId.address.lng ? [13.7] : [11.5]}
+                center={
+                    pointOfInterestStore.byId.address.lng
+                        ? [
+                              pointOfInterestStore.byId.address.lng,
+                              pointOfInterestStore.byId.address.lat,
+                          ]
+                        : [2.349014, 48.864716]
+                }
             >
-                <Layer type="symbol" id="marker" layout={{ "icon-image": "harbor-15" }}>
+                {/* All POI Markers */}
+                <Layer type="symbol" id="marker1" layout={{ "icon-image": "marker-15" }}>
+                    {pointOfInterestStore.byId.address.lat ? (
+                        <Feature
+                            key={pointOfInterestStore.byId.id}
+                            coordinates={[
+                                pointOfInterestStore.byId.address.lng,
+                                pointOfInterestStore.byId.address.lat,
+                            ]}
+                            onClick={e => console.log(e)}
+                        />
+                    ) : null}
+                </Layer>
+                {/* ById POI Marker */}
+                <Layer type="symbol" id="marker2" layout={{ "icon-image": "marker-15" }}>
                     {pointOfInterestStore.all.length
                         ? pointOfInterestStore.all.map(el => (
                               <Feature key={el.id} coordinates={[el.address.lng, el.address.lat]} />
                           ))
                         : null}
                 </Layer>
+                {/* Circle */}
+                {pointOfInterestStore.byId.address.lat && (
+                    <Layer
+                        type="circle"
+                        id="circle"
+                        paint={{
+                            "circle-opacity": 0.3,
+                            "circle-color": "grey",
+                            "circle-radius": {
+                                stops: [
+                                    [0, 0],
+                                    [
+                                        20,
+                                        metersToPixelsAtMaxZoom(
+                                            1000,
+                                            pointOfInterestStore.byId.address.lat
+                                        ),
+                                    ],
+                                ],
+                                base: 2,
+                            },
+                        }}
+                    >
+                        <Feature
+                            key="circle"
+                            coordinates={[
+                                pointOfInterestStore.byId.address.lng,
+                                pointOfInterestStore.byId.address.lat,
+                            ]}
+                            onClick={e => console.log(e)}
+                        />
+                    </Layer>
+                )}
             </Map>
             ;
         </div>
