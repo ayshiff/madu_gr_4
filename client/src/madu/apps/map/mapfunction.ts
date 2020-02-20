@@ -1,4 +1,3 @@
-
 export default {
     generatePoints: (map, data) => {
         if (map) {

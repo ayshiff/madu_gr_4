@@ -1,7 +1,7 @@
 import React from "react";
-import { Tabs, Input } from "antd";
+import { Tabs, Input, Icon } from "antd";
 
-export const SearchSidebar = ({titleProperties}:{titleProperties:string}) => {
+export const SearchSidebar = ({ titleProperties }: { titleProperties: string }) => {
     const { TabPane } = Tabs;
     const { Search } = Input;
 
@@ -15,6 +15,23 @@ export const SearchSidebar = ({titleProperties}:{titleProperties:string}) => {
         width: "280px",
     };
 
+    const infoPanelStyle = {
+
+    }
+
+    const titleStyle = {
+        marginLeft: "25px"
+    }
+
+    const paragraphStyle = {
+        marginTop: "19px",
+        marginLeft: "30px"
+    }
+
+    const iconStyle = {
+        marginRight: "11px"
+    }
+
     return (
         <Tabs defaultActiveKey="1">
             <TabPane style={tabPaneStyle} tab="Recherche" key="1">
@@ -24,8 +41,16 @@ export const SearchSidebar = ({titleProperties}:{titleProperties:string}) => {
                     style={searchBarStyle}
                 />
             </TabPane>
-            <TabPane style={tabPaneStyle} tab="Infos" key="2">
-                <p>{titleProperties}</p>
+            <TabPane style={infoPanelStyle} tab="Infos" key="2">
+                <h1 style={titleStyle} >{titleProperties}</h1>
+                <p style={paragraphStyle} >
+                    <Icon style={iconStyle} type="environment" />
+                    {titleProperties}
+                </p>
+                <p style={paragraphStyle}>
+                    <Icon style={iconStyle} type="global" />
+                    {titleProperties}
+                </p>
             </TabPane>
         </Tabs>
     );

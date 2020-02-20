@@ -26,15 +26,15 @@ const searchSidebarStyle = {
 
 export const Mapboxgl = () => {
     const [map, setMap] = useState<mapboxgl.Map | null>(null);
-    const [titleProperties, setTitleProperties] = useState<string>("")
+    const [titleProperties, setTitleProperties] = useState<string>("");
 
     useEffect(() => {
         if (map) {
-            titlePropertiesProps(map)
+            titlePropertiesProps(map);
             mapfunction.generatePoints(map, datatest);
             mapfunction.clickOnPoint(map);
             mapfunction.clickOneLayer(map);
-            console.log(titlePropertiesProps(map));     
+            console.log(titlePropertiesProps(map));
         }
     }, [map]);
 
@@ -52,17 +52,17 @@ export const Mapboxgl = () => {
         setMap(mapInitializer);
     }, []);
 
-    const titlePropertiesProps = (map) => {
+    const titlePropertiesProps = map => {
         map.on("click", "points", e => {
-            setTitleProperties(e.features[0].properties.title)
-            console.log(e.features[0].properties.title);    
-        })
-    }
+            setTitleProperties(e.features[0].properties.title);
+            console.log(e.features[0].properties.title);
+        });
+    };
 
     return (
         <div style={containerStyle}>
             <div style={searchSidebarStyle}>
-                <SearchSidebar titleProperties={titleProperties}/>
+                <SearchSidebar titleProperties={titleProperties} />
             </div>
             <div style={mapStyle} id="map"></div>
         </div>
