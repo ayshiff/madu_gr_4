@@ -5,8 +5,11 @@ export interface Company {
   id: string;
   name: string;
   domainName: string;
-  street: string;
-  zipCode: number;
-  city: string;
+  address: {
+    value: string,
+    lat: number,
+    lng: number
+  };
+  employees: string;
   status: string;
 }

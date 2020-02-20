@@ -27,12 +27,8 @@ export class UsersService {
     if (createUserDto.manager) {
       createdUser.roles.push(UserRole.Manager);
     }
-    if (createdUser.password) {
-      createdUser.password = await hashSync(
-        createdUser.password,
-        parseInt(this.configService.get<string>('SALT_ROUNDS'))
-      );
-    }
+    createdUser.password = 'not_set_yet';
+    console.log(`Send mail to ${createdUser.email}: account created, you can use the forgot password functionality to create a password`);
     await createdUser.save();
     return this.findByUuid(createdUser.id);
   }
@@ -73,12 +69,6 @@ export class UsersService {
 
   async update(user: User, createUserDto: CreateUserDto): Promise<User> {
     createUserDto.manager = null;
-    if (createUserDto.password) {
-      createUserDto.password = await hashSync(
-        createUserDto.password,
-        parseInt(this.configService.get<string>('SALT_ROUNDS'))
-      );
-    }
     await this.userModel.updateOne(user, createUserDto);
     return this.findByUuid(user.id);
   }
@@ -116,7 +106,7 @@ export class UsersService {
     const user = await this.findByEmail(forgottenPasswordDto.email);
     if (user) {
       const forgottenToken = uuidv4().replace(/-/gi, '');
-      console.log(`Send mail to ${user.email} with forgottenToken = ${forgottenToken}`);
+      console.log(`Send mail to ${user.email}: follow this link to reset your password ${this.configService.get<string>('FRONT_URL')}/reset-password/${forgottenToken}`);
       await this.userModel.updateOne({ id: user.id }, { forgottenToken, forgottenTokenTime: Date.now() });
     }
     return "An email has been sent to your account";
@@ -131,6 +121,7 @@ export class UsersService {
       resetPasswordDto.password,
       parseInt(this.configService.get<string>('SALT_ROUNDS'))
     );
+    console.log(`Send mail to ${user.email}: Your password has been edited`);
     await this.userModel.updateOne({ id: user.id }, { password, forgottenToken: null, forgottenTokenTime: null });
     return "Your password has been edited";
   }

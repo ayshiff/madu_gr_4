@@ -6,6 +6,7 @@ export interface User {
   password: string;
   roles: string;
   company_id: string;
+  companyPosition: string,
   forgottenToken?: string;
   forgottenTokenTime?: number;
 }

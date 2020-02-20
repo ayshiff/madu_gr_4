@@ -70,4 +70,8 @@ export class UpdatePoiDto {
   @IsOptional()
   @IsBoolean()
   wheelchair: boolean;
+
+  @IsOptional()
+  @IsString()
+  status: string;
 }

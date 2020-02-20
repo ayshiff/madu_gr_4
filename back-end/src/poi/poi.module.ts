@@ -11,6 +11,7 @@ import { GreenscoreModule } from 'src/greenscore/greenscore.module';
       GreenscoreModule
     ],
     providers: [PoiService],
-    controllers: [PoiController]
+    controllers: [PoiController],
+    exports: [PoiService]
   })
 export class PoiModule {}

@@ -9,5 +9,6 @@ export const CompanySchema = new mongoose.Schema({
     lat: Number,
     lng: Number
   },
+  employees: String,
   status: String
 });
