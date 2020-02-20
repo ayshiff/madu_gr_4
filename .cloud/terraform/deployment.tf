@@ -10,7 +10,7 @@ resource "aws_key_pair" "ssh_key" {
 
 resource "aws_security_group" "ssh_security_group" {
   name = "madu_security_group"
-  description = "Allow connection on port 22"
+  description = "Allow connection on port 22, 80 and 3000"
 
   ingress {
     from_port = 22
