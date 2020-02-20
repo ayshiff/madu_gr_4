@@ -1,5 +1,3 @@
-import React, { Suspense } from "react";
+import React from "react";
 
-export const OuterAppFrame = ({ children }: { children: JSX.Element }) => (
-    <Suspense fallback={<div>Chargement...</div>}>{children}</Suspense>
-);
+export const OuterAppFrame = ({ children }: { children: JSX.Element }) => <div>{children}</div>;

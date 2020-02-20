@@ -45,6 +45,10 @@ export class ApiResponse<T> {
 
     static empty = (resp: Response): ApiResponse<null> =>
         new ApiResponse<null>(resp.status, resp.headers, null);
+
+    mapValue<U>(f: (a: T) => U): ApiResponse<U> {
+        return new ApiResponse(this.statusCode, this.headers, f(this.value));
+    }
 }
 
 const doCall = <T>(
@@ -77,6 +81,7 @@ const handleError = (error: string): Promise<never> => Promise.reject({ fetchErr
 const buildHeaders = (headers?: CustomRequestHeaders): Headers =>
     new Headers({
         ...headers,
+        Authorization: `Bearer ${appConfig["ID_TOKEN"]}`,
     });
 
 export const get = <T>(url: string, headers?: CustomRequestHeaders): Promise<ApiResponse<T>> =>
@@ -101,6 +106,20 @@ export const post = <T>(
         })
     );
 
+export const apiPut = <T>(
+    url,
+    payload,
+    headers?: CustomRequestHeaders,
+    withTimeoutMs?: number
+): Promise<ApiResponse<T>> =>
+    doCall<T>(withTimeoutMs, { url })(() =>
+        fetch(url, {
+            method: "PUT",
+            headers: buildHeaders(headers),
+            ...(payload && { body: payload }),
+        })
+    );
+
 export const postJson = <T>(
     url: string,
     payload: {},
@@ -112,6 +131,7 @@ export const postJson = <T>(
         JSON.stringify(payload),
         {
             ...extraHeaders,
+            Authorization: `Bearer ${appConfig["ID_TOKEN"]}`,
             "Content-Type": "application/json",
         },
         withTimeoutMs
