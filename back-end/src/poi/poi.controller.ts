@@ -79,7 +79,6 @@ export class PoiController {
 
   /*
   // this will be used in V2
-
   @Post(':poi_id/survey/send')
   @Roles(UserRole.Admin)
   async surveySend(@Param('poi_id') id: string, @Body() createPoiGreenscoreDto: CreatePoiGreenscoreDto) {

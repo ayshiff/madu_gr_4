@@ -7,6 +7,7 @@ import { ButtonWrapper } from "styles/atoms/button-wrapper";
 import { StateKeys } from "../index";
 import { observer } from "mobx-react";
 import { useStores } from "madu/hooks/use-store";
+
 import moment from "moment";
 
 const format = "HH:mm";
@@ -269,7 +270,6 @@ const FormStepTwoComponent = observer(
                             rules: [{ required: true, message: "Merci de choisir une url valide" }],
                         })(<CustomInput onChange={e => onEdit("poiType", e.target.value)} />)}
                     </Form.Item>
-
                     {byId.category === "restoration" && (
                         <Form.Item label="Préférence alimentaire">
                             {form.getFieldDecorator("foodPreference", {
