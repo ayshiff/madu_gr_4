@@ -11,6 +11,7 @@ import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { User } from 'src/users/interfaces/user.interface';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { UpdateCompanyDto } from './dto/update-company.dto';
 
 @ApiTags('Company')
 @Controller('companies')
@@ -41,9 +42,9 @@ export class CompanyController {
 
   @Put(':company_id')
   @Roles(UserRole.Admin)
-  async update(@Param('company_id') id: string, @Body() createCompanyDto: CreateCompanyDto) {
+  async update(@Param('company_id') id: string, @Body() updateCompanyDto: UpdateCompanyDto) {
     const company = await this.companyService.findByUuid(id);
-    return this.companyService.update(company, createCompanyDto);
+    return this.companyService.update(company, updateCompanyDto);
   }
 
   @Delete(':company_id')

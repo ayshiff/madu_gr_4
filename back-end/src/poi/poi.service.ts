@@ -11,12 +11,14 @@ import { UpdatePoiDto } from './dto/update-poi.dto';
 import { PoiStatus } from "./model/poi-status.enum";
 import { ValidatePoiGreenscoreDto } from './dto/validate-poi-greenscore.dto';
 import { PoiCategories } from './model/poi-categories.enum';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class PoiService {
   constructor(
     @InjectModel('Poi') private readonly poiModel: Model<Poi>,
-    private readonly templateService: TemplateService
+    private readonly templateService: TemplateService,
+    private readonly configService: ConfigService
   ) {}
 
   async create(createPoiDto: CreatePoiDto): Promise<Poi> {
@@ -122,6 +124,7 @@ export class PoiService {
 
   async findByCoordinates(lat: number, lng: number): Promise<Poi[]> {
     const allPoi = await this.poiModel.find().exec();
-    return allPoi.filter((poi: Poi) => this.distance(lat, lng, poi.address.lat, poi.address.lng) < 1000);
+    const radiusToPoiInMeters = parseInt(this.configService.get<string>('RADIUS_TO_POI_IN_METERS'));
+    return allPoi.filter((poi: Poi) => this.distance(lat, lng, poi.address.lat, poi.address.lng) < radiusToPoiInMeters);
   }
 }

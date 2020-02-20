@@ -3,7 +3,7 @@ import * as mongoose from 'mongoose';
 export const PoiSchema = new mongoose.Schema({
   id: String,
   name: String,
-  poiType: String,
+  poiType: [String],
   category: String,
   address: {
     value: String,

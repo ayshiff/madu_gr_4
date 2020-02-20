@@ -10,8 +10,8 @@ export class CreateUserDto {
   @IsString()
   lastname: string;
 
-  @IsNotEmpty()
-  password: string;
+  @IsString()
+  companyPosition: string;
 
   @IsBoolean()
   manager: boolean;
