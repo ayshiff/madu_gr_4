@@ -10,7 +10,7 @@ export const pointOfInterestMock = {
     phone: "",
     email: "",
     siret: "",
-    category: "",
+    category: "restoration",
     socialNetwork: "",
     foodPreference: ["vegan"],
     takeAway: false,

@@ -111,7 +111,7 @@ const FormStepOneComponent = observer(({ onEdit, changeStep, form }: StepOneProp
                             />
                         )}
                     </Form.Item>
-                    <Form.Item label="Prénom du contact">
+                    <Form.Item label="Numéro de téléphone">
                         {form.getFieldDecorator("phoneNumber", {
                             initialValue: companyStore.byId.phoneNumber,
                             setFieldsValue: companyStore.byId.phoneNumber,
