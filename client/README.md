@@ -2,7 +2,13 @@
 
 ## Client [![Coverage Status](https://coveralls.io/repos/github/ayshiff/madu_gr_4/badge.svg?branch=develop)](https://coveralls.io/github/ayshiff/madu_gr_4?branch=develop)
 
-ReactJS - Typescript - MobX - Jest - Styled-Components
+ReactJS - Typescript - MobX - Jest - Styled-Components - Ant Design - Mapbox - Algolia
+
+Personnes du groupes concernées :
+
+Rémi Doreau
+Enro Hespel
+Christophe Charlebois
 
 ## MobX - Jest
 
@@ -121,14 +127,16 @@ describe("PointOfInterestStore", () => {
     ...
 ```
 
-## WIP
+## React 
 
-## react 
-
-React est une librarie javascript développé par Facebook. Elle a pour principale but de facilité la création d'application web en proposant plusieurs notions : 
-```js 
+```js
+import React, { useState, useEffect } from 'react'; 
 function Example() {
   const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    document.title = `Vous avez cliqué ${count} fois`;
+  });
 
   return (
     <div>
@@ -141,13 +149,26 @@ function Example() {
 }
 ```
 
-**hooks** : 
+React est une librarie javascript développé par Facebook. Elle a pour principale but de facilité la création d'application web. 
+
+**Hooks** : 
 ```js 
     const [count, setCount] = useState(0);
 ```
-nouveauté proposer par react 16.8, Ils permettent de bénéficier d’un état local et d’autres fonctionnalités de React sans avoir à écrire de classes.
+Les Hooks sont des fonctions qui permettent de « se brancher » sur la gestion d’état local et de cycle de vie de React depuis des fonctions composants. Les Hooks ne fonctionnent pas dans des classes : ils vous permettent d’utiliser React sans classes. 
 
-**jsx**
+- hook d'état
+useState retourne une paire : la valeur de l’état actuel et une fonction qui vous permet de la mettre à jour. Vous pouvez appeler cette fonction depuis un gestionnaire d’événements, par exemple. Elle est similaire à this.setState dans une classe, à ceci près qu’elle ne fusionne pas l’ancien état et le nouveau.
+
+- hook d'effet
+```js
+  useEffect(() => {
+    document.title = `Vous avez cliqué ${count} fois`;
+  });
+```
+Le Hook d’effet, useEffect, permet aux fonctions composants de gérer des effets de bord. Il joue le même rôle que componentDidMount, componentDidUpdate, et componentWillUnmount dans les classes React, mais au travers d’une API unique.
+
+**Jsx**
 ```js 
       <button onClick={() => setCount(count + 1)}>
 ```
@@ -163,6 +184,8 @@ Documentation et aide facile à trouver
 
 Transition aisé via React Native :
 Réutilisation de composant aisé pour l'application mobile
+
+
 
 ## Ant Design
 
@@ -197,7 +220,7 @@ class App extends React.Component {
 
 ## Mapbox
 
-Mapbox est une plateforme de développement utilisée par plusieurs industries pour créer des applications personnalisées qui résolvent les problèmes liés aux cartes, aux données et à l'analyse spatiale. Mapbox est une alternative solide a google maps ayant un plan gratuit attratif, open-source.
+Mapbox est une plateforme de développement utilisée par plusieurs industries pour créer des applications personnalisées qui résolvent les problèmes liés aux cartes, aux données et à l'analyse spatiale. Mapbox est une alternative solide a google maps ayant un plan gratuit attratif, open-source et bénéficiant d'une documentation complète.
 
 ## Typescript
 
@@ -229,6 +252,22 @@ Les intérêts d'utiliser typescript sont multiples :
 
 - Moins propice aux bugs
 
-- Aide le developpeur à avoir un bon workflow
+## Algolia
 
+Algolia se compose en gros de deux parties : la mise en œuvre de la recherche et l'analyse de la recherche. ils fournissent des outils qui permettent aux développeurs de créer et de maintenir facilement des expériences de recherche de qualité pour les utilisateurs.
+
+exemple : 
+
+```js
+const searchClient = algoliasearch(
+  'latency',
+  '6be0576ff61c053d5f9a3225e2a90f76'
+);
+
+const App = () => (
+  <InstantSearch searchClient={searchClient} indexName="instant_search">
+    <RefinementList attribute="brand" />
+  </InstantSearch>
+);
+```
 
