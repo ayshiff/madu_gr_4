@@ -52,7 +52,7 @@ Now that our user is authenticated, we need to verify his credentials.
 
 ## Deployment
 
-The **api** and **swagger's documentation** are deployed on `http://18.130.189.198:3000/`.
+The **api** and **swagger's documentation** are deployed on [Madu documentation](http://madu.mrfvrl.fr:3000).
 
 # Development
 
