@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
-<<<<<<< HEAD
 import { Form, Input, Radio, Button, Upload, Icon, TimePicker, Switch, Select } from "antd";
 import moment from "moment";
-=======
-import { Form, Input, Radio, Button, Upload, Icon, TimePicker, Switch } from "antd";
->>>>>>> 2d0ff1a8bc3ec42a28445b7f97a8caa7f078e454
 import styled from "styled-components";
 import { rem } from "polished";
 import { useHistory } from "react-router";
@@ -23,7 +19,7 @@ const CustomInput = styled(Input)`
 `;
 
 const CustomSelect = styled(Select)`
-    width: ${rem(300)};
+    min-width: ${rem(300)};
     &:first-child {
         margin-right: ${rem(14)};
     }
@@ -71,11 +67,12 @@ const FormStepTwoComponent = observer(({ changeStep, stepState, onEdit, form }: 
         { value: "Dimanche", key: "sunday" },
     ];
 
-    const poiTypeArray = ["café-thé", "bar-pub", "snack", "boulangerie-patisserie"];
+    const poiTypeArray = ["restaurant", "café-thé", "bar-pub", "snack", "boulangerie-patisserie"];
     const foodPreferenceArray = [
         "gluten free",
         "végétarien",
         "vegan friendly",
+        "vegan",
         "cru",
         "bio",
         "local",
@@ -226,7 +223,7 @@ const FormStepTwoComponent = observer(({ changeStep, stepState, onEdit, form }: 
                             rules: [{ required: true, message: "Merci de choisir une catégorie" }],
                         })(
                             <Radio.Group onChange={e => onEdit("category", e.target.value)}>
-                                <Radio.Button value="restoration">Restaurant</Radio.Button>
+                                <Radio.Button value="restoration">Restauration</Radio.Button>
                                 <Radio.Button value="shop">Boutique</Radio.Button>
                                 <Radio.Button value="experience">Expérience</Radio.Button>
                             </Radio.Group>

@@ -80,7 +80,11 @@ export const ListPoi = observer(() => {
     useEffect(() => {
         pointOfInterestStore.get();
     }, [pointOfInterestStore]);
-
+    const categoryLabel = {
+        restoration: "Restauration",
+        shop: "Boutique",
+        experience: "Expérience",
+    };
     const onChangeTag = (id: string) => {
         const element = pointOfInterestStore.all.find(el => el.id === id);
         const value = Object.entries(hashMap).findIndex(el => el[0] === element.status);
@@ -175,7 +179,7 @@ export const ListPoi = observer(() => {
                                       key: ind,
                                       id: el.id,
                                       nomDuLieu: el.name,
-                                      categorie: el.poiType,
+                                      categorie: categoryLabel[el.category],
                                       questionnr: el.status,
                                       greenscore: el.greenscore,
                                   }))

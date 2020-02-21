@@ -61,24 +61,24 @@ export const SideBar = () => (
         </div>
         <Menu style={menuStyle} mode="inline">
             <Menu.Item key="1">
-                <Icon component={() => <img src={localisation} />} />
+                <Icon component={() => <img src={localisation} alt="localisation" />} />
                 <span>Points d'intêret</span>
                 <a href="/poi/list">Points d'intêret</a>
             </Menu.Item>
             <Menu.Item key="2">
-                <Icon component={() => <img src={client} />} />
+                <Icon component={() => <img src={client} alt="client" />} />
                 <span>Clients</span>
                 <a href="/client/list">Clients</a>
             </Menu.Item>
             <Menu.Item key="3">
-                <Icon component={() => <img src={map} />} />
+                <Icon component={() => <img src={map} alt="map" />} />
                 <span>Map</span>
                 <a href="/poi/map">Map</a>
             </Menu.Item>
         </Menu>
         <LogoutWrapper>
             <div>
-                <Icon onClick={signOut} component={() => <img src={logout} />} />
+                <Icon onClick={signOut} component={() => <img src={logout} alt="logout" />} />
             </div>
         </LogoutWrapper>
     </CustomSider>
