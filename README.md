@@ -1,6 +1,6 @@
 ## Madu [![CircleCI](https://circleci.com/gh/ayshiff/madu_gr_4/tree/develop.svg?style=svg)](https://circleci.com/gh/ayshiff/madu_gr_4/tree/master)
 
-[Le site Madu](madu.mrfvrl.fr)
+[Le site Madu](http://madu.mrfvrl.fr)
 
 ## Equipe:
 - Alice Fabre: UX/UI
