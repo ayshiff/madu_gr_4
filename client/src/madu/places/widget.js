@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import places from "places.js";
 import connect from "./connector";
 import { observer } from "mobx-react";
 
 const Places = observer(({ refine, defaultRefinement, store }) => {
+    const [localAdress, setlocalAdress] = useState(null);
     let ref = useRef(<input />);
 
     useEffect(() => {
@@ -13,11 +14,20 @@ const Places = observer(({ refine, defaultRefinement, store }) => {
 
         autocomplete.on("change", event => {
             refine(event.suggestion.latlng);
-            store.setAdress({
-                value: event.suggestion.name,
-                lat: parseFloat(event.suggestion.latlng.lat),
-                lng: parseFloat(event.suggestion.latlng.lng),
-            });
+            setlocalAdress(event.suggestion.name);
+            // if (store) {
+            //     store.setAdress({
+            //         value: event.suggestion.name,
+            //         lat: parseFloat(event.suggestion.latlng.lat),
+            //         lng: parseFloat(event.suggestion.latlng.lng),
+            //     });
+            // } else {
+            //     setlocalAdress({
+            //         value: event.suggestion.name,
+            //         lat: event.suggestion.latlng.lat,
+            //         lng: event.suggestion.latlng.lng,
+            //     });
+            // }
         });
 
         autocomplete.on("clear", () => {
@@ -27,7 +37,7 @@ const Places = observer(({ refine, defaultRefinement, store }) => {
     return (
         <div style={{ marginBottom: 20 }}>
             <input
-                defaultValue={store.byId.address.value}
+                defaultValue={localAdress | ""}
                 ref={ref}
                 type="search"
                 id="address-input"
