@@ -26,10 +26,11 @@ const Map = ReactMapboxGl({
 });
 
 export const Mapboxgl = observer(() => {
-    const { pointOfInterestStore } = useStores();
+    const { pointOfInterestStore, companyStore } = useStores();
 
     useEffect(() => {
         pointOfInterestStore.get();
+        companyStore.get();
     }, [pointOfInterestStore]);
 
     return (
@@ -54,7 +55,7 @@ export const Mapboxgl = observer(() => {
                 }
             >
                 {/* All POI Markers */}
-                <Layer type="symbol" id="marker1" layout={{ "icon-image": "marker-15" }}>
+                <Layer type="symbol" id="marker1" layout={{ "icon-image": "grocery-15" }}>
                     {pointOfInterestStore.byId.address.lat ? (
                         <Feature
                             key={pointOfInterestStore.byId.id}
@@ -66,8 +67,15 @@ export const Mapboxgl = observer(() => {
                         />
                     ) : null}
                 </Layer>
+                <Layer type="symbol" id="marker3" layout={{ "icon-image": "marker-15" }}>
+                    {companyStore.all.length
+                        ? companyStore.all.map(el => (
+                              <Feature key={el.id} coordinates={[el.address.lng, el.address.lat]} />
+                          ))
+                        : null}
+                </Layer>
                 {/* ById POI Marker */}
-                <Layer type="symbol" id="marker2" layout={{ "icon-image": "marker-15" }}>
+                <Layer type="symbol" id="marker2" layout={{ "icon-image": "grocery-15" }}>
                     {pointOfInterestStore.all.length
                         ? pointOfInterestStore.all.map(el => (
                               <Feature key={el.id} coordinates={[el.address.lng, el.address.lat]} />
