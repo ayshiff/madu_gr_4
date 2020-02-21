@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
+<<<<<<< HEAD
 import { Form, Input, Radio, Button, Upload, Icon, TimePicker, Switch, Select } from "antd";
 import moment from "moment";
+=======
+import { Form, Input, Radio, Button, Upload, Icon, TimePicker, Switch } from "antd";
+>>>>>>> 2d0ff1a8bc3ec42a28445b7f97a8caa7f078e454
 import styled from "styled-components";
 import { rem } from "polished";
 import { useHistory } from "react-router";

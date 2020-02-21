@@ -46,10 +46,6 @@ export type StepOneProps = {
 const searchClient = algoliasearch("latency", "97797269710d54d6054b399b1f777c5c");
 
 const FormStepOneComponent = observer(({ onEdit, changeStep, form }: StepOneProps) => {
-    const {
-        companyStore: { byId },
-    } = useStores();
-
     const { companyStore } = useStores();
 
     const checkForm = () => {
@@ -65,8 +61,8 @@ const FormStepOneComponent = observer(({ onEdit, changeStep, form }: StepOneProp
             <CustomForm>
                 <Form.Item label="Nom de l’entreprise/ école">
                     {form.getFieldDecorator("companyName", {
-                        initialValue: byId.companyName,
-                        setFieldsValue: byId.companyName,
+                        initialValue: companyStore.byId.companyName,
+                        setFieldsValue: companyStore.byId.companyName,
                         rules: [{ required: true, message: "Merci de renseigner un nom" }],
                     })(<CustomInput onChange={e => onEdit("companyName", e.target.value)} />)}
                 </Form.Item>
@@ -88,15 +84,15 @@ const FormStepOneComponent = observer(({ onEdit, changeStep, form }: StepOneProp
                 <InputWrapper>
                     <Form.Item label="Nom du contact">
                         {form.getFieldDecorator("lastName", {
-                            initialValue: byId.lastName,
-                            setFieldsValue: byId.lastName,
+                            initialValue: companyStore.byId.lastName,
+                            setFieldsValue: companyStore.byId.lastName,
                             rules: [{ required: true, message: "Merci de renseigner un nom" }],
                         })(<CustomInput onChange={e => onEdit("lastName", e.target.value)} />)}
                     </Form.Item>
                     <Form.Item label="Prénom du contact">
                         {form.getFieldDecorator("name", {
-                            initialValue: byId.name,
-                            setFieldsValue: byId.name,
+                            initialValue: companyStore.byId.name,
+                            setFieldsValue: companyStore.byId.name,
                             rules: [{ required: true, message: "Merci de renseigner un prénom" }],
                         })(<CustomInput onChange={e => onEdit("name", e.target.value)} />)}
                     </Form.Item>
@@ -105,8 +101,8 @@ const FormStepOneComponent = observer(({ onEdit, changeStep, form }: StepOneProp
                 <InputWrapper>
                     <Form.Item label="Email">
                         {form.getFieldDecorator("email", {
-                            initialValue: byId.email,
-                            setFieldsValue: byId.email,
+                            initialValue: companyStore.byId.email,
+                            setFieldsValue: companyStore.byId.email,
                             rules: [{ required: true, message: "Merci de renseigner un nom" }],
                         })(
                             <CustomInput
@@ -117,19 +113,19 @@ const FormStepOneComponent = observer(({ onEdit, changeStep, form }: StepOneProp
                     </Form.Item>
                     <Form.Item label="Prénom du contact">
                         {form.getFieldDecorator("phoneNumber", {
-                            initialValue: byId.phoneNumber,
-                            setFieldsValue: byId.phoneNumber,
+                            initialValue: companyStore.byId.phoneNumber,
+                            setFieldsValue: companyStore.byId.phoneNumber,
                             rules: [{ required: true, message: "Format requis 0100000000" }],
                         })(<CustomInput onChange={e => onEdit("phoneNumber", e.target.value)} />)}
                     </Form.Item>
                 </InputWrapper>
-                {/* <Form.Item label="Poste">
+                <Form.Item label="Poste">
                     {form.getFieldDecorator("companyPosition", {
-                        initialValue: byId.companyPosition,
-                        setFieldsValue: byId.companyPosition,
+                        initialValue: companyStore.byId.companyPosition,
+                        setFieldsValue: companyStore.byId.companyPosition,
                         rules: [{ required: true, message: "Merci de renseigner un nom" }],
                     })(<CustomInput onChange={e => onEdit("companyPosition", e.target.value)} />)}
-                </Form.Item> */}
+                </Form.Item>
             </CustomForm>
 
             <ButtonWrapper align="right" layout="aside">

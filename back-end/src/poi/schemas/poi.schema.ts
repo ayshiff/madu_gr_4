@@ -74,7 +74,7 @@ export const PoiSchema = new mongoose.Schema({
   },
   socialNetwork: String,
   greenscore: Number,
-  foodPreference: String,
+  foodPreference: [String],
   takeAway: Boolean,
   wheelchair: Boolean,
   token: String,

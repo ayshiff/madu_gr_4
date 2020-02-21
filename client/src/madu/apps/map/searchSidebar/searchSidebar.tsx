@@ -5,14 +5,14 @@ import Places from "madu/places/widget";
 import algoliasearch from "algoliasearch";
 import { Button } from "antd";
 import { useHistory } from "react-router";
-// import { useStores } from "madu/hooks/use-store";
+import { useStores } from "madu/hooks/use-store";
 
 const searchClient = algoliasearch("latency", process.env.ALGOLIA_API_KEY);
 
 export const SearchSidebar = ({ titleProperties }: { titleProperties: string }) => {
     const { TabPane } = Tabs;
     const history = useHistory();
-    // const { pointOfInterestStore } = useStores();
+    const { pointOfInterestStore } = useStores();
 
     const tabPaneStyle = {
         display: "flex",
@@ -26,7 +26,7 @@ export const SearchSidebar = ({ titleProperties }: { titleProperties: string }) 
                     <div className="search-panel" style={{ position: "fixed" }}>
                         <div className="search-panel__results">
                             <Places
-                                // store={pointOfInterestStore}
+                                store={pointOfInterestStore}
                                 style={{ position: "relative" }}
                                 defaultRefinement={{
                                     lat: 37.7793,
