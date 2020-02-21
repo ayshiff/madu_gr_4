@@ -1,24 +1,30 @@
 import React, { useState, useMemo, useEffect, useCallback } from "react";
 import { Layout } from "antd";
 import { createBrowserHistory as createHistory } from "history";
-
 import { Stepper } from "madu/components/stepper";
-
 import { FormStepOne, StepOneState } from "./steps/step-one";
 import { FormStepTwo } from "./steps/step-two";
+import { useStores } from "madu/hooks/use-store";
+import { CustomContent } from "../listPoi";
+import styled from "styled-components";
 
-const { Header, Content } = Layout;
+const { Header } = Layout;
 
 const history = createHistory();
 
 export type StateKeys = "stepOne" | "stepTwo";
+
+const CustomHeader = styled(Header)`
+    background: #fff;
+    paddingleft: 20%;
+    paddingright: 20%;
+`;
 
 type FormState = {
     currentStep: number;
     stepStates: {
         stepOne: StepOneState;
         stepTwo: any;
-        stepThree: any;
     };
 };
 
@@ -32,28 +38,11 @@ export const CreatePoi = () => {
                 stepOne: {
                     index: 0,
                     name: "",
-                    email: "",
-                    category: "",
-                    webSiteLink: "",
-                    establishmentType: "",
-                    socialNetworkLink: "",
-                    description: "",
-                    address: "",
-                    zipcode: "",
-                    phoneNumber: "",
                 },
                 stepTwo: {
                     index: 1,
                     schedule: [],
                     fileList: [],
-                    price: "a",
-                    takeaway: false,
-                    accessibility: false,
-                },
-                stepThree: {
-                    index: 2,
-                    greenScore: "",
-                    description: "",
                 },
             },
         }),
@@ -65,6 +54,8 @@ export const CreatePoi = () => {
     };
 
     const [formState, setFormState] = useState<FormState>(defaultFormState);
+
+    const { pointOfInterestStore } = useStores();
 
     const setCurrentStep = useCallback((state: FormState) => {
         if (history.state) {
@@ -113,30 +104,30 @@ export const CreatePoi = () => {
             item => item.index === formState.currentStep
         ),
     };
-    console.log(formState.stepStates.stepTwo.schedule);
+
+    const onEdit = (key: string, value: any) => {
+        pointOfInterestStore.setStep({ [key]: value });
+    };
+
     return (
         <Layout>
-            <Header style={{ background: "#fff", paddingLeft: "20%", paddingRight: "20%" }}>
+            <CustomHeader>
                 <Stepper
                     onClickStep={onChangeStep}
                     steps={[1, 2]}
                     indexActiveStep={formState.currentStep}
                 />
-            </Header>
+            </CustomHeader>
             <Layout style={layoutContentStyle}>
-                <Content
-                    style={{
-                        margin: "24px 16px",
-                        padding: 24,
-                        background: "#fff",
-                    }}
-                >
+                <CustomContent>
                     <CurrentStepComponent.Component
+                        // @ts-ignore
                         onChangeStepState={onChangeStepState}
                         stepState={CurrentStepComponent.state}
                         changeStep={onChangeStep}
+                        onEdit={onEdit}
                     />
-                </Content>
+                </CustomContent>
             </Layout>
         </Layout>
     );

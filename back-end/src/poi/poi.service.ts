@@ -106,4 +106,22 @@ export class PoiService {
     await this.poiModel.updateOne({ id: poi.id }, { status });
     return this.findByUuid(poi.id);
   }
+
+  private convertRad(input: number): number{
+    return (Math.PI * input)/180;
+  }
+
+  private distance(lat: number, lng: number, lat_: number, lng_: number){
+    const R = 6378000; // Earth radius in meters
+
+    return R * (Math.PI/2 - Math.asin( 
+      Math.sin(this.convertRad(lat_)) * Math.sin(this.convertRad(lat)) + 
+      Math.cos(this.convertRad(lng_) - this.convertRad(lng)) * Math.cos(this.convertRad(lat_)) * Math.cos(this.convertRad(lat))
+    ));
+  }
+
+  async findByCoordinates(lat: number, lng: number): Promise<Poi[]> {
+    const allPoi = await this.poiModel.find().exec();
+    return allPoi.filter((poi: Poi) => this.distance(lat, lng, poi.address.lat, poi.address.lng) < 1000);
+  }
 }

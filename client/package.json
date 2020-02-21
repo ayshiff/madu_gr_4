@@ -6,12 +6,23 @@
         "@testing-library/jest-dom": "^4.2.4",
         "@testing-library/react": "^9.3.2",
         "@testing-library/user-event": "^7.1.2",
+        "@types/mapbox-gl": "^1.7.0",
+        "algoliasearch": "^4.0.3",
         "antd": "^3.26.7",
+        "idb-keyval": "^3.2.0",
+        "gensync": "^1.0.0-beta.1",
+        "mapbox-gl": "^1.7.0",
+        "mobx": "^5.15.4",
+        "mobx-react": "^6.1.4",
+        "places.js": "^1.18.1",
         "polished": "^3.4.4",
         "react": "^16.12.0",
         "react-dom": "^16.12.0",
+        "react-instantsearch-dom": "^6.3.0",
+        "react-mapbox-gl": "^4.8.2",
         "react-router-dom": "^5.1.2",
         "react-scripts": "3.3.0",
+        "store": "^2.0.12",
         "styled-components": "^5.0.0",
         "styled-tools": "^1.7.1"
     },
@@ -22,7 +33,14 @@
         "prettier:base": "prettier --write --config .prettierrc",
         "prettier": "yarn run prettier:base \"src/**/*.{js,jsx,json,ts,tsx}\"",
         "test": "react-scripts test",
-        "eject": "react-scripts eject"
+        "eject": "react-scripts eject",
+        "coverage": "react-scripts test --env=jsdom --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+    },
+    "jest": {
+        "collectCoverageFrom": [
+            "./src/madu/stores/**/*.{js,jsx,ts,tsx}",
+            "!./src/madu/stores/index.ts"
+        ]
     },
     "eslintConfig": {
         "extends": "react-app"
@@ -40,6 +58,7 @@
         ]
     },
     "devDependencies": {
+        "@types/jest": "^25.1.1",
         "@types/react": "^16.9.19",
         "coveralls": "^3.0.9",
         "prettier": "^1.19.1",

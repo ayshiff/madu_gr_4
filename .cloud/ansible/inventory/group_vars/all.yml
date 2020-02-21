@@ -3,5 +3,5 @@ images:
   client: madu-client
   backend: madu-back-end
 tags:
-  client: 1
-  backend: 1
+  client: 1.1
+  backend: 1.1

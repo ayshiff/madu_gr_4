@@ -1,7 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 import { font } from "./const";
 
-export const GlobalStyle = createGlobalStyle`
+const GlobalStyle = createGlobalStyle`
   * {
     padding: 0;
     margin: 0;
@@ -34,3 +34,5 @@ export const GlobalStyle = createGlobalStyle`
     font-weight: ${font.weight.semiBold};
   }
 `;
+
+export default GlobalStyle;

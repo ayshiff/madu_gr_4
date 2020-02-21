@@ -5,9 +5,11 @@ export const PoiSchema = new mongoose.Schema({
   name: String,
   poiType: String,
   category: String,
-  street: String,
-  zipCode: Number,
-  city: String,
+  address: {
+    value: String,
+    lat: Number,
+    lng: Number
+  },
   phone: String,
   email: String,
   siret: String,
