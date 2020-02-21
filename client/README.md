@@ -4,12 +4,6 @@
 
 ReactJS - Typescript - MobX - Jest - Styled-Components - Ant Design - Mapbox - Algolia
 
-Personnes du groupes concernées :
-
-Rémi Doreau
-Enro Hespel
-Christophe Charlebois
-
 ## MobX - Jest
 
 MobX est librairie de state-management appliquant le principe de programmation réactive afin d'observer tous
