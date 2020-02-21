@@ -31,7 +31,7 @@
         "build": "react-scripts build",
         "eslint": "eslint --ext .js,.jsx,.ts,.tsx --ignore-pattern __tests__ src/",
         "prettier:base": "prettier --write --config .prettierrc",
-        "prettier": "yarn run prettier:base \"src/**/*.{js,jsx,json,ts,tsx}\"",
+        "prettier": "npm run prettier:base \"src/**/*.{js,jsx,json,ts,tsx}\"",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
         "coverage": "react-scripts test --env=jsdom --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
