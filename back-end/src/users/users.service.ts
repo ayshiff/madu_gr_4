@@ -126,10 +126,8 @@ export class UsersService {
   }
 
   async forgottenPassword(forgottenPasswordDto: ForgottenPasswordDto) {
-    console.log("tesssst");
     const user = await this.findByEmail(forgottenPasswordDto.email);
     if (user) {
-      console.log("pdfinpdiusnivi");
       const forgottenToken = uuidv4().replace(/-/gi, "");
       console.log(
         `Send mail to ${

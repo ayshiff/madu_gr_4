@@ -18,13 +18,13 @@ interface Address {
 export interface IPointOfInterest {
     id: string;
     name: string;
-    poiType: string;
+    poiType: string[];
     phone?: string;
     address: Address;
     email: string;
     category: string;
     socialNetwork?: string;
-    foodPreference: string;
+    foodPreference: string[];
     takeAway: boolean;
     wheelchair: boolean;
     openingTime: {

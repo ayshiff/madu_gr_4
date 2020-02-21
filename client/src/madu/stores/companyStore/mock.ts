@@ -11,7 +11,7 @@ export const companyStoreMock = {
     zipcode: "",
     phoneNumber: "",
     email: "",
-    companyPosition: "",
+    // companyPosition: "",
     employees: "",
     domainName: "",
 };
