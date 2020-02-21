@@ -8,6 +8,10 @@ export class Company {
   @ApiProperty()
   name: string;
   @ApiProperty()
+  lastName: string;
+  @ApiProperty()
+  email: string;
+  @ApiProperty()
   companyName: string;
   @ApiProperty()
   domainName: string;
