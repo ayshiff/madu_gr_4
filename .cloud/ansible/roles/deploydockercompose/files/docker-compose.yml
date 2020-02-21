@@ -17,6 +17,8 @@ services:
     image: mongo:latest
     networks:
       - backend
+    volumes:
+      - ./data:/data/db
 
 networks:
   backend:
