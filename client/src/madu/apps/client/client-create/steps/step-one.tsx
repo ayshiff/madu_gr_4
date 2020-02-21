@@ -9,7 +9,7 @@ import { ButtonWrapper } from "styles/atoms/button-wrapper";
 
 import { useStores } from "madu/hooks/use-store";
 import algoliasearch from "algoliasearch";
-import Places from "../../../../places/widget";
+import Places from "madu/places/widget";
 
 const StepWrapper = styled.div`
     height: 100%;
@@ -85,24 +85,44 @@ const FormStepOneComponent = observer(({ onEdit, changeStep, form }: StepOneProp
                         </div>
                     </InstantSearch>
                 </Form.Item>
-
                 <InputWrapper>
-                    <Form.Item label="Nom">
+                    <Form.Item label="Nom du contact">
+                        {form.getFieldDecorator("lastName", {
+                            initialValue: byId.lastName,
+                            setFieldsValue: byId.lastName,
+                            rules: [{ required: true, message: "Merci de renseigner un nom" }],
+                        })(<CustomInput onChange={e => onEdit("lastName", e.target.value)} />)}
+                    </Form.Item>
+                    <Form.Item label="Prénom du contact">
                         {form.getFieldDecorator("name", {
                             initialValue: byId.name,
                             setFieldsValue: byId.name,
-                            rules: [{ required: true, message: "Merci de renseigner un nom" }],
+                            rules: [{ required: true, message: "Merci de renseigner un prénom" }],
                         })(<CustomInput onChange={e => onEdit("name", e.target.value)} />)}
-                    </Form.Item>
-                    <Form.Item label="Téléphone">
-                        {form.getFieldDecorator("phoneNumber", {
-                            initialValue: byId.phoneNumber,
-                            setFieldsValue: byId.phoneNumber,
-                            rules: [{ required: true, message: "Merci de renseigner un nom" }],
-                        })(<CustomInput onChange={e => onEdit("phoneNumber", e.target.value)} />)}
                     </Form.Item>
                 </InputWrapper>
 
+                <InputWrapper>
+                    <Form.Item label="Email">
+                        {form.getFieldDecorator("email", {
+                            initialValue: byId.email,
+                            setFieldsValue: byId.email,
+                            rules: [{ required: true, message: "Merci de renseigner un nom" }],
+                        })(
+                            <CustomInput
+                                onChange={e => onEdit("email", e.target.value)}
+                                placeholder="exemple@gmail.com"
+                            />
+                        )}
+                    </Form.Item>
+                    <Form.Item label="Prénom du contact">
+                        {form.getFieldDecorator("phoneNumber", {
+                            initialValue: byId.phoneNumber,
+                            setFieldsValue: byId.phoneNumber,
+                            rules: [{ required: true, message: "Format requis 0100000000" }],
+                        })(<CustomInput onChange={e => onEdit("phoneNumber", e.target.value)} />)}
+                    </Form.Item>
+                </InputWrapper>
                 <Form.Item label="Poste">
                     {form.getFieldDecorator("companyPosition", {
                         initialValue: byId.companyPosition,

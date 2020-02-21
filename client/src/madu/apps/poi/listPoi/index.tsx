@@ -162,16 +162,14 @@ export const ListPoi = observer(() => {
                     dataSource={
                         pointOfInterestStore.all.length
                             ? pointOfInterestStore.all
-                                  .map((el, ind) => {
-                                      return {
-                                          key: ind,
-                                          id: el.id,
-                                          nomDuLieu: el.name,
-                                          categorie: el.poiType,
-                                          questionnr: el.status,
-                                          greenscore: el.greenscore,
-                                      };
-                                  })
+                                  .map((el, ind) => ({
+                                      key: ind,
+                                      id: el.id,
+                                      nomDuLieu: el.name,
+                                      categorie: el.poiType,
+                                      questionnr: el.status,
+                                      greenscore: el.greenscore,
+                                  }))
                                   .filter(
                                       el =>
                                           el.nomDuLieu &&

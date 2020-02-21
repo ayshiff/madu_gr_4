@@ -17,6 +17,7 @@ export interface ICompany {
     companyName: string;
     email: string;
     name: string;
+    lastName: string;
     address: Address;
     zipcode: string;
     phoneNumber: string;

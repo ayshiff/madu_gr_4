@@ -2,6 +2,7 @@ export const companyStoreMock = {
     id: "",
     companyName: "",
     name: "",
+    lastName: "",
     address: {
         value: "",
         lat: null,

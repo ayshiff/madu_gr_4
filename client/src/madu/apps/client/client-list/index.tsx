@@ -78,11 +78,6 @@ export const ListClient = observer(() => {
             ),
         },
         {
-            title: "Nombre de POI",
-            dataIndex: "poiNumber",
-            key: "poiNumber",
-        },
-        {
             title: "Statut",
             key: "status",
             render: (text, record) =>
@@ -155,26 +150,21 @@ export const ListClient = observer(() => {
                     dataSource={
                         companyStore.all.length
                             ? companyStore.all
-                                  .map((el, i) => {
-                                      // console.log(el);
-                                      return {
-                                          key: i,
-                                          id: el.id,
-                                          companyName: el.companyName,
-                                          poiNumber: el.poiNumber,
-                                          status: el.status,
-                                          email: el.email,
-                                      };
-                                  })
-                                  .filter(el => {
-                                      console.log(el);
-                                      return (
+                                  .map((el, i) => ({
+                                      key: i,
+                                      id: el.id,
+                                      companyName: el.companyName,
+                                      poiNumber: el.poiNumber,
+                                      status: el.status,
+                                      email: el.email,
+                                  }))
+                                  .filter(
+                                      el =>
                                           el.companyName &&
                                           el.companyName
                                               .toLowerCase()
                                               .includes(filter.toLowerCase())
-                                      );
-                                  })
+                                  )
                             : []
                     }
                     pagination={{ pageSize: 10 }}
