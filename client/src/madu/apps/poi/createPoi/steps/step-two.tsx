@@ -137,12 +137,11 @@ const FormStepTwoComponent = observer(
                             {weekDay.map(day => (
                                 <div
                                     key={day.value}
-                                    style={{ display: "flex", alignItems: "center" }}
+                                    style={{ display: "flex", alignItems: "center", flex: 1 }}
                                 >
-                                    <h1 style={{ marginRight: "10px", fontWeight: "bold" }}>
-                                        {" "}
-                                        {day.value}{" "}
-                                    </h1>
+                                    <p style={{ marginRight: "10px", fontWeight: "bold", flex: 1 }}>
+                                        {day.value}
+                                    </p>
                                     <Switch
                                         onChange={e => onScheduleChange(day, "close", e)}
                                         checked={
@@ -151,64 +150,72 @@ const FormStepTwoComponent = observer(
                                         }
                                     />
                                     <p style={{ marginLeft: "15px", marginRight: "5px" }}>fermé</p>
-                                    <CustomTimePicker
-                                        format={format}
-                                        defaultValue={
-                                            pointOfInterestStore.byId.openingTime[day.key][0].from
-                                                ? moment(
-                                                      pointOfInterestStore.byId.openingTime[
-                                                          day.key
-                                                      ][0].from,
-                                                      "HH:mm"
-                                                  )
-                                                : null
-                                        }
-                                        onChange={e => updateOpeningRanges(day.key, false, 0, e)}
-                                    />
-                                    <CustomTimePicker
-                                        format={format}
-                                        defaultValue={
-                                            pointOfInterestStore.byId.openingTime[day.key][0].to
-                                                ? moment(
-                                                      pointOfInterestStore.byId.openingTime[
-                                                          day.key
-                                                      ][0].to,
-                                                      "HH:mm"
-                                                  )
-                                                : null
-                                        }
-                                        style={{ marginRight: "8px" }}
-                                        onChange={e => updateOpeningRanges(day.key, false, 1, e)}
-                                    />
-                                    {"  -  "}
-                                    <CustomTimePicker
-                                        format={format}
-                                        defaultValue={
-                                            pointOfInterestStore.byId.openingTime[day.key][1].from
-                                                ? moment(
-                                                      pointOfInterestStore.byId.openingTime[
-                                                          day.key
-                                                      ][1].from,
-                                                      "HH:mm"
-                                                  )
-                                                : null
-                                        }
-                                        onChange={e => updateOpeningRanges(day.key, true, 0, e)}
-                                    />
-                                    <CustomTimePicker
-                                        format={format}
-                                        defaultValue={
-                                            pointOfInterestStore.byId.openingTime[day.key][1].to
-                                                ? moment(
-                                                      pointOfInterestStore.byId.openingTime[
-                                                          day.key
-                                                      ][1].to,
-                                                      "HH:mm"
-                                                  )
-                                                : null
-                                        }
-                                        onChange={e => updateOpeningRanges(day.key, true, 1, e)}
-                                    />
+                                    <div>
+                                        <CustomTimePicker
+                                            format={format}
+                                            defaultValue={
+                                                pointOfInterestStore.byId.openingTime[day.key][0]
+                                                    .from
+                                                    ? moment(
+                                                          pointOfInterestStore.byId.openingTime[
+                                                              day.key
+                                                          ][0].from,
+                                                          "HH:mm"
+                                                      )
+                                                    : 0
+                                            }
+                                            onChange={e =>
+                                                updateOpeningRanges(day.key, false, 0, e)
+                                            }
+                                        />
+                                        <CustomTimePicker
+                                            format={format}
+                                            defaultValue={
+                                                pointOfInterestStore.byId.openingTime[day.key][0].to
+                                                    ? moment(
+                                                          pointOfInterestStore.byId.openingTime[
+                                                              day.key
+                                                          ][0].to,
+                                                          "HH:mm"
+                                                      )
+                                                    : null
+                                            }
+                                            style={{ marginRight: "8px" }}
+                                            onChange={e =>
+                                                updateOpeningRanges(day.key, false, 1, e)
+                                            }
+                                        />
+                                        {"  -  "}
+                                        <CustomTimePicker
+                                            format={format}
+                                            defaultValue={
+                                                pointOfInterestStore.byId.openingTime[day.key][1]
+                                                    .from
+                                                    ? moment(
+                                                          pointOfInterestStore.byId.openingTime[
+                                                              day.key
+                                                          ][1].from,
+                                                          "HH:mm"
+                                                      )
+                                                    : null
+                                            }
+                                            onChange={e => updateOpeningRanges(day.key, true, 0, e)}
+                                        />
+                                        <CustomTimePicker
+                                            format={format}
+                                            defaultValue={
+                                                pointOfInterestStore.byId.openingTime[day.key][1].to
+                                                    ? moment(
+                                                          pointOfInterestStore.byId.openingTime[
+                                                              day.key
+                                                          ][1].to,
+                                                          "HH:mm"
+                                                      )
+                                                    : null
+                                            }
+                                            onChange={e => updateOpeningRanges(day.key, true, 1, e)}
+                                        />
+                                    </div>
                                 </div>
                             ))}
                         </Form.Item>
