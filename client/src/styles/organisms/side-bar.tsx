@@ -5,6 +5,11 @@ import { rem } from "polished";
 
 import { signOut } from "token-manager";
 
+const client = require("assets/icons/client.svg");
+const map = require("assets/icons/map.svg");
+const localisation = require("assets/icons/localisation.svg");
+const logout = require("assets/icons/logout.svg");
+
 const { Sider } = Layout;
 
 const CustomSider = styled(Sider)`
@@ -56,24 +61,24 @@ export const SideBar = () => (
         </div>
         <Menu style={menuStyle} mode="inline">
             <Menu.Item key="1">
-                <Icon type="user" />
+                <Icon component={() => <img src={localisation} />} />
                 <span>Points d'intêret</span>
                 <a href="/poi/list">Points d'intêret</a>
             </Menu.Item>
             <Menu.Item key="2">
-                <Icon type="upload" />
+                <Icon component={() => <img src={client} />} />
                 <span>Clients</span>
                 <a href="/client/list">Clients</a>
             </Menu.Item>
             <Menu.Item key="3">
-                <Icon type="upload" />
+                <Icon component={() => <img src={map} />} />
                 <span>Map</span>
                 <a href="/poi/map">Map</a>
             </Menu.Item>
         </Menu>
         <LogoutWrapper>
             <div>
-                <Icon onClick={signOut} type="logout" />
+                <Icon onClick={signOut} component={() => <img src={logout} />} />
             </div>
         </LogoutWrapper>
     </CustomSider>

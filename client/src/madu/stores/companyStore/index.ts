@@ -21,7 +21,7 @@ export interface ICompany {
     address: Address;
     zipcode: string;
     phoneNumber: string;
-    companyPosition: string;
+    // companyPosition: string;
     employees: string;
     domainName: string;
     status?: string;

@@ -123,13 +123,13 @@ const FormStepOneComponent = observer(({ onEdit, changeStep, form }: StepOneProp
                         })(<CustomInput onChange={e => onEdit("phoneNumber", e.target.value)} />)}
                     </Form.Item>
                 </InputWrapper>
-                <Form.Item label="Poste">
+                {/* <Form.Item label="Poste">
                     {form.getFieldDecorator("companyPosition", {
                         initialValue: byId.companyPosition,
                         setFieldsValue: byId.companyPosition,
                         rules: [{ required: true, message: "Merci de renseigner un nom" }],
                     })(<CustomInput onChange={e => onEdit("companyPosition", e.target.value)} />)}
-                </Form.Item>
+                </Form.Item> */}
             </CustomForm>
 
             <ButtonWrapper align="right" layout="aside">

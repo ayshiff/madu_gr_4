@@ -1,17 +1,24 @@
 import React, { useState, useEffect } from "react";
-import { Form, Input, Radio, Button, Upload, Icon, TimePicker, Switch } from "antd";
+import { Form, Input, Radio, Button, Upload, Icon, TimePicker, Switch, Select } from "antd";
+import moment from "moment";
 import styled from "styled-components";
 import { rem } from "polished";
 import { useHistory } from "react-router";
 import { ButtonWrapper } from "styles/atoms/button-wrapper";
 import { observer } from "mobx-react";
 import { useStores } from "madu/hooks/use-store";
-
-import moment from "moment";
+const { Option } = Select;
 
 const format = "HH:mm";
 
 const CustomInput = styled(Input)`
+    width: ${rem(300)};
+    &:first-child {
+        margin-right: ${rem(14)};
+    }
+`;
+
+const CustomSelect = styled(Select)`
     width: ${rem(300)};
     &:first-child {
         margin-right: ${rem(14)};
@@ -58,6 +65,16 @@ const FormStepTwoComponent = observer(({ changeStep, stepState, onEdit, form }: 
         { value: "Vendredi", key: "friday" },
         { value: "Samedi", key: "saturday" },
         { value: "Dimanche", key: "sunday" },
+    ];
+
+    const poiTypeArray = ["café-thé", "bar-pub", "snack", "boulangerie-patisserie"];
+    const foodPreferenceArray = [
+        "gluten free",
+        "végétarien",
+        "vegan friendly",
+        "cru",
+        "bio",
+        "local",
     ];
 
     const { pointOfInterestStore } = useStores();
@@ -226,7 +243,18 @@ const FormStepTwoComponent = observer(({ changeStep, stepState, onEdit, form }: 
                         initialValue: byId.poiType,
                         setFieldsValue: byId.poiType,
                         rules: [{ required: true, message: "Merci de choisir une url valide" }],
-                    })(<CustomInput onChange={e => onEdit("poiType", e.target.value)} />)}
+                    })(
+                        <CustomSelect
+                            mode="multiple"
+                            style={{ width: "100%" }}
+                            placeholder="Please select"
+                            onChange={e => onEdit("poiType", e)}
+                        >
+                            {poiTypeArray.map((poiType, i) => (
+                                <Option key={i}>{poiType}</Option>
+                            ))}
+                        </CustomSelect>
+                    )}
                 </Form.Item>
                 {defaultCategory === "restoration" && (
                     <Form.Item label="Préférence alimentaire">
@@ -234,7 +262,16 @@ const FormStepTwoComponent = observer(({ changeStep, stepState, onEdit, form }: 
                             initialValue: byId.foodPreference,
                             setFieldsValue: byId.foodPreference,
                         })(
-                            <CustomInput onChange={e => onEdit("foodPreference", e.target.value)} />
+                            <CustomSelect
+                                mode="multiple"
+                                style={{ width: "100%" }}
+                                placeholder="Please select"
+                                onChange={e => onEdit("foodPreference", e)}
+                            >
+                                {foodPreferenceArray.map((foodPreference, i) => (
+                                    <Option key={i}>{foodPreference}</Option>
+                                ))}
+                            </CustomSelect>
                         )}
                     </Form.Item>
                 )}

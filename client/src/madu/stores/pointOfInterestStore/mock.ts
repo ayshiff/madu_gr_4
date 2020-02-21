@@ -1,7 +1,7 @@
 export const pointOfInterestMock = {
     id: "",
     name: "",
-    poiType: "",
+    poiType: ["restaurant"],
     address: {
         value: "",
         lat: null,
@@ -12,7 +12,7 @@ export const pointOfInterestMock = {
     siret: "",
     category: "",
     socialNetwork: "",
-    foodPreference: "",
+    foodPreference: ["vegan"],
     takeAway: false,
     wheelchair: false,
     images: [],

@@ -73,7 +73,12 @@ const FormStepTwoComponent = ({ onEdit, changeStep, form }: StepTwoProps) => {
                         initialValue: byId.domainName,
                         setFieldsValue: byId.domainName,
                         rules: [{ required: true, message: "Merci de renseigner un nom" }],
-                    })(<CustomInput onChange={e => onEdit("domainName", e.target.value)} />)}
+                    })(
+                        <CustomInput
+                            onChange={e => onEdit("domainName", e.target.value)}
+                            placeholder="domain.com"
+                        />
+                    )}
                 </Form.Item>
             </Form>
 

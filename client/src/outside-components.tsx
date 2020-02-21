@@ -93,6 +93,18 @@ export const ForgottenPasswordAppUnconnected = props => {
     const [password, setPassword] = useState<string | null>(null);
     const { getFieldDecorator } = props.form;
 
+    const checkForm = () => {
+        props.form.validateFields((err, values) => {
+            if (!err) {
+                resetPassword(password, props.token).then(v => {
+                    if (v.statusCode === 200) {
+                        window.location.replace("/");
+                    }
+                });
+            }
+        });
+    };
+
     return (
         <StandaloneAppFrame title={"Réinitialisation de mot de passe"}>
             <GlobalStyle />
@@ -116,7 +128,9 @@ export const ForgottenPasswordAppUnconnected = props => {
                         type="primary"
                         htmlType="submit"
                         className="login-form-button"
-                        onClick={() => resetPassword(password, props.token)}
+                        onClick={() => {
+                            checkForm();
+                        }}
                     >
                         Validé
                     </Button>
@@ -132,6 +146,15 @@ export const LoginStandaloneAppUnconnected = props => {
     const [email, setEmail] = useState<string | null>(null);
     const [password, setPassword] = useState<string | null>(null);
     const { getFieldDecorator } = props.form;
+
+    const checkForm = () => {
+        props.form.validateFields((err, values) => {
+            if (!err) {
+                signIn(email, password);
+            }
+        });
+    };
+
     return (
         <StandaloneAppFrame title={"Connexion à Madu"}>
             <GlobalStyle />
@@ -161,15 +184,13 @@ export const LoginStandaloneAppUnconnected = props => {
                         />
                     )}
                 </Form.Item>
-                <Link onClick={() => forgotPassword(email).then(v => console.log(v))}>
-                    Mot de passe oublié
-                </Link>
+                <Link onClick={() => forgotPassword(email)}>Mot de passe oublié</Link>
                 <Form.Item>
                     <Button
                         type="primary"
                         htmlType="submit"
                         className="login-form-button"
-                        onClick={() => signIn(email, password)}
+                        onClick={checkForm}
                     >
                         Se connecter
                     </Button>
