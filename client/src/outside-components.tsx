@@ -7,6 +7,7 @@ import "madu/app.css";
 
 import { space, font } from "styles/const";
 import { signIn } from "./token-manager";
+import { forgotPassword, resetPassword } from "madu/services/login";
 
 const StandaloneAppFrameStyle = styled.div`
     width: 80vw;
@@ -16,7 +17,25 @@ const StandaloneAppFrameStyle = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    text-align: center;
+`;
+
+const CustomForm = styled(Form)`
+    background: #e3e9f770;
+    padding: ${rem(20)} ${rem(40)};
+    border-radius: 4px;
+    & > div{
+        margin-bottom:${rem(6)};
+    }
+}
+`;
+
+const Link = styled.p`
+    color: #1890ff;
+    cursor: pointer;
+    margin-bottom: ${rem(4)};
+    &:hover {
+        text-decoration: underline;
+    }
 `;
 
 const TextLogin = styled.p`
@@ -70,6 +89,45 @@ export const NukeTown = () => (
 
 export const Loading = () => <StandaloneAppFrame title={"Chargement en cours..."} />;
 
+export const ForgottenPasswordAppUnconnected = props => {
+    const [password, setPassword] = useState<string | null>(null);
+    const { getFieldDecorator } = props.form;
+
+    return (
+        <StandaloneAppFrame title={"Réinitialisation de mot de passe"}>
+            <GlobalStyle />
+            <CustomForm>
+                <Form.Item label="Mot de passe">
+                    {getFieldDecorator("password", {
+                        rules: [{ required: true, message: "Merci de rentrer un mot de passe!" }],
+                    })(
+                        <Input
+                            prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
+                            type="password"
+                            placeholder="*******"
+                            onChange={e => setPassword(e.target.value)}
+                            size="large"
+                        />
+                    )}
+                </Form.Item>
+
+                <Form.Item>
+                    <Button
+                        type="primary"
+                        htmlType="submit"
+                        className="login-form-button"
+                        onClick={() => resetPassword(password, props.token)}
+                    >
+                        Validé
+                    </Button>
+                </Form.Item>
+            </CustomForm>
+        </StandaloneAppFrame>
+    );
+};
+
+export const ForgottenPasswordApp = Form.create()(ForgottenPasswordAppUnconnected) as any;
+
 export const LoginStandaloneAppUnconnected = props => {
     const [email, setEmail] = useState<string | null>(null);
     const [password, setPassword] = useState<string | null>(null);
@@ -77,30 +135,35 @@ export const LoginStandaloneAppUnconnected = props => {
     return (
         <StandaloneAppFrame title={"Connexion à Madu"}>
             <GlobalStyle />
-            <Form className="login-form">
-                <Form.Item>
+            <CustomForm>
+                <Form.Item label="Identifiant">
                     {getFieldDecorator("username", {
-                        rules: [{ required: true, message: "Please input your username!" }],
+                        rules: [{ required: true, message: "Merci de rentrer un identifiant!" }],
                     })(
                         <Input
                             prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
-                            placeholder="Username"
+                            placeholder="Identifiant"
                             onChange={e => setEmail(e.target.value)}
+                            size="large"
                         />
                     )}
                 </Form.Item>
-                <Form.Item>
+                <Form.Item label="Mot de passe">
                     {getFieldDecorator("password", {
-                        rules: [{ required: true, message: "Please input your Password!" }],
+                        rules: [{ required: true, message: "Merci de rentrer un mot de passe!" }],
                     })(
                         <Input
                             prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
                             type="password"
-                            placeholder="Password"
+                            placeholder="*******"
                             onChange={e => setPassword(e.target.value)}
+                            size="large"
                         />
                     )}
                 </Form.Item>
+                <Link onClick={() => forgotPassword(email).then(v => console.log(v))}>
+                    Mot de passe oublié
+                </Link>
                 <Form.Item>
                     <Button
                         type="primary"
@@ -111,7 +174,7 @@ export const LoginStandaloneAppUnconnected = props => {
                         Se connecter
                     </Button>
                 </Form.Item>
-            </Form>
+            </CustomForm>
         </StandaloneAppFrame>
     );
 };

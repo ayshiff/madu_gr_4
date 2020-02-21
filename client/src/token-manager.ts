@@ -1,4 +1,4 @@
-import { Store, get, set } from "idb-keyval";
+import { Store, get, set, del } from "idb-keyval";
 import { emitOnBroadcastChannel } from "custom-broascast-channel";
 
 import { login } from "madu/services/login";
@@ -13,7 +13,7 @@ export type UserCredentials = {
 
 export const BROADCAST_CHANNEL_NAME = "LOGIN_CHANNEL";
 const BROADCASTED_MESSAGE = "BROADCASTED_MESSAGE";
-const USER_CREDS = "USER_CREDS";
+export const USER_CREDS = "USER_CREDS";
 
 /*
  * Read credentials in IndexedDB
@@ -34,4 +34,10 @@ export const signIn = (email: string | null, password: string | null) => {
             }
         });
     }
+};
+
+export const signOut = () => {
+    del(USER_CREDS, authStore).then(() => {
+        emitOnBroadcastChannel(BROADCAST_CHANNEL_NAME, BROADCASTED_MESSAGE);
+    });
 };

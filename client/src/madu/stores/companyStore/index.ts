@@ -41,7 +41,6 @@ class CompanyStore {
         const endpoint = `${REACT_APP_API_BASE_URL}/companies `;
         return get(endpoint)
             .then((data: any) => {
-                console.log(data);
                 const processedData: any = data;
                 // Process store once the call has succeed
                 this.all = processedData.value;
@@ -71,7 +70,6 @@ class CompanyStore {
         const endpoint = `${REACT_APP_API_BASE_URL}/companies`;
         return postJson(endpoint, company)
             .then(data => {
-                console.log(data);
                 // Process store once the call has succeed
                 this.all.push(data as any);
                 return;

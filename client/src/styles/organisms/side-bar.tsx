@@ -3,11 +3,35 @@ import styled from "styled-components";
 import { Layout, Menu, Icon } from "antd";
 import { rem } from "polished";
 
+import { signOut } from "token-manager";
+
 const { Sider } = Layout;
 
 const CustomSider = styled(Sider)`
     width: ${rem(300)};
     background: #0a1240;
+    & > div {
+        display: flex;
+        flex-direction: column;
+    }
+`;
+
+const LogoutWrapper = styled.div`
+    flex: 1;
+    display: flex;
+    & > div {
+        align-self: flex-end;
+        margin: 20px;
+        & > i {
+            color: #fff;
+            font-size: ${rem(24)};
+            display: flex;
+
+            & > svg {
+                align-self: flex-end;
+            }
+        }
+    }
 `;
 
 const mainLogoStyle = {
@@ -47,5 +71,10 @@ export const SideBar = () => (
                 <a href="/poi/map">Map</a>
             </Menu.Item>
         </Menu>
+        <LogoutWrapper>
+            <div>
+                <Icon onClick={signOut} type="logout" />
+            </div>
+        </LogoutWrapper>
     </CustomSider>
 );
