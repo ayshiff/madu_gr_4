@@ -38,6 +38,8 @@ jobs:
       - run: yarn eslint
 
       - run: yarn prettier
+      
+      - run: yarn run test
 
       - run:
           name: abort if uncommitted files (coming from `yarn install` or `prettier`)
