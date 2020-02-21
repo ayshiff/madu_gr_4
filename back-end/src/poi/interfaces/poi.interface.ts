@@ -90,7 +90,7 @@ export class Poi {
   @ApiProperty()
   greenscore: number;
   @ApiProperty()
-  foodPreference: string;
+  foodPreference: [string];
   @ApiProperty()
   takeAway: boolean;
   @ApiProperty()
