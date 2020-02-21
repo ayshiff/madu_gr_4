@@ -102,7 +102,6 @@ class PointOfInterestStore {
             .then(data => {
                 // Process store once the call has succeed
                 this.all = editReference(id, pointOfInterest, this.all);
-                console.log(data);
                 return;
             })
             .catch(err => console.log(err));

@@ -58,9 +58,18 @@ const CustomHeader = styled(Header)`
 `;
 
 const hashMap = {
-    canvassing: "red",
-    surver_completed: "orange",
-    valid: "green",
+    canvassing: {
+        status: "démarché",
+        color: "#D1D7DC",
+    },
+    surver_completed: {
+        status: "mail envoyé",
+        color: "#CDD2FF",
+    },
+    valid: {
+        status: "validé",
+        color: "#CFEBE2",
+    },
 };
 
 export const ListPoi = observer(() => {
@@ -108,10 +117,10 @@ export const ListPoi = observer(() => {
                     <span>
                         <CustomTag
                             onClick={() => onChangeTag(record.id)}
-                            color={hashMap[record.questionnr]}
+                            color={hashMap[record.questionnr].color}
                             key={record.questionnr}
                         >
-                            {record.questionnr.toUpperCase()}
+                            {hashMap[record.questionnr].status.toUpperCase()}
                         </CustomTag>
                     </span>
                 ),

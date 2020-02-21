@@ -41,9 +41,18 @@ const CustomTag = styled(Tag)`
 `;
 
 const hashMap = {
-    canvassing: "red",
-    surver_completed: "orange",
-    valid: "green",
+    canvassing: {
+        status: "démarché",
+        color: "#D1D7DC",
+    },
+    surver_completed: {
+        status: "mail envoyé",
+        color: "#CDD2FF",
+    },
+    valid: {
+        status: "validé",
+        color: "#CFEBE2",
+    },
 };
 
 export const ListClient = observer(() => {
@@ -85,10 +94,10 @@ export const ListClient = observer(() => {
                     <span>
                         <CustomTag
                             onClick={() => onChangeTag(record.id)}
-                            color={hashMap[record.status]}
+                            color={hashMap[record.status].color}
                             key={record.status}
                         >
-                            {record.status.toUpperCase()}
+                            {hashMap[record.status].status.toUpperCase()}
                         </CustomTag>
                     </span>
                 ),

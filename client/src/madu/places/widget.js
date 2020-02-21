@@ -14,20 +14,16 @@ const Places = observer(({ refine, defaultRefinement, store }) => {
 
         autocomplete.on("change", event => {
             refine(event.suggestion.latlng);
-            setlocalAdress(event.suggestion.name);
-            // if (store) {
-            //     store.setAdress({
-            //         value: event.suggestion.name,
-            //         lat: parseFloat(event.suggestion.latlng.lat),
-            //         lng: parseFloat(event.suggestion.latlng.lng),
-            //     });
-            // } else {
-            //     setlocalAdress({
-            //         value: event.suggestion.name,
-            //         lat: event.suggestion.latlng.lat,
-            //         lng: event.suggestion.latlng.lng,
-            //     });
-            // }
+
+            if (store) {
+                store.setAdress({
+                    value: event.suggestion.name,
+                    lat: parseFloat(event.suggestion.latlng.lat),
+                    lng: parseFloat(event.suggestion.latlng.lng),
+                });
+            } else {
+                setlocalAdress(event.suggestion.name);
+            }
         });
 
         autocomplete.on("clear", () => {
@@ -37,7 +33,7 @@ const Places = observer(({ refine, defaultRefinement, store }) => {
     return (
         <div style={{ marginBottom: 20 }}>
             <input
-                defaultValue={localAdress | ""}
+                defaultValue={store ? store.value : localAdress}
                 ref={ref}
                 type="search"
                 id="address-input"
