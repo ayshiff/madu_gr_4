@@ -1,5 +1,15 @@
 ## Madu [![CircleCI](https://circleci.com/gh/ayshiff/madu_gr_4/tree/develop.svg?style=svg)](https://circleci.com/gh/ayshiff/madu_gr_4/tree/develop)
 
+## Groupe:
+
+- Christophe Charlebois: Front-end
+- Remi Doreau: Front-end
+- Enzo Hespel: Front-end
+- Alice Fabre: UX/UI
+- Clara de Langenhagen: UX/UI
+- Corentin Croizat: Back-end
+- Amaury Faveriel: Infrastructure
+
 ## Client [![Coverage Status](https://coveralls.io/repos/github/ayshiff/madu_gr_4/badge.svg?branch=develop)](https://coveralls.io/github/ayshiff/madu_gr_4?branch=develop)
 
 ReactJS - Typescript - Redux - RxJS - Redux-Observable
@@ -36,3 +46,15 @@ export const TestComponent = observer(() => {
 
 
 ```
+
+## Back-end
+
+Node.js - NestJS - Typescript - MongoDB
+
+[Lien du projet](https://github.com/ayshiff/madu_gr_4/tree/develop/back-end)
+
+## Infrastructure
+
+Ansible - Terraform - AWS
+
+[Lien du projet](https://github.com/ayshiff/madu_gr_4/tree/develop/.cloud)
