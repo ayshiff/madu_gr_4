@@ -6,3 +6,10 @@ export const loginReader = (json: JsonValue): AuthToken => {
         authToken: json.access_token,
     };
 };
+
+export const forgotPasswordReader = (json: JsonValue): AuthToken => {
+    console.log("json", json);
+    return {
+        authToken: json.access_token,
+    };
+};

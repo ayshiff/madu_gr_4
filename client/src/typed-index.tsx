@@ -4,7 +4,14 @@ import { listenOnBroadcastChannel } from "custom-broascast-channel";
 
 import appConfig from "madu/app-config";
 
-import { The404, BadRequest, NukeTown, Loading, LoginStandaloneApp } from "./outside-components";
+import {
+    The404,
+    BadRequest,
+    NukeTown,
+    Loading,
+    LoginStandaloneApp,
+    ForgottenPasswordApp,
+} from "./outside-components";
 
 import {
     getUserCreds as getUserCredsService,
@@ -60,11 +67,15 @@ class InsideContainer extends React.PureComponent<{}, InsideContainerState> {
 }
 
 const UserStateContainer = () => {
-    const [userCreds, setUserCreds] = useState<
-        UserCredentials | undefined | null // undefined is initial state, null when no creds are fetch from idb
-    >(undefined);
+    const [userCreds, setUserCreds] = useState<UserCredentials | undefined | null>(undefined);
+    const [forgottenId, setForgottenId] = useState<string | null>(null);
 
     const stampUserCreds = useCallback(() => {
+        const url = window.location.pathname;
+        const id = url.substring(url.lastIndexOf("/") + 1);
+        if (url.split("/")[1] === "reset-password" && id) {
+            setForgottenId(id);
+        }
         getUserCredsService().then(creds => {
             setUserCreds(creds || null);
             // If there is no credentials cached, this might be undefined.
@@ -84,6 +95,11 @@ const UserStateContainer = () => {
     // While IndexedDB is fetching, prompt a spinner
     if (userCreds === undefined) {
         return <Loading />;
+    }
+
+    // If IndexedDB is done fetching but there is no credentials, trigger login process
+    else if (forgottenId) {
+        return <ForgottenPasswordApp token={forgottenId} />;
     }
 
     // If IndexedDB is done fetching but there is no credentials, trigger login process

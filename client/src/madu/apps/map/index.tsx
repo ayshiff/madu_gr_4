@@ -30,7 +30,7 @@ export const Mapboxgl = observer(() => {
 
     useEffect(() => {
         pointOfInterestStore.get();
-    }, []);
+    }, [pointOfInterestStore]);
 
     return (
         <div style={containerStyle}>
@@ -38,7 +38,7 @@ export const Mapboxgl = observer(() => {
                 <SearchSidebar titleProperties={"titleProperties"} />
             </div>
             <Map
-                style="mapbox://styles/mapbox/streets-v8"
+                style={"mapbox://styles/mapbox/streets-v8" as string | mapboxgl.Style}
                 containerStyle={{
                     height: "100vh",
                     width: "100vw",

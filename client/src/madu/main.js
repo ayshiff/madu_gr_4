@@ -5,8 +5,12 @@ import { stores, StoreProvider } from "./stores/index";
 import "antd/dist/antd.css";
 
 const PoiApp = lazy(() => import("madu/apps/poi"));
+const ClientApp = lazy(() => import("madu/apps/client"));
 
-const launchers = [["/poi", PoiApp]];
+const launchers = [
+    ["/poi", PoiApp],
+    ["/client", ClientApp],
+];
 
 const getApp = () => {
     const currentPath = window.document.location.pathname;

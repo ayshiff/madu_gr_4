@@ -1,12 +1,11 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import places from "places.js";
 import connect from "./connector";
 import { observer } from "mobx-react";
-import { useStores } from "madu/hooks/use-store";
 
-const Places = observer(({ refine, defaultRefinement }) => {
+const Places = observer(({ refine, defaultRefinement, store }) => {
+    const [localAdress, setlocalAdress] = useState(null);
     let ref = useRef(<input />);
-    const { pointOfInterestStore } = useStores();
 
     useEffect(() => {
         const autocomplete = places({
@@ -15,21 +14,26 @@ const Places = observer(({ refine, defaultRefinement }) => {
 
         autocomplete.on("change", event => {
             refine(event.suggestion.latlng);
-            pointOfInterestStore.setAdress({
-                value: event.suggestion.name,
-                lat: parseFloat(event.suggestion.latlng.lat),
-                lng: parseFloat(event.suggestion.latlng.lng),
-            });
+
+            if (store) {
+                store.setAdress({
+                    value: event.suggestion.name,
+                    lat: parseFloat(event.suggestion.latlng.lat),
+                    lng: parseFloat(event.suggestion.latlng.lng),
+                });
+            } else {
+                setlocalAdress(event.suggestion.name);
+            }
         });
 
         autocomplete.on("clear", () => {
             refine(defaultRefinement);
         });
-    }, []);
+    }, [defaultRefinement, refine, store]);
     return (
         <div style={{ marginBottom: 20 }}>
             <input
-                defaultValue={pointOfInterestStore.byId.address.value}
+                defaultValue={store ? store.value : localAdress}
                 ref={ref}
                 type="search"
                 id="address-input"

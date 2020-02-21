@@ -10,12 +10,12 @@ import { InstantSearch } from "react-instantsearch-dom";
 import algoliasearch from "algoliasearch";
 import Places from "../../../../places/widget";
 
-const searchClient = algoliasearch("latency", process.env.ALGOLIA_API_KEY);
+const searchClient = algoliasearch("latency", "97797269710d54d6054b399b1f777c5c");
 
 const { TextArea } = Input;
 
 const CustomTextArea = styled(TextArea)`
-    width: ${rem(300)};
+    width: ${rem(614)};
 `;
 
 const CustomInput = styled(Input)`
@@ -49,6 +49,7 @@ export type StepOneProps = {
 const FormStepOneComponent = observer(({ changeStep, onEdit, form }: StepOneProps) => {
     const {
         pointOfInterestStore: { byId },
+        pointOfInterestStore,
     } = useStores();
 
     const checkForm = () => {
@@ -65,7 +66,12 @@ const FormStepOneComponent = observer(({ changeStep, onEdit, form }: StepOneProp
                     {form.getFieldDecorator("name", {
                         initialValue: byId.name,
                         setFieldsValue: byId.name,
-                        rules: [{ required: true, message: "Merci de renseigner un nom" }],
+                        rules: [
+                            {
+                                required: true,
+                                message: "Merci de renseigner un nom d'établissement",
+                            },
+                        ],
                     })(<CustomInput onChange={e => onEdit("name", e.target.value)} />)}
                 </Form.Item>
                 <Form.Item label="Addresse">
@@ -73,6 +79,7 @@ const FormStepOneComponent = observer(({ changeStep, onEdit, form }: StepOneProp
                         <div className="search-panel" style={{ width: "300px" }}>
                             <div className="search-panel__results">
                                 <Places
+                                    store={pointOfInterestStore}
                                     defaultRefinement={{
                                         lat: 37.7793,
                                         lng: -122.419,
@@ -93,7 +100,12 @@ const FormStepOneComponent = observer(({ changeStep, onEdit, form }: StepOneProp
                                     message: "Merci de renseigner une adresse email",
                                 },
                             ],
-                        })(<CustomInput onChange={e => onEdit("email", e.target.value)} />)}
+                        })(
+                            <CustomInput
+                                onChange={e => onEdit("email", e.target.value)}
+                                placeholder="exemple@gmail.com"
+                            />
+                        )}
                     </Form.Item>
                     <Form.Item label="Téléphone">
                         {form.getFieldDecorator("phone", {
@@ -102,7 +114,7 @@ const FormStepOneComponent = observer(({ changeStep, onEdit, form }: StepOneProp
                             rules: [
                                 {
                                     type: "string",
-                                    message: "Merci de choisir un numéro de téléphone valide",
+                                    message: "Format requis 0100000000",
                                 },
                             ],
                         })(<CustomInput onChange={e => onEdit("phone", e.target.value)} />)}
@@ -114,7 +126,12 @@ const FormStepOneComponent = observer(({ changeStep, onEdit, form }: StepOneProp
                             initialValue: byId.website,
                             setFieldsValue: byId.website,
                             rules: [{ type: "url", message: "Merci de choisir une url valide" }],
-                        })(<CustomInput onChange={e => onEdit("website", e.target.value)} />)}
+                        })(
+                            <CustomInput
+                                onChange={e => onEdit("website", e.target.value)}
+                                placeholder=" http://www.exemple.fr"
+                            />
+                        )}
                     </Form.Item>
                     <Form.Item label="Lien réseaux sociaux">
                         {form.getFieldDecorator("socialNetwork", {
@@ -131,7 +148,7 @@ const FormStepOneComponent = observer(({ changeStep, onEdit, form }: StepOneProp
                         rules: [{ required: true, message: "Merci de choisir un code postale" }],
                     })(
                         <CustomTextArea
-                            rows={4}
+                            rows={6}
                             onChange={e => onEdit("description", e.target.value)}
                         />
                     )}
