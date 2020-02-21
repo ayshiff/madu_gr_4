@@ -31,7 +31,7 @@ const CustomContent = styled(Content)`
     border-radius: ${rem(12)};
 `;
 
-const CustomTag = styled(Tag)`
+export const CustomTag = styled(Tag)`
     width: 150px;
     text-align: center;
     &:hover {

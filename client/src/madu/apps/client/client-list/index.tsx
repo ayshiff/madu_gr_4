@@ -5,6 +5,7 @@ import { rem } from "polished";
 import { observer } from "mobx-react";
 import { useStores } from "madu/hooks/use-store";
 import { useHistory } from "react-router";
+import { toJS } from "mobx";
 
 // const trash = require("assets/icons/trash.svg");
 // const localisation = require("assets/icons/localisation.svg");
@@ -40,6 +41,14 @@ const CustomTag = styled(Tag)`
     }
 `;
 
+const CustomTagPOI = styled(Tag)`
+    width: 30px;
+    text-align: center;
+    &:hover {
+        cursor: pointer;
+    }
+`;
+
 const hashMap = {
     canvassing: {
         status: "démarché",
@@ -55,14 +64,55 @@ const hashMap = {
     },
 };
 
+const convertRad = (input: number) => {
+    return (Math.PI * input) / 180;
+};
+
+const distance = (lat: number, lng: number, lat_: number, lng_: number) => {
+    const R = 6378000; // Earth radius in meters
+
+    return (
+        R *
+        (Math.PI / 2 -
+            Math.asin(
+                Math.sin(convertRad(lat_)) * Math.sin(convertRad(lat)) +
+                    Math.cos(convertRad(lng_) - convertRad(lng)) *
+                        Math.cos(convertRad(lat_)) *
+                        Math.cos(convertRad(lat))
+            ))
+    );
+};
+
+const findByCoordinates = (allPoi, lat: number, lng: number) => {
+    const radiusToPoiInMeters = 1000;
+    const first = allPoi.filter(
+        poi =>
+            distance(lat, lng, poi.address.lat, poi.address.lng) < radiusToPoiInMeters &&
+            poi.status === "canvassing"
+    );
+    const second = allPoi.filter(
+        poi =>
+            distance(lat, lng, poi.address.lat, poi.address.lng) < radiusToPoiInMeters &&
+            poi.status === "surver_completed"
+    );
+    const third = allPoi.filter(
+        poi =>
+            distance(lat, lng, poi.address.lat, poi.address.lng) < radiusToPoiInMeters &&
+            poi.status === "valid"
+    );
+    console.log(toJS(allPoi));
+    return { first, second, third };
+};
+
 export const ListClient = observer(() => {
     const [filter, setFilter] = useState("");
-    const { companyStore } = useStores();
+    const { companyStore, pointOfInterestStore } = useStores();
     const history = useHistory();
 
     useEffect(() => {
         companyStore.get();
-    }, [companyStore]);
+        pointOfInterestStore.get();
+    }, [companyStore, pointOfInterestStore]);
 
     const onChangeTag = (id: string) => {
         const element = companyStore.all.find(el => el.id === id);
@@ -84,6 +134,24 @@ export const ListClient = observer(() => {
             key: "companyName",
             render: (text, record) => (
                 <CustomLink onClick={() => edit(text.id)}>{text.companyName}</CustomLink>
+            ),
+        },
+        {
+            title: "Nombre de POI",
+            dataIndex: "nbPoi",
+            key: "nbPoi",
+            render: (text, record) => (
+                <span>
+                    <CustomTagPOI color="#D1D7DC" key="1">
+                        {record.dd.first.length}
+                    </CustomTagPOI>
+                    <CustomTagPOI color="#CDD2FF" key="2">
+                        {record.dd.second.length}
+                    </CustomTagPOI>
+                    <CustomTagPOI color="#CFEBE2" key="3">
+                        {record.dd.third.length}
+                    </CustomTagPOI>
+                </span>
             ),
         },
         {
@@ -157,7 +225,7 @@ export const ListClient = observer(() => {
                 <Table
                     columns={columns}
                     dataSource={
-                        companyStore.all.length
+                        companyStore.all.length && pointOfInterestStore.all.length
                             ? companyStore.all
                                   .map((el, i) => ({
                                       key: i,
@@ -166,6 +234,11 @@ export const ListClient = observer(() => {
                                       poiNumber: el.poiNumber,
                                       status: el.status,
                                       email: el.email,
+                                      dd: findByCoordinates(
+                                          pointOfInterestStore.all,
+                                          el.address.lat,
+                                          el.address.lng
+                                      ),
                                   }))
                                   .filter(
                                       el =>
