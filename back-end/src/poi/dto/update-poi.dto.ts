@@ -60,8 +60,8 @@ export class UpdatePoiDto {
   greenscore: number;
 
   @IsOptional()
-  @IsString()
-  foodPreference: string;
+  @IsString({each: true})
+  foodPreference: [string];
 
   @IsOptional()
   @IsBoolean()
