@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Layout, Input, Button, Table, Popconfirm, Icon, Tag } from "antd";
-import { useStores } from "madu/hooks/use-store";
-import { observer } from "mobx-react";
-import { useHistory } from "react-router";
+import { Layout, Input, Button, Table, Tag, Popconfirm, Icon } from "antd";
 import styled from "styled-components";
 import { rem } from "polished";
+import { observer } from "mobx-react";
+import { useStores } from "madu/hooks/use-store";
+import { useHistory } from "react-router";
+
+// const trash = require("assets/icons/trash.svg");
+// const localisation = require("assets/icons/localisation.svg");
 
 const { Header, Content } = Layout;
-
-/** Styled components */
 
 const CustomLink = styled.div`
     color: #1790ff;
@@ -39,24 +40,6 @@ const CustomTag = styled(Tag)`
     }
 `;
 
-const titleStyle = {
-    marginLeft: "20px",
-    fontWeight: 500,
-    fontSize: "28px",
-};
-
-const CustomButton = styled(Button)`
-    margin-right: 20px;
-    margin-left: 40px;
-`;
-
-const CustomHeader = styled(Header)`
-    background: #fff;
-    padding: 0;
-    display: flex;
-    justify-content: space-between;
-`;
-
 const hashMap = {
     canvassing: {
         status: "démarché",
@@ -72,63 +55,57 @@ const hashMap = {
     },
 };
 
-export const ListPoi = observer(() => {
-    const { pointOfInterestStore } = useStores();
+export const ListClient = observer(() => {
     const [filter, setFilter] = useState("");
+    const { companyStore } = useStores();
     const history = useHistory();
 
     useEffect(() => {
-        pointOfInterestStore.get();
-    }, [pointOfInterestStore]);
+        companyStore.get();
+    }, [companyStore]);
 
     const onChangeTag = (id: string) => {
-        const element = pointOfInterestStore.all.find(el => el.id === id);
+        const element = companyStore.all.find(el => el.id === id);
         const value = Object.entries(hashMap).findIndex(el => el[0] === element.status);
         const new_index = (value + 1) % 3;
         const new_value = Object.entries(hashMap)[new_index];
-        pointOfInterestStore.edit(id, { ...element, status: new_value[0] });
+        companyStore.edit(id, { ...element, status: new_value[0] });
     };
 
     const edit = (id: string) => {
-        pointOfInterestStore.getById(id);
-        pointOfInterestStore.setEditing(true);
-        history.push("/poi/create");
+        companyStore.getById(id);
+        companyStore.setEditing(true);
+        history.push("/client/create");
     };
 
     const columns = [
         {
-            title: "Nom du lieu",
-            key: "nomDuLieu",
+            title: "Nom de l'entreprise",
+            key: "companyName",
             render: (text, record) => (
-                <CustomLink onClick={() => edit(text.id)}>{text.nomDuLieu}</CustomLink>
+                <CustomLink onClick={() => edit(text.id)}>{text.companyName}</CustomLink>
             ),
         },
         {
-            title: "Catégorie",
-            dataIndex: "categorie",
-            key: "categorie",
-        },
-        {
             title: "Statut",
-            dataIndex: "questionnr",
-            key: "questionnr",
+            key: "status",
             render: (text, record) =>
-                record.questionnr && (
+                record.status && (
                     <span>
                         <CustomTag
                             onClick={() => onChangeTag(record.id)}
-                            color={hashMap[record.questionnr].color}
-                            key={record.questionnr}
+                            color={hashMap[record.status].color}
+                            key={record.status}
                         >
-                            {hashMap[record.questionnr].status.toUpperCase()}
+                            {hashMap[record.status].status.toUpperCase()}
                         </CustomTag>
                     </span>
                 ),
         },
         {
-            title: "Greenscore",
-            dataIndex: "greenscore",
-            key: "greenscore",
+            title: "Email",
+            dataIndex: "email",
+            key: "email",
         },
         {
             title: "Action",
@@ -137,7 +114,7 @@ export const ListPoi = observer(() => {
                 return (
                     <Popconfirm
                         title="Etes vous sûr de vouloir supprimer ?"
-                        onConfirm={() => pointOfInterestStore.remove(record.id)}
+                        onConfirm={() => companyStore.remove(record.id)}
                     >
                         <Icon style={{ textAlign: "center" }} type="delete" />
                     </Popconfirm>
@@ -146,46 +123,61 @@ export const ListPoi = observer(() => {
         },
     ];
 
+    const headerStyle = {
+        background: "#fff",
+        padding: 0,
+        display: "flex",
+        justifyContent: "space-between",
+    };
+
+    const titleStyle = {
+        marginLeft: "20px",
+        fontWeight: 500,
+        fontSize: "28px",
+    };
+
     const { Search } = Input;
+
     return (
         <CustomLayout>
-            <CustomHeader>
-                <h1 style={titleStyle}>Liste des points d’intêret</h1>
+            <Header style={headerStyle}>
+                <h1 style={titleStyle}>Liste des clients</h1>
                 <div>
                     <Search
-                        onChange={e => setFilter(e.target.value)}
                         placeholder="Search"
                         style={{ width: 250 }}
+                        onChange={e => setFilter(e.target.value)}
                     />
-                    <CustomButton type="primary">
-                        <a href="/poi/create">+ Ajouter un point d’intêret</a>
-                    </CustomButton>
+                    <Button type="primary" style={{ marginRight: "20px", marginLeft: "40px" }}>
+                        <a href="/client/create">+ Ajouter un point client</a>
+                    </Button>
                 </div>
-            </CustomHeader>
+            </Header>
             <CustomContent>
                 <Table
-                    pagination={{ pageSize: 10 }}
-                    scroll={{ y: 400 }}
                     columns={columns}
-                    // @ts-ignore
                     dataSource={
-                        pointOfInterestStore.all.length
-                            ? pointOfInterestStore.all
-                                  .map((el, ind) => ({
-                                      key: ind,
+                        companyStore.all.length
+                            ? companyStore.all
+                                  .map((el, i) => ({
+                                      key: i,
                                       id: el.id,
-                                      nomDuLieu: el.name,
-                                      categorie: el.poiType,
-                                      questionnr: el.status,
-                                      greenscore: el.greenscore,
+                                      companyName: el.companyName,
+                                      poiNumber: el.poiNumber,
+                                      status: el.status,
+                                      email: el.email,
                                   }))
                                   .filter(
                                       el =>
-                                          el.nomDuLieu &&
-                                          el.nomDuLieu.toLowerCase().includes(filter.toLowerCase())
+                                          el.companyName &&
+                                          el.companyName
+                                              .toLowerCase()
+                                              .includes(filter.toLowerCase())
                                   )
                             : []
                     }
+                    pagination={{ pageSize: 10 }}
+                    scroll={{ y: 400 }}
                 />
             </CustomContent>
         </CustomLayout>

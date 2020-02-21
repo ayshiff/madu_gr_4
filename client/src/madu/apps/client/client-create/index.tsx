@@ -1,10 +1,12 @@
 import React, { useState, useMemo, useEffect, useCallback } from "react";
 import { Layout } from "antd";
 import { createBrowserHistory as createHistory } from "history";
+
 import { TabsMenu } from "madu/components/tabs-menu";
-import { FormStepOne, StepOneState } from "./steps/step-one";
-import { FormStepTwo } from "./steps/step-two";
 import { useStores } from "madu/hooks/use-store";
+
+import { FormStepOne, StepOneState } from "./steps/step-one";
+import { FormStepTwo, StepTwoState } from "./steps/step-two";
 
 const { Content } = Layout;
 
@@ -16,25 +18,22 @@ type FormState = {
     currentStep: number;
     stepStates: {
         stepOne: StepOneState;
-        stepTwo: any;
+        stepTwo: StepTwoState;
     };
 };
 
 const stepsComponents = [FormStepOne, FormStepTwo];
 
-export const CreatePoi = () => {
+export const CreateClient = () => {
     const defaultFormState: FormState = useMemo(
         () => ({
             currentStep: 0,
             stepStates: {
                 stepOne: {
                     index: 0,
-                    name: "",
                 },
                 stepTwo: {
                     index: 1,
-                    schedule: [],
-                    fileList: [],
                 },
             },
         }),
@@ -42,12 +41,12 @@ export const CreatePoi = () => {
     );
 
     const layoutContentStyle = {
-        backgroundColor: "#ffffff",
+        backgroundColor: "#fff",
     };
 
     const [formState, setFormState] = useState<FormState>(defaultFormState);
 
-    const { pointOfInterestStore } = useStores();
+    const { companyStore } = useStores();
 
     const setCurrentStep = useCallback((state: FormState) => {
         if (history.state) {
@@ -83,13 +82,6 @@ export const CreatePoi = () => {
         setFormState(newState);
     };
 
-    const onChangeStepState = function<T>(key: StateKeys, value: T) {
-        setFormState({
-            ...formState,
-            stepStates: { ...formState.stepStates, [key]: value },
-        });
-    };
-
     const CurrentStepComponent = {
         Component: stepsComponents[formState.currentStep],
         state: Object.values(formState.stepStates).find(
@@ -98,7 +90,7 @@ export const CreatePoi = () => {
     };
 
     const onEdit = (key: string, value: any) => {
-        pointOfInterestStore.setStep({ [key]: value });
+        companyStore.setStep({ [key]: value });
     };
 
     return (
@@ -128,8 +120,6 @@ export const CreatePoi = () => {
                 >
                     <CurrentStepComponent.Component
                         // @ts-ignore
-                        onChangeStepState={onChangeStepState}
-                        stepState={CurrentStepComponent.state}
                         changeStep={onChangeStep}
                         onEdit={onEdit}
                     />

@@ -21,6 +21,9 @@ export class GreenscoreController {
     private readonly templateService: TemplateService
   ) {}
 
+  /*
+  // this controller will be used in V2
+  
   @Post('questions')
   @Roles(UserRole.Admin)
   async createQuestion(@Body() createQuestionDto: CreateQuestionDto) {
@@ -86,4 +89,5 @@ export class GreenscoreController {
     const template = await this.templateService.findByUuid(id);
     this.templateService.delete(template);
   }
+  */
 }
