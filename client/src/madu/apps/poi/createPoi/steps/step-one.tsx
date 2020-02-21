@@ -122,7 +122,13 @@ const FormStepOneComponent = observer(({ changeStep, onEdit, form }: StepOneProp
                         {form.getFieldDecorator("website", {
                             initialValue: pointOfInterestStore.byId.website,
                             setFieldsValue: pointOfInterestStore.byId.website,
-                            rules: [{ type: "url", message: "Merci de choisir une url valide" }],
+                            rules: [
+                                {
+                                    required: true,
+                                    type: "url",
+                                    message: "Merci de choisir une url valide",
+                                },
+                            ],
                         })(
                             <CustomInput
                                 onChange={e => onEdit("website", e.target.value)}
@@ -134,7 +140,13 @@ const FormStepOneComponent = observer(({ changeStep, onEdit, form }: StepOneProp
                         {form.getFieldDecorator("socialNetwork", {
                             initialValue: pointOfInterestStore.byId.socialNetwork,
                             setFieldsValue: pointOfInterestStore.byId.socialNetwork,
-                            rules: [{ type: "url", message: "Merci de choisir une url valide" }],
+                            rules: [
+                                {
+                                    required: true,
+                                    type: "url",
+                                    message: "Merci de choisir une url valide",
+                                },
+                            ],
                         })(<CustomInput onChange={e => onEdit("socialNetwork", e.target.value)} />)}
                     </Form.Item>
                 </InputWrapper>
@@ -142,7 +154,12 @@ const FormStepOneComponent = observer(({ changeStep, onEdit, form }: StepOneProp
                     {form.getFieldDecorator("description", {
                         initialValue: pointOfInterestStore.byId.description,
                         setFieldsValue: pointOfInterestStore.byId.description,
-                        rules: [{ required: true, message: "Merci de choisir un code postale" }],
+                        rules: [
+                            {
+                                required: true,
+                                message: "Merci de rentrer une description",
+                            },
+                        ],
                     })(
                         <CustomTextArea
                             rows={6}
