@@ -53,7 +53,7 @@ export const ListClient = observer(() => {
 
     useEffect(() => {
         companyStore.get();
-    }, []);
+    }, [companyStore]);
 
     const onChangeTag = (id: string) => {
         const element = companyStore.all.find(el => el.id === id);

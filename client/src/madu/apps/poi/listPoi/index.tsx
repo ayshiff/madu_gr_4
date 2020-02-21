@@ -70,7 +70,7 @@ export const ListPoi = observer(() => {
 
     useEffect(() => {
         pointOfInterestStore.get();
-    }, []);
+    }, [pointOfInterestStore]);
 
     const onChangeTag = (id: string) => {
         const element = pointOfInterestStore.all.find(el => el.id === id);

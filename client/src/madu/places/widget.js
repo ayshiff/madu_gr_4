@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from "react";
 import places from "places.js";
 import connect from "./connector";
 import { observer } from "mobx-react";
-import { useStores } from "madu/hooks/use-store";
 
 const Places = observer(({ refine, defaultRefinement, store }) => {
     let ref = useRef(<input />);
@@ -24,7 +23,7 @@ const Places = observer(({ refine, defaultRefinement, store }) => {
         autocomplete.on("clear", () => {
             refine(defaultRefinement);
         });
-    }, []);
+    }, [defaultRefinement, refine, store]);
     return (
         <div style={{ marginBottom: 20 }}>
             <input
