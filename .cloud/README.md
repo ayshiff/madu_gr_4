@@ -62,7 +62,7 @@ La commande permet d'installer docker et de lancer le docker-compose avec les im
 
 Il est aussi possible de monter les images et de les stocker sur un hub docker personnel. Cela nécessite une configuration préalable mais permet de générer des noms d'images personnalisés et de modifier le code.
 
-Pour build ses images il faut avoir [accès à docker hub](https://ropenscilabs.github.io/r-docker-tutorial/04-Dockerhub.html), puis de ```/.cloud/ansible/inventory/group_vars/local.yml``` modifier la variable ```docker-username``` en mettant le nom de compte docker hub. Il est aussi possible mais pas obligatoire de modifier les variables ```images``` pour les personnaliser.
+Pour build ses images il faut avoir [accès à docker hub](https://ropenscilabs.github.io/r-docker-tutorial/04-Dockerhub.html), puis de ```/.cloud/ansible/inventory/group_vars/all.yml``` modifier la variable ```docker-username``` en mettant le nom de compte docker hub. Il est aussi possible mais pas obligatoire de modifier les variables ```images``` pour les personnaliser.
 
 Pour tout installer et lancer ( installation docker + build image + copie et lancement docker-compose):
 ```
