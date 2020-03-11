@@ -5,7 +5,7 @@
 Instances:
 - Un serveur EC2.
 - Un groupe de sécurité autorisant les connexions entrantes sur les ports 22 (ssh), 80 (back-office) et 3000 (api) ainsi que toutes les connexions sortantes.
-- Une paire de clé utilisé pour la conexion ssh par le serveur.
+- Une paire de clé utilisée pour la connexion ssh par le serveur.
 
 ### Ansible
 
