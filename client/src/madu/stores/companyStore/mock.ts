@@ -1,5 +1,5 @@
 export const companyStoreMock = {
-    id: "",
+    id: "test_id_1",
     companyName: "",
     name: "",
     lastName: "",
