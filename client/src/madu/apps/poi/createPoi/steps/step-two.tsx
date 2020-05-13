@@ -243,7 +243,12 @@ const FormStepTwoComponent = observer(({ changeStep, stepState, onEdit, form }: 
                     {form.getFieldDecorator("poiType", {
                         initialValue: byId.poiType,
                         setFieldsValue: byId.poiType,
-                        rules: [{ required: true, message: "Merci de choisir un type d'établissement valide" }],
+                        rules: [
+                            {
+                                required: true,
+                                message: "Merci de choisir un type d'établissement valide",
+                            },
+                        ],
                     })(
                         <CustomSelect
                             mode="multiple"
