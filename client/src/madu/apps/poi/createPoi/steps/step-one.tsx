@@ -71,7 +71,7 @@ const FormStepOneComponent = observer(({ changeStep, onEdit, form }: StepOneProp
                         ],
                     })(<CustomInput onChange={e => onEdit("name", e.target.value)} />)}
                 </Form.Item>
-                <Form.Item label="Addresse">
+                <Form.Item label="Adresse">
                     <InstantSearch indexName="airports" searchClient={searchClient}>
                         <div className="search-panel" style={{ width: "300px" }}>
                             <div className="search-panel__results">

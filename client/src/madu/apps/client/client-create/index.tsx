@@ -98,7 +98,8 @@ export const CreateClient = () => {
             <div
                 style={{
                     background: "#fff",
-                    padding: 40,
+                    paddingTop: 40,
+                    paddingLeft: 40,
                 }}
             >
                 <TabsMenu

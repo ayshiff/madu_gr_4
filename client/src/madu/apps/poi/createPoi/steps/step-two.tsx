@@ -243,7 +243,7 @@ const FormStepTwoComponent = observer(({ changeStep, stepState, onEdit, form }: 
                     {form.getFieldDecorator("poiType", {
                         initialValue: byId.poiType,
                         setFieldsValue: byId.poiType,
-                        rules: [{ required: true, message: "Merci de choisir une url valide" }],
+                        rules: [{ required: true, message: "Merci de choisir un type d'établissement valide" }],
                     })(
                         <CustomSelect
                             mode="multiple"
@@ -281,7 +281,7 @@ const FormStepTwoComponent = observer(({ changeStep, stepState, onEdit, form }: 
                 {form.getFieldDecorator("greenscore", {
                     initialValue: byId.greenscore,
                     setFieldsValue: byId.greenscore,
-                    rules: [{ required: true, message: "Merci de choisir une url valide" }],
+                    rules: [{ required: true, message: "Merci de choisir un greenscore valide" }],
                 })(<CustomInput onChange={e => onEdit("greenscore", parseInt(e.target.value))} />)}
             </Form.Item>
             <InputWrapper>
