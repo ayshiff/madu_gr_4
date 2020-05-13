@@ -239,47 +239,49 @@ const FormStepTwoComponent = observer(({ changeStep, stepState, onEdit, form }: 
                 </Form.Item>
             </Form>
             <InputWrapper>
-                <Form.Item label="Type d'établissement">
-                    {form.getFieldDecorator("poiType", {
-                        initialValue: byId.poiType,
-                        setFieldsValue: byId.poiType,
-                        rules: [
-                            {
-                                required: true,
-                                message: "Merci de choisir un type d'établissement valide",
-                            },
-                        ],
-                    })(
-                        <CustomSelect
-                            mode="multiple"
-                            style={{ width: "100%" }}
-                            placeholder="Please select"
-                            onChange={e => onEdit("poiType", e)}
-                        >
-                            {poiTypeArray.map((poiType, i) => (
-                                <Option key={i}>{poiType}</Option>
-                            ))}
-                        </CustomSelect>
-                    )}
-                </Form.Item>
                 {defaultCategory === "restoration" && (
-                    <Form.Item label="Préférence alimentaire">
-                        {form.getFieldDecorator("foodPreference", {
-                            initialValue: byId.foodPreference,
-                            setFieldsValue: byId.foodPreference,
-                        })(
-                            <CustomSelect
-                                mode="multiple"
-                                style={{ width: "100%" }}
-                                placeholder="Please select"
-                                onChange={e => onEdit("foodPreference", e)}
-                            >
-                                {foodPreferenceArray.map((foodPreference, i) => (
-                                    <Option key={i}>{foodPreference}</Option>
-                                ))}
-                            </CustomSelect>
-                        )}
-                    </Form.Item>
+                    <>
+                        <Form.Item label="Type d'établissement">
+                            {form.getFieldDecorator("poiType", {
+                                initialValue: byId.poiType,
+                                setFieldsValue: byId.poiType,
+                                rules: [
+                                    {
+                                        required: true,
+                                        message: "Merci de choisir un type d'établissement valide",
+                                    },
+                                ],
+                            })(
+                                <CustomSelect
+                                    mode="multiple"
+                                    style={{ width: "100%" }}
+                                    placeholder="Please select"
+                                    onChange={e => onEdit("poiType", e)}
+                                >
+                                    {poiTypeArray.map((poiType, i) => (
+                                        <Option key={i}>{poiType}</Option>
+                                    ))}
+                                </CustomSelect>
+                            )}
+                        </Form.Item>
+                        <Form.Item label="Préférence alimentaire">
+                            {form.getFieldDecorator("foodPreference", {
+                                initialValue: byId.foodPreference,
+                                setFieldsValue: byId.foodPreference,
+                            })(
+                                <CustomSelect
+                                    mode="multiple"
+                                    style={{ width: "100%" }}
+                                    placeholder="Please select"
+                                    onChange={e => onEdit("foodPreference", e)}
+                                >
+                                    {foodPreferenceArray.map((foodPreference, i) => (
+                                        <Option key={i}>{foodPreference}</Option>
+                                    ))}
+                                </CustomSelect>
+                            )}
+                        </Form.Item>
+                    </>
                 )}
             </InputWrapper>
             <Form.Item label="Greenscore">
