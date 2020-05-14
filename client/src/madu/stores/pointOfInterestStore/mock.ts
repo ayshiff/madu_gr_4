@@ -190,4 +190,4 @@ export const pointOfInterestMock1 = {
     website: "",
     status: "",
     greenscore: null,
-}
+};

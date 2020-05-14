@@ -38,7 +38,7 @@ class CompanyStore {
     };
 
     @action get = () => {
-        this.all = [companyStoreMock1]
+        this.all = [companyStoreMock1];
         // const endpoint = `${REACT_APP_API_BASE_URL}/companies `;
         // return get(endpoint)
         //     .then((data: any) => {
@@ -51,7 +51,7 @@ class CompanyStore {
     };
 
     @action getById = (id: string) => {
-        this.byId = companyStoreMock1
+        this.byId = companyStoreMock1;
         // const endpoint = `${REACT_APP_API_BASE_URL}/companies/${id}`;
         // return get(endpoint)
         //     .then((data: any) => {
@@ -113,13 +113,13 @@ class CompanyStore {
 
     @action resetId = () => {
         // this.byId = companyStoreMock;
-        this.byId = { 
-            ...companyStoreMock, 
+        this.byId = {
+            ...companyStoreMock,
             address: {
                 value: "",
                 lat: null,
                 lng: null,
-            }
+            },
         };
     };
 }

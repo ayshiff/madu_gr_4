@@ -11,7 +11,11 @@ import { Mapboxgl } from "../map/index";
 const ClientApp = ({ match, history }) => (
     <Container>
         <Switch>
-            <Route exact path={`${match.url}/list`} render={() => <ListClient history={history} />} />
+            <Route
+                exact
+                path={`${match.url}/list`}
+                render={() => <ListClient history={history} />}
+            />
             <Route path={`${match.url}/create`} render={() => <CreateClient />} />
             <Route path={`${match.url}/map`} render={() => <Mapboxgl />} />
         </Switch>
@@ -23,7 +27,10 @@ const history = createHistory();
 export default () => {
     return (
         <Router history={history}>
-            <Route path="/client" component={({match}) => <ClientApp history={history} match={match} />} />
+            <Route
+                path="/client"
+                component={({ match }) => <ClientApp history={history} match={match} />}
+            />
         </Router>
     );
 };

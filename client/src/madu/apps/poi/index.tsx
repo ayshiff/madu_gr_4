@@ -24,7 +24,10 @@ const history = createHistory();
 export default () => {
     return (
         <Router history={history}>
-            <Route path="/poi" component={({match}) => <PoiApp history={history} match={match} />} />
+            <Route
+                path="/poi"
+                component={({ match }) => <PoiApp history={history} match={match} />}
+            />
         </Router>
     );
 };

@@ -32,27 +32,30 @@ export const Mapboxgl = observer(() => {
         pointOfInterestStore.get();
         companyStore.get();
     }, [pointOfInterestStore, companyStore]);
-    
+
     const fitBounds = () => {
         const defaultBounds = [2.349014, 48.864716];
         let fitBounds = null;
         if (pointOfInterestStore.byId.address.lng) {
-            fitBounds = [pointOfInterestStore.byId.address.lng, pointOfInterestStore.byId.address.lat];
+            fitBounds = [
+                pointOfInterestStore.byId.address.lng,
+                pointOfInterestStore.byId.address.lat,
+            ];
         }
-        
+
         if (companyStore.byId.address.lng) {
             fitBounds = [companyStore.byId.address.lng, companyStore.byId.address.lat];
         }
 
         return fitBounds || defaultBounds;
-    }
+    };
 
     useEffect(() => {
         return () => {
-            pointOfInterestStore.reset()
+            pointOfInterestStore.reset();
             companyStore.reset();
         };
-      }, []);
+    }, []);
 
     return (
         <div style={containerStyle}>

@@ -54,7 +54,7 @@ class PointOfInterestStore {
     };
 
     @action get = () => {
-        this.all = [pointOfInterestMock1]
+        this.all = [pointOfInterestMock1];
         // const endpoint = `${REACT_APP_API_BASE_URL}/poi`;
         // return get(endpoint)
         //     .then((data: any) => {
@@ -67,7 +67,7 @@ class PointOfInterestStore {
     };
 
     @action getById = (id: string) => {
-        this.byId = pointOfInterestMock1
+        this.byId = pointOfInterestMock1;
         // const endpoint = `${REACT_APP_API_BASE_URL}/poi/${id}`;
         // return get(endpoint)
         //     .then((data: any) => {
@@ -119,13 +119,13 @@ class PointOfInterestStore {
     };
 
     @action resetId = () => {
-        this.byId = { 
-            ...pointOfInterestMock, 
+        this.byId = {
+            ...pointOfInterestMock,
             address: {
                 value: "",
                 lat: null,
                 lng: null,
-            }
+            },
         };
     };
 

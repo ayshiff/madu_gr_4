@@ -178,18 +178,19 @@ export const ListClient = observer(({ history }) => {
             render: (text, record) => {
                 return (
                     <>
-                    <CompassOutlined onClick={() => {
-                        companyStore.setStep(record)
-                        history.push("/client/map", {test: "ok"});
-                        }
-                    } />
-                    <Popconfirm
-                        title="Etes vous sûr de vouloir supprimer ?"
-                        onConfirm={() => companyStore.remove(record.id)}
+                        <CompassOutlined
+                            onClick={() => {
+                                companyStore.setStep(record);
+                                history.push("/client/map", { test: "ok" });
+                            }}
+                        />
+                        <Popconfirm
+                            title="Etes vous sûr de vouloir supprimer ?"
+                            onConfirm={() => companyStore.remove(record.id)}
                         >
-                        <Icon style={{ textAlign: "center" }} type="delete" />
-                    </Popconfirm>
-                        </>
+                            <Icon style={{ textAlign: "center" }} type="delete" />
+                        </Popconfirm>
+                    </>
                 );
             },
         },

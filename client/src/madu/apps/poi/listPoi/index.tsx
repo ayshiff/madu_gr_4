@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Layout, Input, Button, Table, Popconfirm, Icon, Tag } from "antd";
-import {
-    CompassOutlined,
-  } from '@ant-design/icons';
+import { CompassOutlined } from "@ant-design/icons";
 // import { useStores } from "madu/hooks/use-store";
 import { observer } from "mobx-react";
 import styled from "styled-components";
@@ -142,17 +140,18 @@ export const ListPoi = observer(({ history }) => {
             render: (text, record) => {
                 return (
                     <>
-                    <CompassOutlined onClick={() => {
-                        pointOfInterestStore.setStep(record)
-                        history.push("/poi/map");
-                        }
-                    } />
-                    <Popconfirm
-                        title="Etes vous sûr de vouloir supprimer ?"
-                        onConfirm={() => pointOfInterestStore.remove(record.id)}
-                    >   
-                        <Icon style={{ textAlign: "center" }} type="delete" />
-                    </Popconfirm>
+                        <CompassOutlined
+                            onClick={() => {
+                                pointOfInterestStore.setStep(record);
+                                history.push("/poi/map");
+                            }}
+                        />
+                        <Popconfirm
+                            title="Etes vous sûr de vouloir supprimer ?"
+                            onConfirm={() => pointOfInterestStore.remove(record.id)}
+                        >
+                            <Icon style={{ textAlign: "center" }} type="delete" />
+                        </Popconfirm>
                     </>
                 );
             },
@@ -191,7 +190,7 @@ export const ListPoi = observer(({ history }) => {
                                       categorie: categoryLabel[el.category],
                                       questionnr: el.status,
                                       greenscore: el.greenscore,
-                                      address: el.address
+                                      address: el.address,
                                   }))
                                   .filter(
                                       el =>
