@@ -167,6 +167,42 @@ jobs:
           name: Push docker image back-end
           command: docker push "${DOCKER_BACK_END_IMAGE_NAME}:${DOCKER_BACK_END_IMAGE_TAG}"
 
+  deploy:
+    docker:
+      - image: circleci/python:3.8.2
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "ed:20:8e:3f:e9:d6:1e:90:b5:b8:54:70:c9:05:2c:c2"
+      - setup_remote_docker
+      - run:
+          name: Install pip
+          command: curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python get-pip.py --user
+      - run:
+          name: Install ansible
+          command: pip install --user ansible
+      - run:
+          name: Install roles for Ansible from galaxy
+          command: |
+            cd ~/repo/cloud/ansible
+            ansible-galaxy install geerlingguy.docker
+      - run:
+          name: Add ansible.cfg
+          command: export ANSIBLE_CONFIG=~/repo/cloud/ansible/ansible.cfg
+      - run:
+          name: Modify python ec2 script permissions
+          command: chmod 0744 ~/repo/cloud/ansible/inventory/ec2.py
+      - run:
+          name: Install pip dependencies for ec2 script
+          command: pip install -r ~/repo/cloud/ansible/requirement.txt
+      - run:
+          name: Deploy on staging with Ansible
+          command: |
+            cd ~/repo/cloud/ansible
+            ansible-playbook -i inventory staging.yml --user ubuntu --key-file=~/.ssh/id_rsa --extra-vars="application_docker_tag=${DOCKER_IMAGE_TAG} application_docker_image=${DOCKER_IMAGE_NAME}"
+
 workflows:
   version: 2
   build_and_test:
@@ -185,3 +221,7 @@ workflows:
       - push_image_back_end:
           requires:
             - build_back_end
+      #- deploy:
+      #   requires:
+      #      - push_image_client
+      #      - push_image_back_end
