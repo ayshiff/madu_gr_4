@@ -1,8 +1,8 @@
 import { observable, action } from "mobx";
-import { get, apiDelete, postJson, apiPut } from "madu/services/commun";
+import { apiDelete, postJson, apiPut } from "madu/services/commun";
 import { editReference, removeReference } from "../utils/index";
 
-import { companyStoreMock } from "./mock";
+import { companyStoreMock, companyStoreMock1 } from "./mock";
 
 const { REACT_APP_API_BASE_URL } = process.env;
 
@@ -38,32 +38,33 @@ class CompanyStore {
     };
 
     @action get = () => {
-        const endpoint = `${REACT_APP_API_BASE_URL}/companies `;
-        return get(endpoint)
-            .then((data: any) => {
-                const processedData: any = data;
-                // Process store once the call has succeed
-                this.all = processedData.value;
-                return;
-            })
-            .catch(err => console.log(err));
+        this.all = [companyStoreMock1]
+        // const endpoint = `${REACT_APP_API_BASE_URL}/companies `;
+        // return get(endpoint)
+        //     .then((data: any) => {
+        //         const processedData: any = data;
+        //         // Process store once the call has succeed
+        //         this.all = processedData.value;
+        //         return;
+        //     })
+        //     .catch(err => console.log(err));
     };
 
     @action getById = (id: string) => {
-        const endpoint = `${REACT_APP_API_BASE_URL}/companies/${id}`;
-        return get(endpoint)
-            .then((data: any) => {
-                const processedData: any = data;
-                // Process store once the call has succeed
-                this.byId = processedData.value;
-                return;
-            })
-            .catch(err => console.log(err));
+        this.byId = companyStoreMock1
+        // const endpoint = `${REACT_APP_API_BASE_URL}/companies/${id}`;
+        // return get(endpoint)
+        //     .then((data: any) => {
+        //         const processedData: any = data;
+        //         // Process store once the call has succeed
+        //         this.byId = processedData.value;
+        //         return;
+        //     })
+        //     .catch(err => console.log(err));
     };
 
     @action setStep = (args: any) => {
         this.byId = { ...this.byId, ...args };
-        return;
     };
 
     @action add = (company: ICompany) => {
@@ -111,7 +112,15 @@ class CompanyStore {
     };
 
     @action resetId = () => {
-        this.byId = companyStoreMock;
+        // this.byId = companyStoreMock;
+        this.byId = { 
+            ...companyStoreMock, 
+            address: {
+                value: "",
+                lat: null,
+                lng: null,
+            }
+        };
     };
 }
 

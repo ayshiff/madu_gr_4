@@ -31,7 +31,28 @@ export const Mapboxgl = observer(() => {
     useEffect(() => {
         pointOfInterestStore.get();
         companyStore.get();
-    }, [pointOfInterestStore]);
+    }, [pointOfInterestStore, companyStore]);
+    
+    const fitBounds = () => {
+        const defaultBounds = [2.349014, 48.864716];
+        let fitBounds = null;
+        if (pointOfInterestStore.byId.address.lng) {
+            fitBounds = [pointOfInterestStore.byId.address.lng, pointOfInterestStore.byId.address.lat];
+        }
+        
+        if (companyStore.byId.address.lng) {
+            fitBounds = [companyStore.byId.address.lng, companyStore.byId.address.lat];
+        }
+
+        return fitBounds || defaultBounds;
+    }
+
+    useEffect(() => {
+        return () => {
+            pointOfInterestStore.reset()
+            companyStore.reset();
+        };
+      }, []);
 
     return (
         <div style={containerStyle}>
@@ -45,14 +66,7 @@ export const Mapboxgl = observer(() => {
                     width: "100vw",
                 }}
                 zoom={pointOfInterestStore.byId.address.lng ? [13.7] : [11.5]}
-                center={
-                    pointOfInterestStore.byId.address.lng
-                        ? [
-                              pointOfInterestStore.byId.address.lng,
-                              pointOfInterestStore.byId.address.lat,
-                          ]
-                        : [2.349014, 48.864716]
-                }
+                center={fitBounds()}
             >
                 {/* All POI Markers */}
                 <Layer type="symbol" id="marker1" layout={{ "icon-image": "grocery-15" }}>

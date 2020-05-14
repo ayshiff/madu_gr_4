@@ -6,12 +6,14 @@ import { Container } from "styles/layout/container";
 
 import { CreateClient } from "./client-create";
 import { ListClient } from "./client-list";
+import { Mapboxgl } from "../map/index";
 
-const ClientApp = ({ match }) => (
+const ClientApp = ({ match, history }) => (
     <Container>
         <Switch>
-            <Route exact path={`${match.url}/list`} render={() => <ListClient />} />
+            <Route exact path={`${match.url}/list`} render={() => <ListClient history={history} />} />
             <Route path={`${match.url}/create`} render={() => <CreateClient />} />
+            <Route path={`${match.url}/map`} render={() => <Mapboxgl />} />
         </Switch>
     </Container>
 );
@@ -21,7 +23,7 @@ const history = createHistory();
 export default () => {
     return (
         <Router history={history}>
-            <Route path="/client" component={ClientApp} />
+            <Route path="/client" component={({match}) => <ClientApp history={history} match={match} />} />
         </Router>
     );
 };

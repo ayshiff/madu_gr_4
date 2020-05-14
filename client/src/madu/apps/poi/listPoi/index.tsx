@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Layout, Input, Button, Table, Popconfirm, Icon, Tag } from "antd";
-import { useStores } from "madu/hooks/use-store";
+import {
+    CompassOutlined,
+  } from '@ant-design/icons';
+// import { useStores } from "madu/hooks/use-store";
 import { observer } from "mobx-react";
-import { useHistory } from "react-router";
 import styled from "styled-components";
 import { rem } from "polished";
+import { useStores } from "madu/hooks/use-store";
 
 const { Header, Content } = Layout;
 
@@ -72,10 +75,9 @@ const hashMap = {
     },
 };
 
-export const ListPoi = observer(() => {
+export const ListPoi = observer(({ history }) => {
     const { pointOfInterestStore } = useStores();
     const [filter, setFilter] = useState("");
-    const history = useHistory();
 
     useEffect(() => {
         pointOfInterestStore.get();
@@ -139,12 +141,19 @@ export const ListPoi = observer(() => {
             key: "action",
             render: (text, record) => {
                 return (
+                    <>
+                    <CompassOutlined onClick={() => {
+                        pointOfInterestStore.setStep(record)
+                        history.push("/poi/map");
+                        }
+                    } />
                     <Popconfirm
                         title="Etes vous sûr de vouloir supprimer ?"
                         onConfirm={() => pointOfInterestStore.remove(record.id)}
-                    >
+                    >   
                         <Icon style={{ textAlign: "center" }} type="delete" />
                     </Popconfirm>
+                    </>
                 );
             },
         },
@@ -182,6 +191,7 @@ export const ListPoi = observer(() => {
                                       categorie: categoryLabel[el.category],
                                       questionnr: el.status,
                                       greenscore: el.greenscore,
+                                      address: el.address
                                   }))
                                   .filter(
                                       el =>

@@ -4,8 +4,7 @@ import styled from "styled-components";
 import { rem } from "polished";
 import { observer } from "mobx-react";
 import { useStores } from "madu/hooks/use-store";
-import { useHistory } from "react-router";
-import { toJS } from "mobx";
+import { CompassOutlined } from "@ant-design/icons";
 
 // const trash = require("assets/icons/trash.svg");
 // const localisation = require("assets/icons/localisation.svg");
@@ -100,14 +99,12 @@ const findByCoordinates = (allPoi, lat: number, lng: number) => {
             distance(lat, lng, poi.address.lat, poi.address.lng) < radiusToPoiInMeters &&
             poi.status === "valid"
     );
-    console.log(toJS(allPoi));
     return { first, second, third };
 };
 
-export const ListClient = observer(() => {
+export const ListClient = observer(({ history }) => {
     const [filter, setFilter] = useState("");
     const { companyStore, pointOfInterestStore } = useStores();
-    const history = useHistory();
 
     useEffect(() => {
         companyStore.get();
@@ -180,12 +177,19 @@ export const ListClient = observer(() => {
             key: "action",
             render: (text, record) => {
                 return (
+                    <>
+                    <CompassOutlined onClick={() => {
+                        companyStore.setStep(record)
+                        history.push("/client/map", {test: "ok"});
+                        }
+                    } />
                     <Popconfirm
                         title="Etes vous sûr de vouloir supprimer ?"
                         onConfirm={() => companyStore.remove(record.id)}
-                    >
+                        >
                         <Icon style={{ textAlign: "center" }} type="delete" />
                     </Popconfirm>
+                        </>
                 );
             },
         },
@@ -234,6 +238,7 @@ export const ListClient = observer(() => {
                                       poiNumber: el.poiNumber,
                                       status: el.status,
                                       email: el.email,
+                                      address: el.address,
                                       dd: findByCoordinates(
                                           pointOfInterestStore.all,
                                           el.address.lat,
