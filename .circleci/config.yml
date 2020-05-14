@@ -7,7 +7,7 @@
 #
 version: 2
 jobs:
-  build:
+  test_client:
     docker:
       # specify the version you desire here
       - image: circleci/node:lts
@@ -38,8 +38,6 @@ jobs:
       - run: yarn eslint
 
       - run: yarn prettier
-      
-      - run: yarn run test
 
       - run:
           name: abort if uncommitted files (coming from `yarn install` or `prettier`)
@@ -47,10 +45,10 @@ jobs:
 
       - run: COVERALLS_REPO_TOKEN=$COVERALLS_REPO_TOKEN yarn coverage
 
-  service1:
+  test_back_end:
     docker:
       # specify the version you desire here
-      - image: circleci/node:7.10
+      - image: circleci/node:lts
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -77,9 +75,108 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
+  setup_build_env:
+    docker:
+      - image: circleci/node:lts
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Create artifacts directory
+          command: mkdir -p ~/repo/artifacts
+      - persist_to_workspace:
+        root: artifacts
+
+  build_client:
+    docker:
+      - image: circleci/node:lts
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout:
+          path: ~/repo
+      - setup_remote_docker
+      - attach_workspace:
+          - at: /home/circleci/repo/artifacts
+      - run:
+          name: Build client image
+          command: docker build -t "${DOCKER_CLIENT_IMAGE_NAME}:${DOCKER_CLIENT_IMAGE_TAG}" ~/repo/client
+      - run:
+          name: Save image in artifacts directory
+          command: docker save "${DOCKER_CLIENT_IMAGE_NAME}:${DOCKER_CLIENT_IMAGE_TAG}" -o ~/repo/artifacts/image_client
+      - persist_to_workspace:
+          root: artifacts
+          paths:
+            - image_client
+
+  build_back_end:
+    docker:
+      - image: circleci/node:lts
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout:
+          path: ~/repo
+      - setup_remote_docker
+      - attach_workspace:
+          - at: /home/circleci/repo/artifacts
+      - run:
+          name: Build back-end image
+          command: docker build -t "${DOCKER_BACK_END_IMAGE_NAME}:${DOCKER_BACK_END_IMAGE_TAG}" ~/repo/back-end
+      - run:
+          name: Save image in artifacts directory
+          command: docker save "${DOCKER_BACK_END_IMAGE_NAME}:${DOCKER_BACK_END_IMAGE_TAG}" -o ~/repo/artifacts/image_back_end
+      - persist_to_workspace:
+          root: artifacts
+          paths:
+            - image_back_end
+
+  push_images:
+    docker:
+      - image: circleci/node:lts
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - setup_remote_docker
+      - attach_workspace:
+          at: /home/circleci/repo/artifacts
+      - run:
+          name: Connect to docker hub
+          command: docker login $REGISTRY_ENDPOINT --username $REGISTRY_USERNAME --password $REGISTRY_PASSWORD
+      - run:
+          name: Load docker image client
+          command: docker load -i artifacts/image_client
+      - run:
+          name: Push docker image client
+          command: docker push "${DOCKER_CLIENT_IMAGE_NAME}:${DOCKER_CLIENT_IMAGE_TAG}"
+      - run:
+          name: Load docker image back-end
+          command: docker load -i artifacts/image_back_end
+      - run:
+          name: Push docker image client
+          command: docker push "${DOCKER_BACK_END_IMAGE_NAME}:${DOCKER_BACK_END_IMAGE_TAG}"
+
+
 workflows:
   version: 2
   build_and_test:
     jobs:
-      - build
-      - service1
+      - test_client
+      - test_back_end
+      - setup_build_env:
+          requires:
+            - test_client
+            - test_back_end
+      - build_client:
+          requires:
+            - setup_build_env
+      - build_back_end:
+          requires:
+            - setup_build_env
+      - push_images:
+          requires:
+            - build_client
+            - build_back_end
