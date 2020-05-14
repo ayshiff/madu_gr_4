@@ -212,9 +212,15 @@ workflows:
       - build_client:
           requires:
             - test_client
+          branches:
+            only:
+              - master
       - build_back_end:
           requires:
             - test_back_end
+          branches:
+            only:
+              - master
       - push_image_client:
           requires:
             - build_client
