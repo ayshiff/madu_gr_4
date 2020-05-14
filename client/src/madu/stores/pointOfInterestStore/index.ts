@@ -45,7 +45,7 @@ export interface IPointOfInterest {
 }
 
 class PointOfInterestStore {
-    @observable all: IPointOfInterest[] = [pointOfInterestMock];
+    @observable all: IPointOfInterest[] = [];
     @observable byId: IPointOfInterest = pointOfInterestMock;
     @observable isEditing: boolean = false;
 
