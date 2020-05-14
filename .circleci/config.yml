@@ -86,7 +86,7 @@ jobs:
           name: Create artifacts directory
           command: mkdir -p ~/repo/artifacts
       - persist_to_workspace:
-        root: artifacts
+          root: artifacts
 
   build_client:
     docker:
