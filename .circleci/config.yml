@@ -100,6 +100,9 @@ jobs:
           name: Build client image
           command: docker build -t "${DOCKER_CLIENT_IMAGE_NAME}:${DOCKER_CLIENT_IMAGE_TAG}" ~/repo/client
       - run:
+          name: tree
+          command: tree ~/repo
+      - run:
           name: Save image in artifacts directory
           command: docker save "${DOCKER_CLIENT_IMAGE_NAME}:${DOCKER_CLIENT_IMAGE_TAG}" -o ~/repo/artifacts/image_client
       - persist_to_workspace:
