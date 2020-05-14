@@ -1,8 +1,8 @@
 import { observable, action } from "mobx";
-import { apiDelete, postJson, apiPut } from "madu/services/commun";
+import { get, apiDelete, postJson, apiPut } from "madu/services/commun";
 import { editReference, removeReference } from "../utils/index";
 
-import { companyStoreMock, companyStoreMock1 } from "./mock";
+import { companyStoreMock } from "./mock";
 
 const { REACT_APP_API_BASE_URL } = process.env;
 
@@ -38,29 +38,27 @@ class CompanyStore {
     };
 
     @action get = () => {
-        this.all = [companyStoreMock1];
-        // const endpoint = `${REACT_APP_API_BASE_URL}/companies `;
-        // return get(endpoint)
-        //     .then((data: any) => {
-        //         const processedData: any = data;
-        //         // Process store once the call has succeed
-        //         this.all = processedData.value;
-        //         return;
-        //     })
-        //     .catch(err => console.log(err));
+        const endpoint = `${REACT_APP_API_BASE_URL}/companies `;
+        return get(endpoint)
+            .then((data: any) => {
+                const processedData: any = data;
+                // Process store once the call has succeed
+                this.all = processedData.value;
+                return;
+            })
+            .catch(err => console.log(err));
     };
 
     @action getById = (id: string) => {
-        this.byId = companyStoreMock1;
-        // const endpoint = `${REACT_APP_API_BASE_URL}/companies/${id}`;
-        // return get(endpoint)
-        //     .then((data: any) => {
-        //         const processedData: any = data;
-        //         // Process store once the call has succeed
-        //         this.byId = processedData.value;
-        //         return;
-        //     })
-        //     .catch(err => console.log(err));
+        const endpoint = `${REACT_APP_API_BASE_URL}/companies/${id}`;
+        return get(endpoint)
+            .then((data: any) => {
+                const processedData: any = data;
+                // Process store once the call has succeed
+                this.byId = processedData.value;
+                return;
+            })
+            .catch(err => console.log(err));
     };
 
     @action setStep = (args: any) => {

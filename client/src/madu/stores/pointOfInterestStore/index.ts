@@ -1,7 +1,7 @@
 import { observable, action } from "mobx";
-import { apiDelete, apiPut, postJson } from "madu/services/commun";
+import { get, apiDelete, postJson, apiPut } from "madu/services/commun";
 import { editReference, removeReference } from "../utils/index";
-import { pointOfInterestMock, pointOfInterestMock1 } from "./mock";
+import { pointOfInterestMock } from "./mock";
 const { REACT_APP_API_BASE_URL } = process.env;
 
 interface IDay {
@@ -54,29 +54,27 @@ class PointOfInterestStore {
     };
 
     @action get = () => {
-        this.all = [pointOfInterestMock1];
-        // const endpoint = `${REACT_APP_API_BASE_URL}/poi`;
-        // return get(endpoint)
-        //     .then((data: any) => {
-        //         const processedData: any = data;
-        //         // Process store once the call has succeed
-        //         this.all = processedData.value;
-        //         return;
-        //     })
-        //     .catch(err => console.log(err));
+        const endpoint = `${REACT_APP_API_BASE_URL}/poi`;
+        return get(endpoint)
+            .then((data: any) => {
+                const processedData: any = data;
+                // Process store once the call has succeed
+                this.all = processedData.value;
+                return;
+            })
+            .catch(err => console.log(err));
     };
 
     @action getById = (id: string) => {
-        this.byId = pointOfInterestMock1;
-        // const endpoint = `${REACT_APP_API_BASE_URL}/poi/${id}`;
-        // return get(endpoint)
-        //     .then((data: any) => {
-        //         const processedData: any = data;
-        //         // Process store once the call has succeed
-        //         this.byId = processedData.value;
-        //         return;
-        //     })
-        //     .catch(err => console.log(err));
+        const endpoint = `${REACT_APP_API_BASE_URL}/poi/${id}`;
+        return get(endpoint)
+            .then((data: any) => {
+                const processedData: any = data;
+                // Process store once the call has succeed
+                this.byId = processedData.value;
+                return;
+            })
+            .catch(err => console.log(err));
     };
 
     @action setStep = (args: any) => {
