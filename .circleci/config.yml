@@ -75,17 +75,6 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-  setup_build_env:
-    docker:
-      - image: circleci/node:lts
-    working_directory: ~/repo
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run:
-          name: Create artifacts directory
-          command: mkdir -p ~/repo/artifacts
-
   build_client:
     docker:
       - image: circleci/node:lts
@@ -97,11 +86,11 @@ jobs:
           path: ~/repo
       - setup_remote_docker
       - run:
+          name: Create artifacts directory
+          command: mkdir -p ~/repo/artifacts
+      - run:
           name: Build client image
           command: docker build -t "${DOCKER_CLIENT_IMAGE_NAME}:${DOCKER_CLIENT_IMAGE_TAG}" ~/repo/client
-      - run:
-          name: tree
-          command: tree ~/repo
       - run:
           name: Save image in artifacts directory
           command: docker save "${DOCKER_CLIENT_IMAGE_NAME}:${DOCKER_CLIENT_IMAGE_TAG}" -o ~/repo/artifacts/image_client
@@ -120,6 +109,9 @@ jobs:
       - checkout:
           path: ~/repo
       - setup_remote_docker
+      - run:
+          name: Create artifacts directory
+          command: mkdir -p ~/repo/artifacts
       - run:
           name: Build back-end image
           command: docker build -t "${DOCKER_BACK_END_IMAGE_NAME}:${DOCKER_BACK_END_IMAGE_TAG}" ~/repo/back-end
@@ -163,16 +155,14 @@ workflows:
     jobs:
       - test_client
       - test_back_end
-      - setup_build_env:
+      - build_client:
           requires:
             - test_client
             - test_back_end
-      - build_client:
-          requires:
-            - setup_build_env
       - build_back_end:
           requires:
-            - setup_build_env
+            - test_client
+            - test_back_end
       - push_images:
           requires:
             - build_client
