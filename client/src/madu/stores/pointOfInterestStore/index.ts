@@ -1,5 +1,5 @@
 import { observable, action } from "mobx";
-import { get, apiDelete, apiPut, postJson } from "madu/services/commun";
+import { get, apiDelete, postJson, apiPut } from "madu/services/commun";
 import { editReference, removeReference } from "../utils/index";
 import { pointOfInterestMock } from "./mock";
 const { REACT_APP_API_BASE_URL } = process.env;
@@ -117,7 +117,14 @@ class PointOfInterestStore {
     };
 
     @action resetId = () => {
-        this.byId = pointOfInterestMock;
+        this.byId = {
+            ...pointOfInterestMock,
+            address: {
+                value: "",
+                lat: null,
+                lng: null,
+            },
+        };
     };
 
     @action setAdress = (address: Address) => {
