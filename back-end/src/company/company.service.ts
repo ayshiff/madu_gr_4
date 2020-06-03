@@ -65,6 +65,20 @@ export class CompanyService {
     return company;
   }
 
+  async findByDomainName(domainName: string): Promise<Company> {
+    const company = await this.companyModel.findOne({ domainName });
+    if (company === null) {
+      throw new NotFoundException("Company not found");
+    }
+    return company;
+  }
+
+  denyAccessByEmail(email: string, company: Company) {
+    if (email.substring(email.indexOf('@') + 1) !== company.domainName) {
+      throw new UnauthorizedException("This email doesn't belong to the selected company");
+    }
+  }
+
   denyAccessByCompany(user: User, company: Company) {
     if (
       !user.roles.includes(UserRole.Admin) &&

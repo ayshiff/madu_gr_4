@@ -15,6 +15,9 @@ export class User {
   @ApiProperty()
   company_id: string;
   @ApiProperty()
+  workplace: string;
+  @ApiProperty()
+  department: string;
   companyPosition: string;
   forgottenToken?: string;
   forgottenTokenTime?: number;

@@ -30,12 +30,14 @@ export class UsersService {
     createdUser.id = uuidv4();
     createdUser.company_id = company_id;
     createdUser.roles = [UserRole.User];
-    if (createUserDto.manager) {
-      createdUser.roles.push(UserRole.Manager);
+    if (createdUser.password) {
+      createdUser.password = await hashSync(
+        createdUser.password,
+        parseInt(this.configService.get<string>("SALT_ROUNDS"))
+      );
     }
-    createdUser.password = "not_set_yet";
     console.log(
-      `Send mail to ${createdUser.email}: account created, you can use the forgot password functionality to create a password`
+      `Send mail to ${createdUser.email}: account created`
     );
     await createdUser.save();
     return this.findByUuid(createdUser.id);
@@ -83,7 +85,6 @@ export class UsersService {
   }
 
   async update(user: User, createUserDto: CreateUserDto): Promise<User> {
-    createUserDto.manager = null;
     await this.userModel.updateOne(user, createUserDto);
     return this.findByUuid(user.id);
   }

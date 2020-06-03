@@ -40,6 +40,11 @@ export class CompanyController {
     return await this.companyService.findByUuid(id);
   }
 
+  @Get('domain/:domainName')
+  async findOneDomain(@Param('domainName') id: string): Promise<Company> {
+    return await this.companyService.findByDomainName(id);
+  }
+
   @Put(':company_id')
   @Roles(UserRole.Admin)
   async update(@Param('company_id') id: string, @Body() updateCompanyDto: UpdateCompanyDto) {
@@ -56,15 +61,13 @@ export class CompanyController {
   }
 
   @Post(':company_id/users')
-  @Roles(UserRole.Manager)
   @UsePipes(CustomValidationPipe)
   async createUser(
-    @Request() req,
     @Param('company_id') id,
     @Body() createUserDto: CreateUserDto
   ) {
     const company = await this.companyService.findByUuid(id);
-    this.companyService.denyAccessByCompany(req.user, company);
+    this.companyService.denyAccessByEmail(createUserDto.email, company);
     return this.usersService.create(createUserDto, company.id);
   }
 
