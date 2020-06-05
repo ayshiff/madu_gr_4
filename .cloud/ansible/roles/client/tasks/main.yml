@@ -1,0 +1,13 @@
+---
+
+- name: Import docker-compose
+  template:
+    src: docker-compose.yml
+    dest: "{{ client_directory }}/docker-compose.yml"
+    owner: "{{ client_user }}"
+    group: "{{ client_group }}"
+  notify: Restart docker compose
+
+- name: Start docker-compose
+  docker_compose:
+    project_src: "{{ client_directory }}"

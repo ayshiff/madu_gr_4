@@ -1,0 +1,8 @@
+client_user: ubuntu
+client_group: "{{ client_user }}"
+client_directory: "/home/{{ client_user }}"
+
+client_docker_image: "{{ docker_username }}/madu-client"
+client_docker_tag: latest
+
+client_port: 80

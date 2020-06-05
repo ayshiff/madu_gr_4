@@ -1,0 +1,7 @@
+version: "3"
+
+services:
+  back_end:
+    image: "{{ back_end_docker_image }}:{{ back_end_docker_tag }}"
+    ports:
+      - "{{ back_end_port }}:3000"

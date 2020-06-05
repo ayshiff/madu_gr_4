@@ -1,0 +1,7 @@
+version: "3"
+
+services:
+  client:
+    image: "{{ client_docker_image }}:{{ client_docker_tag }}"
+    ports:
+      - "{{ client_port }}:80"
