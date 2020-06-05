@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Put, Delete, Param, UseGuards, UseInterceptors, UploadedFiles, Res, Header } from '@nestjs/common';
+import { Controller, Post, Body, Get, Put, Delete, Param, UseGuards, UseInterceptors, UploadedFiles, Res, Header, Req } from '@nestjs/common';
 import { PoiService } from './poi.service';
 import { ApiTags, ApiResponse } from '@nestjs/swagger';
 import { Roles } from 'src/auth/decorator/roles.decorator';
@@ -35,8 +35,14 @@ export class PoiController {
     return this.poiService.findAll();
   }
 
+  @Get('/company')
+  @Roles(UserRole.User)
+  async findAllByCompany(): Promise<Poi[]> {
+    return this.poiService.findAll();
+  }
+
   @Get(':poi_id')
-  @Roles(UserRole.Admin)
+  @Roles(UserRole.User)
   async findOne(@Param('poi_id') id: string): Promise<Poi> {
     return await this.poiService.findByUuid(id);
   }
@@ -69,12 +75,11 @@ export class PoiController {
     return this.poiService.addImages(poi, images.map(file => file.filename));
   }
 
-  @Get('/images/:image_id')
-  @Header('Content-Type', 'image/jpeg')
-  @Roles(UserRole.Admin)
-  @ApiResponse({ description: 'An image in jpg format.'})
-  async getImage(@Param('image_id') id: string, @Res() res) {
-    return res.sendFile(id, { root: 'upload' });
+  @Post(':poi_id/visited')
+  @Roles(UserRole.User)
+  async visit(@Param('poi_id') id: string, @Req() req) {
+    const poi = await this.poiService.findByUuid(id);
+    return this.poiService.visit(poi, req.user);
   }
 
   /*

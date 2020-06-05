@@ -1,25 +1,28 @@
-import { Model } from "mongoose";
+import { Model } from 'mongoose';
 import {
   Injectable,
   NotFoundException,
   UnauthorizedException
-} from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import { CreateUserDto } from "./dto/create-user.dto";
-import { User } from "./interfaces/user.interface";
-import { InjectModel } from "@nestjs/mongoose";
-import { UserRole } from "src/auth/userRole.enum";
-import * as uuidv4 from "uuid/v4";
-import { hashSync } from "bcrypt";
-import { CreateAdminDto } from "./dto/create-admin.dto";
-import { ForgottenPasswordDto } from "./dto/forgotten-password.dto";
-import { ResetPasswordDto } from "./dto/reset-password.dto";
+} from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { CreateUserDto } from './dto/create-user.dto';
+import { User } from './interfaces/user.interface';
+import { InjectModel } from '@nestjs/mongoose';
+import { UserRole } from 'src/auth/userRole.enum';
+import * as uuidv4 from 'uuid/v4';
+import { hashSync } from 'bcrypt';
+import { CreateAdminDto } from './dto/create-admin.dto';
+import { ForgottenPasswordDto } from './dto/forgotten-password.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
+import { Challenge } from 'src/challenge/interfaces/challenge.interface';
+import { Poi } from 'src/poi/interfaces/poi.interface';
+import { Points } from './model/points.enum';
 
 @Injectable()
 export class UsersService {
   constructor(
     private readonly configService: ConfigService,
-    @InjectModel("User") private readonly userModel: Model<User>
+    @InjectModel('User') private readonly userModel: Model<User>
   ) {}
 
   async create(
@@ -28,12 +31,15 @@ export class UsersService {
   ): Promise<User> {
     let createdUser = new this.userModel(createUserDto);
     createdUser.id = uuidv4();
+    createdUser.points = 0;
+    createdUser.visits = [];
+    createdUser.challenges = [];
     createdUser.company_id = company_id;
     createdUser.roles = [UserRole.User];
     if (createdUser.password) {
       createdUser.password = await hashSync(
         createdUser.password,
-        parseInt(this.configService.get<string>("SALT_ROUNDS"))
+        parseInt(this.configService.get<string>('SALT_ROUNDS'))
       );
     }
     console.log(
@@ -53,11 +59,14 @@ export class UsersService {
   async createAdmin(createAdminDto: CreateAdminDto): Promise<User> {
     let createdUser = new this.userModel(createAdminDto);
     createdUser.id = uuidv4();
+    createdUser.points = 0;
+    createdUser.visits = [];
+    createdUser.challenges = [];
     createdUser.roles = [UserRole.User, UserRole.Manager, UserRole.Admin];
     if (createdUser.password) {
       createdUser.password = await hashSync(
         createdUser.password,
-        parseInt(this.configService.get<string>("SALT_ROUNDS"))
+        parseInt(this.configService.get<string>('SALT_ROUNDS'))
       );
     }
     await createdUser.save();
@@ -85,6 +94,12 @@ export class UsersService {
   }
 
   async update(user: User, createUserDto: CreateUserDto): Promise<User> {
+    if (createUserDto.password) {
+      createUserDto.password = await hashSync(
+        createUserDto.password,
+        parseInt(this.configService.get<string>('SALT_ROUNDS'))
+      );
+    }
     await this.userModel.updateOne(user, createUserDto);
     return this.findByUuid(user.id);
   }
@@ -101,7 +116,7 @@ export class UsersService {
   async findByUuid(uuid: string): Promise<User> {
     const user = await this.userModel.findOne({ id: uuid });
     if (user === null) {
-      throw new NotFoundException("User not found");
+      throw new NotFoundException('User not found');
     }
     return user;
   }
@@ -113,7 +128,7 @@ export class UsersService {
     }
     if (
       user.forgottenTokenTime +
-        parseInt(this.configService.get<string>("FORGOTTEN_TOKEN_TIME")) -
+        parseInt(this.configService.get<string>('FORGOTTEN_TOKEN_TIME')) -
         Date.now() <
       0
     ) {
@@ -129,45 +144,83 @@ export class UsersService {
   async forgottenPassword(forgottenPasswordDto: ForgottenPasswordDto) {
     const user = await this.findByEmail(forgottenPasswordDto.email);
     if (user) {
-      const forgottenToken = uuidv4().replace(/-/gi, "");
+      const forgottenToken = uuidv4().replace(/-/gi, '');
       console.log(
         `Send mail to ${
           user.email
         }: follow this link to reset your password ${this.configService.get<
           string
-        >("FRONT_URL")}/reset-password/${forgottenToken}`
+        >('FRONT_URL')}/reset-password/${forgottenToken}`
       );
       await this.userModel.updateOne(
         { id: user.id },
         { forgottenToken, forgottenTokenTime: Date.now() }
       );
     }
-    return "An email has been sent to your account";
+    return 'An email has been sent to your account';
   }
 
   async resetPassword(resetPasswordDto: ResetPasswordDto) {
     const user = await this.checkForgottenTokenValidity(resetPasswordDto.token);
     if (!user) {
-      throw new NotFoundException("Token not found");
+      throw new NotFoundException('Token not found');
     }
     const password = await hashSync(
       resetPasswordDto.password,
-      parseInt(this.configService.get<string>("SALT_ROUNDS"))
+      parseInt(this.configService.get<string>('SALT_ROUNDS'))
     );
     console.log(`Send mail to ${user.email}: Your password has been edited`);
     await this.userModel.updateOne(
       { id: user.id },
       { password, forgottenToken: null, forgottenTokenTime: null }
     );
-    return "Your password has been edited";
+    return 'Your password has been edited';
   }
 
   denyAccessByCompany(user: User, resource: User) {
     if (
       !user.roles.includes(UserRole.Admin) &&
-      resource.company_id + "" !== user.company_id + ""
+      resource.company_id + '' !== user.company_id + ''
     ) {
       throw new UnauthorizedException();
     }
+  }
+
+  async validateChallenge(challenge: Challenge, user: User, image: any) {
+    const date = new Date();
+    user.challenges.push({
+      id: challenge.id,
+      title: challenge.title,
+      category: challenge.category,
+      date: `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`,
+      photo: image ? image.filename : null
+    });
+    await this.userModel.updateOne({ id: user.id }, { points: user.points + challenge.points , challenges: user.challenges });
+    return this.findByUuid(user.id);
+  }
+
+  async visitPoi(poi: Poi, user: User): Promise<User> {
+    const index = user.visits.findIndex(visit => visit.id === poi.id);
+    if (index >= 0) {
+      user.visits[index].number++;
+    } else {
+      user.visits.push({
+        id: poi.id,
+        name: poi.name,
+        category: poi.category,
+        number: 1,
+      });
+    }
+    await this.userModel.updateOne({ id: user.id }, { points: user.points + Points.Poi , visits: user.visits });
+    return this.findByUuid(user.id);
+  }
+
+  async addImage(user: User, image: any): Promise<User> {
+    let points = user.points;
+    if (user.photo === undefined) {
+      points += Points.Profil;
+    }
+    await this.userModel.updateOne({ id: user.id }, { points, photo: image ? image.filename : null });
+    return this.findByUuid(user.id);
   }
 }

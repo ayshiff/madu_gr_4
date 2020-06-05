@@ -7,9 +7,9 @@ import { CompanyModule } from './company/company.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { PoiModule } from './poi/poi.module';
-import { GreenscoreModule } from './greenscore/greenscore.module';
+import { AdviceModule } from './advice/advice.module';
+import { ChallengeModule } from './challenge/challenge.module';
 
-// todo localisation, mail
 @Module({
   imports: [
     MongooseModule.forRootAsync({
@@ -29,7 +29,8 @@ import { GreenscoreModule } from './greenscore/greenscore.module';
     AuthModule,
     UsersModule,
     PoiModule,
-    GreenscoreModule
+    AdviceModule,
+    ChallengeModule
   ],
   controllers: [AppController]
 })

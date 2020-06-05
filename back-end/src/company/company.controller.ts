@@ -41,6 +41,7 @@ export class CompanyController {
   }
 
   @Get('domain/:domainName')
+  @Roles(UserRole.User)
   async findOneDomain(@Param('domainName') id: string): Promise<Company> {
     return await this.companyService.findByDomainName(id);
   }

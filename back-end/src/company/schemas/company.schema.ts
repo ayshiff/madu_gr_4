@@ -14,5 +14,12 @@ export const CompanySchema = new mongoose.Schema({
     lng: Number
   },
   employees: String,
-  status: String
+  status: String,
+  workplaces: [ String ],
+  departments: [
+    {
+      name: String,
+      points: Number
+    }
+  ]
 });

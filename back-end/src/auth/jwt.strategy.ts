@@ -21,7 +21,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   async validate(payload: any) {
     const user =  await this.usersService.findByEmail(payload.email);
     const company = user.company_id === undefined ? undefined : await this.companyService.findByUuid(user.company_id);
-    const { id, email, firstname, lastname, roles } = user;
-    return { id, email, firstname, lastname, roles, company};
+    const { id, email, firstname, lastname, roles, companyPosition, points, visits, challenges, department, workplace, photo } = user;
+    return { id, email, firstname, lastname, roles, company, companyPosition, points, visits, challenges, department, workplace, photo};
   }
 }

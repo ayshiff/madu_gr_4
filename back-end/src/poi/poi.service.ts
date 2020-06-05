@@ -12,18 +12,22 @@ import { PoiStatus } from "./model/poi-status.enum";
 import { ValidatePoiGreenscoreDto } from './dto/validate-poi-greenscore.dto';
 import { PoiCategories } from './model/poi-categories.enum';
 import { ConfigService } from '@nestjs/config';
+import { User } from 'src/users/interfaces/user.interface';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class PoiService {
   constructor(
     @InjectModel('Poi') private readonly poiModel: Model<Poi>,
     private readonly templateService: TemplateService,
-    private readonly configService: ConfigService
+    private readonly configService: ConfigService,
+    private readonly usersService: UsersService
   ) {}
 
   async create(createPoiDto: CreatePoiDto): Promise<Poi> {
     let createdPoi = new this.poiModel(createPoiDto);
     createdPoi.id = uuidv4();
+    createdPoi.visits = 0;
     createdPoi.status = PoiStatus.Canvassing;
     if (createdPoi.category !== PoiCategories.Restoration) {
       createdPoi.foodPreference = undefined
@@ -40,6 +44,12 @@ export class PoiService {
 
   async addImages(poi: Poi, images: Array<string>): Promise<Poi> {
     await this.poiModel.updateOne({ id: poi.id }, { images });
+    return this.findByUuid(poi.id);
+  }
+
+  async visit(poi: Poi, user: User): Promise<Poi> {
+    await this.usersService.visitPoi(poi, user);
+    await this.poiModel.updateOne({ id: poi.id }, { visits: poi.visits + 1 });
     return this.findByUuid(poi.id);
   }
 

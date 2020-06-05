@@ -79,6 +79,7 @@ export const PoiSchema = new mongoose.Schema({
   wheelchair: Boolean,
   token: String,
   status: String,
+  visits: Number,
   images: [
     String
   ]

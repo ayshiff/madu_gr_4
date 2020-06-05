@@ -99,5 +99,7 @@ export class Poi {
   @ApiProperty()
   status: string;
   @ApiProperty()
+  visits: number;
+  @ApiProperty()
   images: string[];
 }

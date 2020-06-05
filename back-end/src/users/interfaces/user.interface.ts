@@ -1,4 +1,6 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
+import { Challenge } from './challenge.interface';
+import { Visit } from './visit.interface';
 
 export class User {
   @ApiProperty()
@@ -18,7 +20,15 @@ export class User {
   workplace: string;
   @ApiProperty()
   department: string;
+  @ApiProperty()
+  points: number;
   companyPosition: string;
   forgottenToken?: string;
   forgottenTokenTime?: number;
+  @ApiProperty()
+  photo: string;
+  @ApiProperty()
+  challenges: Challenge[]
+  @ApiProperty()
+  visits: Visit[]
 }
