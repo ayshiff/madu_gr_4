@@ -1,0 +1,7 @@
+version: "3"
+
+services:
+  database:
+    image: "{{ database_docker_image }}:{{ database_docker_tag }}"
+    ports:
+      - "{{ database_port }}:3000"

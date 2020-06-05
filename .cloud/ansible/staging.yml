@@ -1,0 +1,23 @@
+---
+
+- name: Install common and docker on all servers
+  hosts: tag_project_madu:&tag_stage_staging
+  become: yes
+  roles:
+    - { role: common, tags: ["installation"] }
+    - { role: geerlingguy.docker, tags: ["installation"] }
+
+- name: Install client
+  hosts: tag_project_madu:&tag_stage_staging:&tag_component_client
+  roles:
+    - { role: client, tags: ["deployment", "client"] }
+
+- name: Install back-end
+  hosts: tag_project_madu:&tag_stage_staging:&tag_component_back_end
+  roles:
+    - { role: back-end, tags: "deployment", "back-end" }
+
+- name: Install database
+  hosts: tag_project_madu:&tag_stage_staging:&tag_component_database
+  roles:
+    - { role: database, tags: ["deployment", "database"] }

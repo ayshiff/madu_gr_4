@@ -1,0 +1,8 @@
+back_end_user: ubuntu
+back_end_group: "{{ back_end_user }}"
+back_end_directory: "/home/{{ back_end_user }}"
+
+back_end_docker_image: "{{ docker_username }}/madu-back-end"
+back_end_docker_tag: latest
+
+back_end_port: 3000
