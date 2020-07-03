@@ -1,0 +1,87 @@
+[
+  {
+    "_id": {
+      "$oid": "5efc8429dea8b43323d4a2e4"
+    },
+    "template": {
+      "questions": []
+    },
+    "poiType": [
+      "restauration"
+    ],
+    "foodPreference": [
+      "restauration"
+    ],
+    "images": [],
+    "name": "Granny Alice",
+    "address": {
+      "value": "65 bis Rue Marceau, 93100 Montreuil",
+      "lat": 2.424812,
+      "lng": 48.8526647
+    },
+    "phone": "0141699379",
+    "openingTime": {
+      "monday": [
+        {
+          "_id": {
+            "$oid": "5efc8429dea8b43323d4a2e5"
+          },
+          "from": "11:30",
+          "to": "15:00"
+        }
+      ],
+      "tuesday": [
+        {
+          "_id": {
+            "$oid": "5efc8429dea8b43323d4a2e6"
+          },
+          "from": "11:30",
+          "to": "15:00"
+        }
+      ],
+      "wednesday": [
+        {
+          "_id": {
+            "$oid": "5efc8429dea8b43323d4a2e7"
+          },
+          "from": "11:30",
+          "to": "15:00"
+        }
+      ],
+      "thursday": [
+        {
+          "_id": {
+            "$oid": "5efc8429dea8b43323d4a2e8"
+          },
+          "from": "11:30",
+          "to": "15:00"
+        }
+      ],
+      "friday": [
+        {
+          "_id": {
+            "$oid": "5efc8429dea8b43323d4a2e9"
+          },
+          "from": "11:30",
+          "to": "15:00"
+        }
+      ],
+      "saturday": [],
+      "sunday": []
+    },
+    "priceRange": "€",
+    "description": "Restauration rapide",
+    "website": "https://github.com/ayshiff/madu_gr_4/tree/develop",
+    "email": "string@hetic.net",
+    "siret": "string",
+    "greenscore": 0,
+    "category": "restoration",
+    "takeAway": true,
+    "wheelchair": true,
+    "socialNetwork": "https://github.com/ayshiff/madu_gr_4/tree/develop",
+    "id": "3faa69b5-b7cc-4b85-9b5f-c813ee635299",
+    "visits": 0,
+    "status": "canvassing",
+    "__v": 0
+  }
+]

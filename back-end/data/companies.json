@@ -1,0 +1,40 @@
+[
+  {
+    "_id": {
+      "$oid": "5efc817fdea8b43323d4a2e0"
+    },
+    "workplaces": [
+      "Montreuil"
+    ],
+    "companyName": "hetic",
+    "domainName": "hetic.net",
+    "address": {
+      "value": "24 rue du progres Montreuil",
+      "lat": 2.412336,
+      "lng": 48.643817
+    },
+    "employees": "300 - 400",
+    "name": "string",
+    "lastName": "string",
+    "email": "string@hetic.net",
+    "departments": [
+      {
+        "_id": {
+          "$oid": "5efc817fdea8b43323d4a2e1"
+        },
+        "name": "Web",
+        "points": 0
+      },
+      {
+        "_id": {
+          "$oid": "5efc817fdea8b43323d4a2e2"
+        },
+        "name": "H",
+        "points": 0
+      }
+    ],
+    "id": "4f9fabe3-5b40-4cec-96f5-2842421aa9d3",
+    "status": "not_enough_poi",
+    "__v": 0
+  }
+]

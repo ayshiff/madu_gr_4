@@ -62,18 +62,14 @@ The **api** and **swagger's documentation** are deployed on [Madu documentation]
 $ npm install
 ```
 
-## Create .env file
-
-```
-JWT_SECRET=tototo
-SALT_ROUNDS=10
-MONGO_URI=mongodb://localhost/madu
-```
-
 ## Running MongoDB
 
-```
-docker-compose up -d
+```bash
+# start mongodb container && import data fixtures
+$ make create-db
+
+# drop database
+$ make drop-db
 ```
 
 ## Running the app
