@@ -1,12 +1,10 @@
 import * as mongoose from "mongoose";
+import { UserSchema } from '../user/schemas/user.schema';
 
 export const CompanySchema = new mongoose.Schema({
   id: String,
   name: String,
-  lastName: String,
-  email: String,
   phoneNumber: String,
-  companyName: String,
   domainName: String,
   address: {
     value: String,
@@ -21,5 +19,8 @@ export const CompanySchema = new mongoose.Schema({
       name: String,
       points: Number
     }
+  ],
+  users: [
+    UserSchema
   ]
 });

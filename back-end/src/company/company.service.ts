@@ -4,7 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Company } from './interfaces/company.interface';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import * as uuidv4 from 'uuid/v4';
-import { User } from 'src/users/interfaces/user.interface';
+import { User } from './user/interfaces/user.interface';
 import { UserRole } from 'src/auth/userRole.enum';
 import { CompanyStatus } from './model/company-status.enum';
 import { UpdateCompanyDto } from './dto/update-company.dto';
@@ -60,11 +60,18 @@ export class CompanyService {
   }
 
   async findByDomainName(domainName: string): Promise<Company> {
-    const company = await this.companyModel.findOne({ domainName });
+    const company = await this.companyModel.findOne(
+      { domainName },
+      { id: 1, name:1, domainName: 1, departments:1, workplaces: 1 }
+    );
     if (company === null) {
       throw new NotFoundException('Company not found');
     }
     return company;
+  }
+
+  async findCompanyByUser(user: User): Promise<Company> {
+    return this.companyModel.findOne({ 'users.id': user.id }, { users: 0 });
   }
 
   denyAccessByEmail(email: string, company: Company) {
@@ -76,7 +83,7 @@ export class CompanyService {
   denyAccessByCompany(user: User, company: Company) {
     if (
       !user.roles.includes(UserRole.Admin) &&
-      company.id + '' !== user.company_id + ''
+      !company.users.map(user => user.id).includes(user.id)
     ) {
       throw new UnauthorizedException();
     }

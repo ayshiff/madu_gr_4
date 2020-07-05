@@ -12,8 +12,8 @@ import { PoiStatus } from "./model/poi-status.enum";
 import { ValidatePoiGreenscoreDto } from './dto/validate-poi-greenscore.dto';
 import { PoiCategories } from './model/poi-categories.enum';
 import { ConfigService } from '@nestjs/config';
-import { User } from 'src/users/interfaces/user.interface';
-import { UsersService } from 'src/users/users.service';
+import { User } from 'src/company/user/interfaces/user.interface';
+import { UserService } from 'src/company/user/user.service';
 
 @Injectable()
 export class PoiService {
@@ -21,7 +21,7 @@ export class PoiService {
     @InjectModel('Poi') private readonly poiModel: Model<Poi>,
     private readonly templateService: TemplateService,
     private readonly configService: ConfigService,
-    private readonly usersService: UsersService
+    private readonly userService: UserService
   ) {}
 
   async create(createPoiDto: CreatePoiDto): Promise<Poi> {
@@ -48,7 +48,7 @@ export class PoiService {
   }
 
   async visit(poi: Poi, user: User): Promise<Poi> {
-    await this.usersService.visitPoi(poi, user);
+    await this.userService.visitPoi(poi, user);
     await this.poiModel.updateOne({ id: poi.id }, { visits: poi.visits + 1 });
     return this.findByUuid(poi.id);
   }

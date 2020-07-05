@@ -1,19 +1,19 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigService } from '@nestjs/config';
 import { UserController } from './user.controller';
-import { UsersService } from './users.service';
+import { UserService } from './user.service';
 import { User } from './interfaces/user.interface';
 import { getModelToken } from '@nestjs/mongoose';
 
 describe('CatsController', () => {
   let userController: UserController;
-  let usersService: UsersService;
+  let UserService: UserService;
 
   beforeEach(async () => {
     const moduleRef: TestingModule = await Test.createTestingModule({
         controllers: [UserController],
         providers: [
-          UsersService,
+          UserService,
           ConfigService,
           {
             provide: getModelToken('User'),
@@ -22,7 +22,7 @@ describe('CatsController', () => {
         ],
       }).compile();
 
-      usersService = moduleRef.get<UsersService>(UsersService);
+      UserService = moduleRef.get<UserService>(UserService);
       userController = moduleRef.get<UserController>(UserController);
   });
 
@@ -44,7 +44,7 @@ describe('CatsController', () => {
         }
       ]
       let result = new Promise<User[]>(resolve => resolve(users));
-      jest.spyOn(usersService, 'findAll').mockImplementation(() => result);
+      jest.spyOn(UserService, 'findAll').mockImplementation(() => result);
 
       expect(await userController.findAll()).toBe(users);
     });

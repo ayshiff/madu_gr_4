@@ -15,8 +15,6 @@ export class User {
   @ApiProperty()
   roles: [string];
   @ApiProperty()
-  company_id: string;
-  @ApiProperty()
   workplace: string;
   @ApiProperty()
   department: string;

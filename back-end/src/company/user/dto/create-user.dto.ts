@@ -15,6 +15,9 @@ export class CreateUserDto {
   lastname: string;
 
   @IsString()
+  companyPosition: string;
+
+  @IsString()
   workplace: string;
 
   @IsString()

@@ -1,6 +1,4 @@
-import * as mongoose from 'mongoose';
-
-export const UserSchema = new mongoose.Schema({
+export const UserSchema = {
   id: String,
   email: String,
   firstname: String,
@@ -9,7 +7,6 @@ export const UserSchema = new mongoose.Schema({
   roles: [
     String
   ],
-  company_id: String,
   companyPosition: String,
   forgottenToken: String,
   forgottenTokenTime: Number,
@@ -34,4 +31,4 @@ export const UserSchema = new mongoose.Schema({
       number: Number
     }
   ]
-});
+};

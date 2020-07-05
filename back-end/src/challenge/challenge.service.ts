@@ -4,14 +4,14 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Challenge } from './interfaces/challenge.interface';
 import { ChallengeDto } from './dto/challenge.dto';
 import * as uuidv4 from 'uuid/v4';
-import { UsersService } from 'src/users/users.service';
-import { User } from 'src/users/interfaces/user.interface';
+import { UserService } from 'src/company/user/user.service';
+import { User } from 'src/company/user/interfaces/user.interface';
 
 @Injectable()
 export class ChallengeService {
   constructor(
     @InjectModel("Challenge") private readonly challengeModel: Model<Challenge>,
-    private readonly usersService: UsersService
+    private readonly userService: UserService
   ) {}
 
   async create(challengeDto: ChallengeDto): Promise<Challenge> {
@@ -39,7 +39,7 @@ export class ChallengeService {
         photo: image ? image.filename : null
       });
       await this.challengeModel.updateOne({ id: challenge.id }, { participants: challenge.participants });
-      await this.usersService.validateChallenge(challenge, user, image);
+      await this.userService.validateChallenge(challenge, user, image);
     }
     return this.findByUuid(challenge.id);
   }

@@ -5,7 +5,6 @@ import { MulterModule } from '@nestjs/platform-express';
 import { AppController } from './app.controller';
 import { CompanyModule } from './company/company.module';
 import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
 import { PoiModule } from './poi/poi.module';
 import { AdviceModule } from './advice/advice.module';
 import { ChallengeModule } from './challenge/challenge.module';
@@ -27,7 +26,6 @@ import { ChallengeModule } from './challenge/challenge.module';
     }),    
     CompanyModule,
     AuthModule,
-    UsersModule,
     PoiModule,
     AdviceModule,
     ChallengeModule

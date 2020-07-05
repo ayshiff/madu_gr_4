@@ -1,21 +1,15 @@
-import * as mongoose from 'mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 import { Department } from './department.interface';
+import { User } from '../user/interfaces/user.interface';
 
 export class Company {
-  _id: mongoose.Schema.Types.ObjectId;
-  @ApiProperty()
   id: string;
   @ApiProperty()
   name: string;
   @ApiProperty()
-  lastName: string;
-  @ApiProperty()
-  email: string;
-  @ApiProperty()
-  companyName: string;
-  @ApiProperty()
   domainName: string;
+  @ApiProperty()
+  phoneNumber: string;
   @ApiProperty()
   address: {
     value: string;
@@ -30,4 +24,6 @@ export class Company {
   workplaces: string[];
   @ApiProperty()
   departments: Department[];
+  @ApiProperty()
+  users: User[];
 }
