@@ -8,5 +8,7 @@ export class Visit {
   @ApiProperty()
   category: string;
   @ApiProperty()
+  description: string;
+  @ApiProperty()
   number: number;
 }

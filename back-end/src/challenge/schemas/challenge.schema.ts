@@ -2,6 +2,7 @@ import * as mongoose from 'mongoose';
 
 export const ChallengeSchema = new mongoose.Schema({
   id: String,
+  startDate: String,
   title: String,
   description: String,
   content: String,
@@ -14,7 +15,8 @@ export const ChallengeSchema = new mongoose.Schema({
       firstname: String,
       lastname: String,
       companyPosition: String,
-      photo: String
+      profilePhoto: String,
+      challengePhoto: String
     }
   ]
 });

@@ -10,5 +10,7 @@ export class Participant {
   @ApiProperty()
   companyPosition: string;
   @ApiProperty()
-  photo: string;
+  profilePhoto: string;
+  @ApiProperty()
+  challengePhoto: string;
 }

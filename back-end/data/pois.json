@@ -3,13 +3,7 @@
     "_id": {
       "$oid": "5efc8429dea8b43323d4a2e4"
     },
-    "template": {
-      "questions": []
-    },
     "poiType": [
-      "restauration"
-    ],
-    "foodPreference": [
       "restauration"
     ],
     "images": [],
@@ -71,16 +65,15 @@
     },
     "priceRange": "€",
     "description": "Restauration rapide",
-    "website": "https://github.com/ayshiff/madu_gr_4/tree/develop",
+    "content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
+    "website": "https://github.com/ayshiff",
     "email": "string@hetic.net",
     "siret": "string",
-    "greenscore": 0,
     "category": "restoration",
-    "takeAway": true,
-    "wheelchair": true,
-    "socialNetwork": "https://github.com/ayshiff/madu_gr_4/tree/develop",
+    "socialNetwork": "https://github.com/ayshiff",
     "id": "3faa69b5-b7cc-4b85-9b5f-c813ee635299",
     "visits": 0,
+    "likes": [],
     "status": "canvassing",
     "__v": 0
   }

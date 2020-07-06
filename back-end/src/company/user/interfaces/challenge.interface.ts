@@ -11,4 +11,6 @@ export class Challenge {
   date: string;
   @ApiProperty()
   photo: string;
+  @ApiProperty()
+  points: number;
 }

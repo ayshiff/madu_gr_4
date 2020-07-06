@@ -20,7 +20,8 @@ export const UserSchema = {
       title: String,
       category: String,
       date: String,
-      photo: String
+      photo: String,
+      points: Number
     }
   ],
   visits: [
@@ -28,6 +29,7 @@ export const UserSchema = {
       id: String,
       name: String,
       category: String,
+      description: String,
       number: Number
     }
   ]

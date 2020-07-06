@@ -42,7 +42,8 @@ export class UserService {
     console.log(
       `Send mail to ${createUser.email}: account created`
     );
-    return this.companyModel.updateOne({ id: company_id }, createUser);
+    this.companyModel.updateOne({ id: company_id }, createUser);
+    return this.findByUuid(createUser.id);
   }
 
   async findAllByCompany(company_id: string) {
@@ -52,7 +53,14 @@ export class UserService {
     return company.users;
   }
 
-  async findByEmail(email: string): Promise<User | undefined> {
+  async findColleague(user: User) {
+    const company = await this.companyModel
+      .findOne({ 'users.id': user.id }, { users: 1 })
+      .exec();
+    return company.users;
+  }
+
+  async findByEmail(email: string): Promise<User | null> {
     return this.findOneUserBy({ email });
   }
 
@@ -73,22 +81,28 @@ export class UserService {
 
   async findByUuid(uuid: string) {
     const user = await this.findOneUserBy({ id: uuid });
-    if (user === undefined) {
+    if (user === null) {
       throw new NotFoundException('User not found');
     }
     return user;
   }
 
-  async findOneUserBy(fields: any): Promise<User | undefined> {
-    const fieldsToFind = Object.keys(fields).reduce((acc, key) => ({ ...acc, ...{ [`users.${key}`]: fields[key] }}), {});
-    const company = await this.companyModel.findOne(fieldsToFind, { users: { $elemMatch: fields }}).exec();
-    return !Array.isArray(company.users) || !company.users.length ? undefined : company.users[0];
+  prefixObjectKeys(prefix: string, object: any) {
+    return Object.keys(object).reduce((acc, key) => ({ ...acc, ...{ [`${prefix}${key}`]: object[key] }}), {});
+  }
+
+  async findOneUserBy(fields: any): Promise<User | null> {
+    const company = await this.companyModel.findOne(
+      this.prefixObjectKeys('users.', fields),
+      { users: { $elemMatch: fields }}
+    ).exec();
+    return !company || !Array.isArray(company.users) || !company.users.length ? null : company.users[0];
   }
 
   async UpdateOneUserBy(id: string, fields: any): Promise<User> {
     return await this.companyModel.updateOne(
       { 'users.id': id },
-      { $set: { "users.$" : fields } }
+      { $set: this.prefixObjectKeys('users.$.', fields) }
     );
   }
 
@@ -131,14 +145,14 @@ export class UserService {
     return 'Your password has been edited';
   }
 
-  async validateChallenge(challenge: Challenge, user: User, image: any) {
-    const date = new Date();
+  async validateChallenge(challenge: Challenge, user: User) {
     user.challenges.push({
       id: challenge.id,
       title: challenge.title,
       category: challenge.category,
-      date: `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`,
-      photo: image ? image.filename : null
+      date: new Date().toISOString(),
+      photo: challenge.photo,
+      points: challenge.points
     });
     await this.UpdateOneUserBy(user.id, { points: user.points + challenge.points , challenges: user.challenges });
     return this.findByUuid(user.id);
@@ -153,6 +167,7 @@ export class UserService {
         id: poi.id,
         name: poi.name,
         category: poi.category,
+        description: poi.description,
         number: 1,
       });
     }

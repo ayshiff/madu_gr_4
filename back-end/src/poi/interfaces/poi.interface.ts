@@ -1,8 +1,6 @@
-import * as mongoose from 'mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class Poi {
-  _id: mongoose.Schema.Types.ObjectId;
   @ApiProperty()
   id: string;
   @ApiProperty()
@@ -72,34 +70,16 @@ export class Poi {
   @ApiProperty()
   description: string;
   @ApiProperty()
-  website: string;
-  template: {
-    id: string,
-    name: string,
-    questions: [
-      {
-        id: string,
-        question: string,
-        answer: string,
-        score: number,
-      }
-    ]
-  };
+  content: string;
   @ApiProperty()
   socialNetwork: string;
-  @ApiProperty()
-  greenscore: number;
-  @ApiProperty()
-  foodPreference: [string];
-  @ApiProperty()
-  takeAway: boolean;
-  @ApiProperty()
-  wheelchair: boolean;
   token: string;
   @ApiProperty()
   status: string;
   @ApiProperty()
   visits: number;
+  @ApiProperty()
+  likes: string[];
   @ApiProperty()
   images: string[];
 }

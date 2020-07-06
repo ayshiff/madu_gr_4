@@ -1,6 +1,9 @@
-import { IsString, IsNumber } from 'class-validator';
+import { IsString, IsNumber, IsDate, IsDateString } from 'class-validator';
 
 export class ChallengeDto {
+  @IsDateString()
+  startDate: string;
+
   @IsString()
   title: string;
 

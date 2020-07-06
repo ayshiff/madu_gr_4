@@ -1,17 +1,19 @@
 import { Model } from 'mongoose';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, Inject, Scope } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Challenge } from './interfaces/challenge.interface';
 import { ChallengeDto } from './dto/challenge.dto';
 import * as uuidv4 from 'uuid/v4';
 import { UserService } from 'src/company/user/user.service';
 import { User } from 'src/company/user/interfaces/user.interface';
+import { REQUEST } from '@nestjs/core';
 
-@Injectable()
+@Injectable({ scope: Scope.REQUEST })
 export class ChallengeService {
   constructor(
     @InjectModel("Challenge") private readonly challengeModel: Model<Challenge>,
-    private readonly userService: UserService
+    private readonly userService: UserService,
+    @Inject(REQUEST) private request: any
   ) {}
 
   async create(challengeDto: ChallengeDto): Promise<Challenge> {
@@ -22,11 +24,11 @@ export class ChallengeService {
   }
 
   async update(
-    company: Challenge,
+    challenge: Challenge,
     updateCompanyDto: ChallengeDto
   ): Promise<Challenge> {
-    await this.challengeModel.updateOne({ id: company.id }, updateCompanyDto);
-    return this.findByUuid(company.id);
+    await this.challengeModel.updateOne({ id: challenge.id }, updateCompanyDto);
+    return this.findByUuid(challenge.id);
   }
 
   async validate(challenge: Challenge, user: User, image: any): Promise<Challenge> {
@@ -36,10 +38,11 @@ export class ChallengeService {
         firstname: user.firstname,
         lastname: user.lastname,
         companyPosition: user.companyPosition,
-        photo: image ? image.filename : null
+        profilePhoto: user.photo || null,
+        challengePhoto: image ? image.filename : null
       });
       await this.challengeModel.updateOne({ id: challenge.id }, { participants: challenge.participants });
-      await this.userService.validateChallenge(challenge, user, image);
+      await this.userService.validateChallenge(challenge, user);
     }
     return this.findByUuid(challenge.id);
   }
@@ -48,15 +51,24 @@ export class ChallengeService {
     return this.challengeModel.deleteOne(company);
   }
 
+  async filterParticipantsByColleagues(challenge: Challenge): Promise<Challenge> {
+    const userToDisplay = await this.userService.findColleague(this.request.user);
+    challenge.participants = challenge.participants.filter(
+      participant => userToDisplay.map(user => user.id).includes(participant.id)
+    );
+    return challenge;
+  }
+
   async findAll(): Promise<Challenge[]> {
-    return this.challengeModel.find().exec();
+    const challenges = await this.challengeModel.find().exec();
+    return Promise.all(challenges.map(challenge => this.filterParticipantsByColleagues(challenge)));
   }
 
   async findByUuid(uuid: string): Promise<Challenge> {
-    const company = await this.challengeModel.findOne({ id: uuid });
-    if (company === null) {
+    const challenge = await this.challengeModel.findOne({ id: uuid });
+    if (challenge === null) {
       throw new NotFoundException("Challenge not found");
     }
-    return company;
+    return this.filterParticipantsByColleagues(challenge);
   }
 }
