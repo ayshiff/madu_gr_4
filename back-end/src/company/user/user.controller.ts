@@ -86,9 +86,11 @@ export class UserController {
   }
 
   @Get(':user_id')
-  @Roles(UserRole.Admin)
+  @Roles(UserRole.User)
   async findOne(@Request() req, @Param('user_id') id: string): Promise<User> {
-    return await this.userService.findByUuid(id);
+    const user = await this.userService.findByUuid(id);
+    this.userService.denyAccessByCompany(req.user, user);
+    return user;
   }
 
   @Put(':user_id')

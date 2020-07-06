@@ -6,7 +6,6 @@ import { AppController } from './app.controller';
 import { CompanyModule } from './company/company.module';
 import { AuthModule } from './auth/auth.module';
 import { PoiModule } from './poi/poi.module';
-import { AdviceModule } from './advice/advice.module';
 import { ChallengeModule } from './challenge/challenge.module';
 
 @Module({
@@ -27,7 +26,6 @@ import { ChallengeModule } from './challenge/challenge.module';
     CompanyModule,
     AuthModule,
     PoiModule,
-    AdviceModule,
     ChallengeModule
   ],
   controllers: [AppController]

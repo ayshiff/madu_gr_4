@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './interfaces/user.interface';
@@ -13,11 +13,13 @@ import { Challenge } from 'src/challenge/interfaces/challenge.interface';
 import { Poi } from 'src/poi/interfaces/poi.interface';
 import { Points } from './model/points.enum';
 import { Company } from '../interfaces/company.interface';
+import { CompanyService } from '../company.service';
 
 @Injectable()
 export class UserService {
   constructor(
     private readonly configService: ConfigService,
+    // private readonly companyService: CompanyService,
     @InjectModel('Company') private readonly companyModel: Model<Company>,
   ) {}
 
@@ -28,7 +30,9 @@ export class UserService {
     const createUser = {
       ...createUserDto,
       id: uuidv4(),
+      creationdate: new Date().toISOString(),
       points: 0,
+      weeklyPoints: 0,
       visits: [],
       challenges: [],
       roles: [UserRole.User]
@@ -51,6 +55,15 @@ export class UserService {
       .findOne({ id: company_id }, { users: 1 })
       .exec();
     return company.users;
+  }
+
+  async denyAccessByCompany(user: User, ressource: User) {
+    if (
+      !user.roles.includes(UserRole.Admin) &&
+      !(await this.findColleague(user)).map(user => user.id).includes(ressource.id)
+    ) {
+      throw new UnauthorizedException();
+    }
   }
 
   async findColleague(user: User) {
@@ -145,16 +158,36 @@ export class UserService {
     return 'Your password has been edited';
   }
 
+  async findCompanyByUser(user: User): Promise<Company> {
+    return this.companyModel.findOne({ 'users.id': user.id }, { users: 0 });
+  }
+
+  async addPointsDepartment(points: number, user: User) {
+    const company = await this.findCompanyByUser(user);
+    const department = company.departments.find(department => department.name === user.department);
+    if (department) {
+      department.points += points;
+      this.companyModel.updateOne({ id: company.id }, { departments: company.departments });
+    }
+    return { points: user.points + points, weeklyPoints: user.weeklyPoints + points };
+  }
+
+  addPoints(points: number, user: User) {
+    this.addPointsDepartment(points, user);
+    return { points: user.points + points, weeklyPoints: user.weeklyPoints + points };
+  }
+
   async validateChallenge(challenge: Challenge, user: User) {
+    const points = challenge.photo !== null ? challenge.points * 2 :challenge.points;
     user.challenges.push({
       id: challenge.id,
       title: challenge.title,
       category: challenge.category,
       date: new Date().toISOString(),
       photo: challenge.photo,
-      points: challenge.points
+      points: points
     });
-    await this.UpdateOneUserBy(user.id, { points: user.points + challenge.points , challenges: user.challenges });
+    await this.UpdateOneUserBy(user.id, { ...this.addPoints(points, user), challenges: user.challenges });
     return this.findByUuid(user.id);
   }
 
@@ -171,16 +204,16 @@ export class UserService {
         number: 1,
       });
     }
-    await this.UpdateOneUserBy(user.id, { points: user.points + Points.Poi , visits: user.visits });
+    await this.UpdateOneUserBy(user.id, { ...this.addPoints(Points.Poi, user), visits: user.visits });
     return this.findByUuid(user.id);
   }
 
   async addImage(user: User, image: any): Promise<User> {
-    let points = user.points;
+    let points = 0;
     if (user.photo === undefined) {
       points += Points.Profil;
     }
-    await this.UpdateOneUserBy(user.id, { points, photo: image ? image.filename : null });
+    await this.UpdateOneUserBy(user.id, { ...this.addPoints(points, user), photo: image ? image.filename : null });
     return this.findByUuid(user.id);
   }
 }

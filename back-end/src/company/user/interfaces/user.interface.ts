@@ -6,6 +6,8 @@ export class User {
   @ApiProperty()
   id: string;
   @ApiProperty()
+  creationDate: string;
+  @ApiProperty()
   email: string;
   @ApiProperty()
   firstname: string;
@@ -20,6 +22,8 @@ export class User {
   department: string;
   @ApiProperty()
   points: number;
+  @ApiProperty()
+  weeklyPoints: number;
   companyPosition: string;
   forgottenToken?: string;
   forgottenTokenTime?: number;

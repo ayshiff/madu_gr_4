@@ -103,6 +103,7 @@
             "number": 2
         }
     ],
+    "creationDate": "2020-07-06T00:00:00.000",
     "email": "webp2020@hetic.net",
     "firstname": "Eric",
     "lastname": "Priou",
@@ -153,6 +154,7 @@
     ],
     "challenges": [],
     "visits": [],
+    "creationDate": "2020-07-06T00:00:00.000",
     "email": "webp2020@hetic.net",
     "firstname": "Eric",
     "lastname": "Priou",
@@ -361,4 +363,138 @@ This api call also modify the user's profile
         "id": "56a65419-6be1-451c-8897-90e20a960b40"
     }
 ]
+```
+
+# profil / classement
+
+## get profil (see above)
+
+## get company `GET /companies/4f9fabe3-5b40-4cec-96f5-2842421aa9d3`
+
+### Response
+```
+{
+    "address": {
+        "value": "24 rue du progres Montreuil",
+        "lat": 2.412336,
+        "lng": 48.643817
+    },
+    "workplaces": [
+        "Montreuil"
+    ],
+    "name": "hetic",
+    "domainName": "hetic.net",
+    "employees": "300 - 400",
+    "departments": [
+        {
+            "name": "Web",
+            "points": 0
+        },
+        {
+            "name": "H",
+            "points": 0
+        }
+    ],
+    "id": "4f9fabe3-5b40-4cec-96f5-2842421aa9d3",
+    "status": "not_enough_poi",
+    "users": [
+        {
+            "roles": [
+                "user"
+            ],
+            "challenges": [
+                {
+                    "id": "56a65419-6be1-451c-8897-90e20a960b40",
+                    "title": "Lundi c'est veggie !",
+                    "category": "Alimentation",
+                    "date": "2020-07-06T10:27:18.030Z",
+                    "photo": "string",
+                    "points": 120
+                }
+            ],
+            "visits": [],
+            "email": "corentin.croizat@hetic.net",
+            "firstname": "corentin",
+            "lastname": "croizat",
+            "workplace": "Montreuil",
+            "department": "Web",
+            "companyPosition": "Etudiant",
+            "id": "782e6463-675b-4d44-9faf-06663260b204",
+            "points": 120
+        }
+    ]
+}
+```
+
+## get company `GET /users/782e6463-675b-4d44-9faf-06663260b204`
+
+### Response
+```
+{
+    "roles": [
+        "user"
+    ],
+    "challenges": [
+        {
+            "id": "56a65419-6be1-451c-8897-90e20a960b40",
+            "title": "Lundi c'est veggie !",
+            "category": "Alimentation",
+            "date": "2020-07-06T10:27:18.030Z",
+            "photo": "string",
+            "points": 120
+        }
+    ],
+    "visits": [],
+    "email": "corentin.croizat@hetic.net",
+    "firstname": "corentin",
+    "lastname": "croizat",
+    "workplace": "Montreuil",
+    "department": "Web",
+    "companyPosition": "Etudiant",
+    "id": "782e6463-675b-4d44-9faf-06663260b204",
+    "points": 120
+}
+```
+
+## edit profile `PUT /users/profile`
+
+### Request row - JSON
+```
+{
+    "email": "corentin.croizat@hetic.net",
+    "password": "password",
+    "firstname": "corentin2",
+    "lastname": "croizat",
+    "companyPosition": "Etudiant",
+    "workplace": "Montreuil",
+    "department": "Web"
+}
+```
+
+### Response
+```
+{
+    "roles": [
+        "user"
+    ],
+    "challenges": [
+        {
+            "id": "56a65419-6be1-451c-8897-90e20a960b40",
+            "title": "Lundi c'est veggie !",
+            "category": "Alimentation",
+            "date": "2020-07-06T10:27:18.030Z",
+            "photo": "string",
+            "points": 120
+        }
+    ],
+    "visits": [],
+    "email": "corentin.croizat@hetic.net",
+    "firstname": "corentin2",
+    "lastname": "croizat",
+    "workplace": "Montreuil",
+    "department": "Web",
+    "companyPosition": "Etudiant",
+    "id": "782e6463-675b-4d44-9faf-06663260b204",
+    "points": 120
+}
 ```

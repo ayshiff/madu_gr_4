@@ -71,4 +71,12 @@ export class ChallengeService {
     }
     return this.filterParticipantsByColleagues(challenge);
   }
+
+  async findWeekly(): Promise<Challenge> {
+    const challenge = await this.challengeModel.findOne();
+    if (challenge === null) {
+      throw new NotFoundException("Challenge not found");
+    }
+    return this.filterParticipantsByColleagues(challenge);
+  }
 }

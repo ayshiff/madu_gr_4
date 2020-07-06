@@ -35,9 +35,11 @@ export class CompanyController {
   }
 
   @Get(':company_id')
-  @Roles(UserRole.Admin)
-  async findOne(@Param('company_id') id: string): Promise<Company> {
-    return await this.companyService.findByUuid(id);
+  @Roles(UserRole.User)
+  async findOne(@Param('company_id') id: string, @Request() req): Promise<Company> {
+    const company =  await this.companyService.findByUuid(id);
+    this.companyService.denyAccessByCompany(req.user, company);
+    return company;
   }
 
   @Get('domain/:domainName')

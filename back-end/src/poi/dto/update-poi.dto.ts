@@ -56,10 +56,6 @@ export class UpdatePoiDto {
   socialNetwork: string;
 
   @IsOptional()
-  @IsInt()
-  greenscore: number;
-
-  @IsOptional()
   @IsString({each: true})
   foodPreference: [string];
 

@@ -1,6 +1,7 @@
 export const UserSchema = {
   id: String,
   email: String,
+  creationDate: String,
   firstname: String,
   lastname: String,
   password: String,
@@ -13,6 +14,7 @@ export const UserSchema = {
   workplace: String,
   department: String,
   points: Number,
+  weeklyPoints: Number,
   photo: String,
   challenges: [
     {

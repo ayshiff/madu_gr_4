@@ -5,7 +5,7 @@
 
 # Description
 
-Madu is a digital map that references ecoresponsible addresses (activities, restaurants, shops) and evaluates their environmental impact through a greenscore.
+Madu is a digital map that references ecoresponsible addresses (activities, restaurants, shops).
 
 # Argumentation file
 

@@ -35,6 +35,7 @@
           "manager",
           "admin"
         ],
+        "creationDate": "2020-07-06T00:00:00.000",
         "email": "webp2020@hetic.net",
         "firstname": "Eric",
         "lastname": "Priou",
@@ -46,6 +47,7 @@
         "visits": [],
         "id": "6ef3f8d4-24ce-40b3-aed6-006c742515bd",
         "points": 0,
+        "weeklyPoints": 0,
         "__v": 0
       }
     ],
@@ -92,6 +94,7 @@
         "roles": [
           "user"
         ],
+        "creationDate": "2020-07-06T00:00:00.000",
         "email": "corentin.croizat@hetic.net",
         "firstname": "corentin",
         "lastname": "croizat",
@@ -103,6 +106,7 @@
         "visits": [],
         "id": "782e6463-675b-4d44-9faf-06663260b204",
         "points": 0,
+        "weeklyPoints": 0,
         "__v": 0
       }
     ],

@@ -32,8 +32,15 @@ export class ChallengeController {
   }
 
   @Get(':challenge_id')
+  @Roles(UserRole.User)
   async findOne(@Param('challenge_id') id: string): Promise<Challenge> {
     return await this.challengeService.findByUuid(id);
+  }
+
+  @Get('weekly')
+  @Roles(UserRole.User)
+  async findOneWeekly(): Promise<Challenge> {
+    return await this.challengeService.findWeekly();
   }
 
   @Put(':challenge_id')
