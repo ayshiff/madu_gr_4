@@ -63,7 +63,6 @@ class CompanyStore {
 
     @action setStep = (args: any) => {
         this.byId = { ...this.byId, ...args };
-        return;
     };
 
     @action add = (company: ICompany) => {
@@ -111,7 +110,15 @@ class CompanyStore {
     };
 
     @action resetId = () => {
-        this.byId = companyStoreMock;
+        // this.byId = companyStoreMock;
+        this.byId = {
+            ...companyStoreMock,
+            address: {
+                value: "",
+                lat: null,
+                lng: null,
+            },
+        };
     };
 }
 

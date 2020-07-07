@@ -1,17 +1,17 @@
-import { Controller, Post, Body, Get, UseGuards, UsePipes, Param, NotFoundException, Put, Delete, Request, UnauthorizedException } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, Param, Put, Delete, UsePipes, Request } from '@nestjs/common';
 import { CreateCompanyDto } from "./dto/create-company.dto";
 import { CompanyService } from "./company.service";
 import { Company } from './interfaces/company.interface';
 import { Roles } from 'src/auth/decorator/roles.decorator';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { UserRole } from 'src/auth/userRole.enum';
-import { UsersService } from 'src/users/users.service';
-import { CustomValidationPipe } from 'src/users/pipes/CustomValidationPipe';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
-import { User } from 'src/users/interfaces/user.interface';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { UpdateCompanyDto } from './dto/update-company.dto';
+import { CustomValidationPipe } from './user/pipes/CustomValidationPipe';
+import { CreateUserDto } from './user/dto/create-user.dto';
+import { User } from './user/interfaces/user.interface';
+import { UserService } from './user/user.service';
 
 @ApiTags('Company')
 @Controller('companies')
@@ -19,7 +19,7 @@ import { UpdateCompanyDto } from './dto/update-company.dto';
 export class CompanyController {
   constructor(
     private readonly companyService: CompanyService,
-    private readonly usersService: UsersService
+    private readonly userService: UserService
   ) {}
 
   @Post()
@@ -35,9 +35,16 @@ export class CompanyController {
   }
 
   @Get(':company_id')
-  @Roles(UserRole.Admin)
-  async findOne(@Param('company_id') id: string): Promise<Company> {
-    return await this.companyService.findByUuid(id);
+  @Roles(UserRole.User)
+  async findOne(@Param('company_id') id: string, @Request() req): Promise<Company> {
+    const company =  await this.companyService.findByUuid(id);
+    this.companyService.denyAccessByCompany(req.user, company);
+    return company;
+  }
+
+  @Get('domain/:domainName')
+  async findOneDomain(@Param('domainName') id: string): Promise<Company> {
+    return await this.companyService.findByDomainName(id);
   }
 
   @Put(':company_id')
@@ -51,21 +58,18 @@ export class CompanyController {
   @Roles(UserRole.Admin)
   async remove(@Param('company_id') id: string) {
     const company = await this.companyService.findByUuid(id);
-    this.usersService.deleteAllByCompany(company.id);
     this.companyService.delete(company);
   }
 
   @Post(':company_id/users')
-  @Roles(UserRole.Manager)
   @UsePipes(CustomValidationPipe)
   async createUser(
-    @Request() req,
     @Param('company_id') id,
     @Body() createUserDto: CreateUserDto
   ) {
     const company = await this.companyService.findByUuid(id);
-    this.companyService.denyAccessByCompany(req.user, company);
-    return this.usersService.create(createUserDto, company.id);
+    this.companyService.denyAccessByEmail(createUserDto.email, company);
+    return this.userService.create(createUserDto, company.id);
   }
 
   @Get(':company_id/users')
@@ -73,6 +77,6 @@ export class CompanyController {
   async findAllUsers(@Request() req, @Param('company_id') id): Promise<User[]> {
     const company = await this.companyService.findByUuid(id);
     this.companyService.denyAccessByCompany(req.user, company);
-    return this.usersService.findAllByCompany(company.id);
+    return this.userService.findAllByCompany(company.id);
   }
 }

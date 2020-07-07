@@ -9,10 +9,10 @@ import { ListPoi } from "./listPoi";
 
 import { Mapboxgl } from "../map/index";
 
-const PoiApp = ({ match }) => (
+const PoiApp = ({ match, history }) => (
     <Container>
         <Switch>
-            <Route exact path={`${match.url}/list`} render={() => <ListPoi />} />
+            <Route exact path={`${match.url}/list`} render={() => <ListPoi history={history} />} />
             <Route path={`${match.url}/create`} render={() => <CreatePoi />} />
             <Route path={`${match.url}/map`} render={() => <Mapboxgl />} />
         </Switch>
@@ -24,7 +24,10 @@ const history = createHistory();
 export default () => {
     return (
         <Router history={history}>
-            <Route path="/poi" component={PoiApp} />
+            <Route
+                path="/poi"
+                component={({ match }) => <PoiApp history={history} match={match} />}
+            />
         </Router>
     );
 };
