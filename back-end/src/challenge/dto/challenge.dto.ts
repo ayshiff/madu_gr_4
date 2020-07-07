@@ -4,6 +4,9 @@ export class ChallengeDto {
   @IsDateString()
   startDate: string;
 
+  @IsDateString()
+  endDate: string;
+
   @IsString()
   title: string;
 

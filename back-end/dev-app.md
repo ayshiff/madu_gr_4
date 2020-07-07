@@ -331,6 +331,24 @@ This api call also modify the user's profile
 ]
 ```
 
+## get challenges `GET /challenges/weekly`
+
+### Response
+```
+{
+        "startDate": "2020-07-06T00:00:00.000",
+        "endDate": "2020-07-06T00:00:00.000",
+        "title": "Lundi c'est veggie !",
+        "description": "Chaque français consomme 87kg de viande par an ...",
+        "content": "string",
+        "category": "Alimentation",
+        "points": 110,
+        "photo": "string",
+        "participants": [],
+        "id": "56a65419-6be1-451c-8897-90e20a960b40"
+    }
+```
+
 ## validate challenge `POST /challenges/56a65419-6be1-451c-8897-90e20a960b40/validate`
 This api call also modify the user's profile
 

@@ -4,7 +4,8 @@ import { Participant } from './participant.interface';
 export class Challenge {
   @ApiProperty()
   id: string;
-  startDate: string;
+  startDate: Date;
+  endDate: Date;
   @ApiProperty()
   title: string;
   @ApiProperty()

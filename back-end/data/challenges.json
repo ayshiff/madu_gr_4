@@ -3,7 +3,8 @@
     "_id": {
       "$oid": "5efc85dadea8b43323d4a2ea"
     },
-    "startDate": "2020-07-06T00:00:00.000",
+    "startDate": "2020-07-05T00:00:00.000Z",
+    "endDate": "2020-07-12T00:00:00.000Z",
     "title": "Lundi c'est veggie !",
     "description": "Chaque français consomme 87kg de viande par an ...",
     "content": "string",

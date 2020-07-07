@@ -31,16 +31,16 @@ export class ChallengeController {
     return this.challengeService.findAll();
   }
 
-  @Get(':challenge_id')
-  @Roles(UserRole.User)
-  async findOne(@Param('challenge_id') id: string): Promise<Challenge> {
-    return await this.challengeService.findByUuid(id);
-  }
-
   @Get('weekly')
   @Roles(UserRole.User)
   async findOneWeekly(): Promise<Challenge> {
     return await this.challengeService.findWeekly();
+  }
+
+  @Get(':challenge_id')
+  @Roles(UserRole.User)
+  async findOne(@Param('challenge_id') id: string): Promise<Challenge> {
+    return await this.challengeService.findByUuid(id);
   }
 
   @Put(':challenge_id')
