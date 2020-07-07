@@ -65,8 +65,11 @@ $ npm install
 ## Running MongoDB
 
 ```bash
-# start mongodb container && import data fixtures
+# start mongodb container
 $ make create-db
+
+# import data fixtures
+$ make import-db
 
 # drop database
 $ make drop-db
