@@ -2,7 +2,7 @@ client_user: ubuntu
 client_group: "{{ client_user }}"
 client_directory: "/home/{{ client_user }}"
 
-client_docker_image: "{{ docker_username }}/{{ client_docker_image }}"
+client_docker_image: "{{ docker_username }}/{{ client_docker_image_name }}"
 client_docker_tag: "{{ client_docker_image_tag }}"
 
 client_port: 80

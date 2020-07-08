@@ -1,5 +1,9 @@
 ---
 
+- name: debug extra var
+  debug:
+    var: client_docker_image
+
 - name: Import docker-compose
   template:
     src: docker-compose.yml
