@@ -5,3 +5,5 @@ services:
     image: "{{ client_docker_image }}:{{ client_docker_tag }}"
     ports:
       - "{{ client_port }}:80"
+    environment:
+      REACT_APP_API_BASE_URL: "{{ back_end_uri }}"

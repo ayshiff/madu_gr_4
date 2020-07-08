@@ -6,4 +6,4 @@ services:
     ports:
       - "{{ back_end_port }}:3000"
     environment:
-      MONGO_URI: "mongodb://{{ database_uri }}:{{ database_port }}/madu?authSource=admin"
+      MONGO_URI: "mongodb://{{ database_username }}:{{ database_password }}@{{ database_uri }}:{{ database_port }}/madu?authSource=admin"

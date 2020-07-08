@@ -11,3 +11,26 @@
 - name: Start docker-compose
   docker_compose:
     project_src: "{{ database_directory }}"
+
+- name: Import Makefile for database initialisation
+  template:
+    src: Makefile
+    dest: "{{ database_directory }}/Makefile"
+    owner: "{{ database_user }}"
+    group: "{{ database_group }}"
+  tags:
+    - db_init
+
+- name: Copy directory for database initialisation
+  copy:
+    src: ./files
+    dest: "{{ database_directory }}"
+  tags:
+    - db_init
+
+- name: Initialisation database
+  make:
+    chdir: "{{ database_directory }}"
+    target: create-db
+  tags:
+    - db_init

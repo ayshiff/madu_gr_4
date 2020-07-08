@@ -1,4 +1,0 @@
-docker_username: amauryfaveriel
-docker_users:
-  - ubuntu
-database_port: 27017
