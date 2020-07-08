@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Put, Delete, Param, UseGuards, UseInterceptors, UploadedFiles, Req } from '@nestjs/common';
+import { Controller, Post, Body, Get, Put, Delete, Param, UseGuards, UseInterceptors, UploadedFiles } from '@nestjs/common';
 import { PoiService } from './poi.service';
 import { ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/auth/decorator/roles.decorator';
@@ -11,6 +11,7 @@ import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { imageFileFilter, editFileName } from "src/shared/interceptor/multer.interceptor";
+import { RequestUser } from 'src/shared/decorator/user.decorator';
 
 @ApiTags('Poi')
 @Controller('poi')
@@ -68,15 +69,15 @@ export class PoiController {
 
   @Post(':poi_id/visited')
   @Roles(UserRole.User)
-  async visit(@Param('poi_id') id: string, @Req() req) {
+  async visit(@Param('poi_id') id: string, @RequestUser() user) {
     const poi = await this.poiService.findByUuid(id);
-    return this.poiService.visit(poi, req.user);
+    return this.poiService.visit(poi, user);
   }
 
   @Post(':poi_id/like')
   @Roles(UserRole.User)
-  async like(@Param('poi_id') id: string, @Req() req) {
+  async like(@Param('poi_id') id: string, @RequestUser() user) {
     const poi = await this.poiService.findByUuid(id);
-    return this.poiService.like(poi, req.user);
+    return this.poiService.like(poi, user);
   }
 }

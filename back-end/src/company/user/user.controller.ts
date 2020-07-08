@@ -27,6 +27,7 @@ import { Token } from 'src/auth/interfaces/token.interface';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { imageFileFilter, editFileName } from "src/shared/interceptor/multer.interceptor";
+import { RequestUser } from 'src/shared/decorator/user.decorator';
 
 @ApiTags('User')
 @Controller('users')
@@ -59,17 +60,17 @@ export class UserController {
   @Get('profile')
   @Roles(UserRole.User)
   @ApiResponse({ type: User })
-  getProfile(@Request() req) {
-    return req.user;
+  getProfile(@RequestUser() user) {
+    return user;
   }
 
   @Put('profile')
   @Roles(UserRole.User)
   async updateProfile(
-    @Request() req,
+    @RequestUser() user,
     @Body() createUserDto: CreateUserDto
   ) {
-    return this.userService.update(req.user, createUserDto);
+    return this.userService.update(user, createUserDto);
   }
 
   @Post('image')
@@ -81,8 +82,8 @@ export class UserController {
     }),
     fileFilter: imageFileFilter,
   }))
-  async validate(@UploadedFile() image, @Req() req) {
-    return this.userService.addImage(req.user, image);
+  async validate(@UploadedFile() image, @RequestUser() user) {
+    return this.userService.addImage(user, image);
   }
 
   @Get(':user_id')
