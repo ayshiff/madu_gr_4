@@ -9,7 +9,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { imageFileFilter, editFileName } from "../interceptor/multer.interceptor";
+import { imageFileFilter, editFileName } from "src/shared/interceptor/multer.interceptor";
 
 @ApiTags('Challenge')
 @Controller('challenges')

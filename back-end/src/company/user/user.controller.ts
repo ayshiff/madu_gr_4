@@ -26,7 +26,7 @@ import { ResetPasswordDto } from './dto/reset-password.dto';
 import { Token } from 'src/auth/interfaces/token.interface';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { imageFileFilter, editFileName } from "../../interceptor/multer.interceptor";
+import { imageFileFilter, editFileName } from "src/shared/interceptor/multer.interceptor";
 
 @ApiTags('User')
 @Controller('users')

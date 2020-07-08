@@ -10,7 +10,7 @@ import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { imageFileFilter, editFileName } from "../interceptor/multer.interceptor";
+import { imageFileFilter, editFileName } from "src/shared/interceptor/multer.interceptor";
 
 @ApiTags('Poi')
 @Controller('poi')
