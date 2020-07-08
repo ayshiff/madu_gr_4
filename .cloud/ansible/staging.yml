@@ -12,12 +12,12 @@
   roles:
     - { role: client, tags: ["deployment", "client"] }
 
-- name: Install back-end
-  hosts: tag_project_madu:&tag_stage_staging:&tag_component_back_end
-  roles:
-    - { role: back-end, tags: ["deployment", "back_end"] }
-
 - name: Install database
   hosts: tag_project_madu:&tag_stage_staging:&tag_component_database
   roles:
     - { role: database, tags: ["deployment", "database"] }
+
+- name: Install back-end
+  hosts: tag_project_madu:&tag_stage_staging:&tag_component_back_end
+  roles:
+    - { role: back-end, tags: ["deployment", "back_end"] }

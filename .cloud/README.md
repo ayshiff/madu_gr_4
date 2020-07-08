@@ -64,11 +64,36 @@ Plusieurs options de déploiment sont possibles.
 
 ### Prérequis
 
+- ### Variables
+
+Plusieurs variables doivent être modifiés avant de lancer le script ou même build les images
+
+```
+/client/Dockerfile
+ENV REACT_APP_API_BASE_URL=[url public du load balancer back-end]
+```
+**A modifier avant de build l'image client**
+
+```
+/.cloud/ansible/inventory/all/all.yml
+docker_username: [Le compte sur lequel les images seront push]
+
+back_end_docker_image_name: [Nom de l'image back-end]
+back_end_docker_image_tag: [Tag de l'image back-end]
+
+client_docker_image_name: [Nom de l'image client]
+client_docker_image_tag: [Tag de l'image client]
+
+back_end_uri: [url public du load balancer back-end]
+
+database_uri: [ip privée du serveur database]
+```
+
 - ### Images docker
 
 Le script Ansible ne build pas les dockerfile, il faudra donc [le faire](https://docs.docker.com/engine/reference/commandline/build/) et [push les images](https://docs.docker.com/engine/reference/commandline/push/) sur un repo.
 
-Il faudra aussi changer les variables du nom d'utilisateur, des noms d'images et de tags dans le fichier .cloud/ansible/inventory/group_vars/all/all.yml pour qu'ils correspondent au images push sur le repo.
+Il faut que les noms et tags d'images correspondent aux valeurs entrées dans la partie variables au dessus.
 
 - ### Valeurs du vault
 
