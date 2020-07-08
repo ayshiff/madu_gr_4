@@ -1,0 +1,6 @@
+database_user: ubuntu
+database_group: "{{ database_user }}"
+database_directory: "/home/{{ database_user }}"
+
+database_docker_image: mongo
+database_docker_tag: 4.2.7

@@ -1,0 +1,6 @@
+---
+
+- name: Restart docker compose
+  docker_compose:
+    project_src: "{{ database_directory }}"
+    restarted: yes

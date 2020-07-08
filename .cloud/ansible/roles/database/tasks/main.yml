@@ -1,0 +1,36 @@
+---
+
+- name: Import docker-compose
+  template:
+    src: docker-compose.yml
+    dest: "{{ database_directory }}/docker-compose.yml"
+    owner: "{{ database_user }}"
+    group: "{{ database_group }}"
+  notify: Restart docker compose
+
+- name: Start docker-compose
+  docker_compose:
+    project_src: "{{ database_directory }}"
+
+- name: Import Makefile for database initialisation
+  template:
+    src: Makefile
+    dest: "{{ database_directory }}/Makefile"
+    owner: "{{ database_user }}"
+    group: "{{ database_group }}"
+  tags:
+    - db_init
+
+- name: Copy directory for database initialisation
+  copy:
+    src: ./files
+    dest: "{{ database_directory }}"
+  tags:
+    - db_init
+
+- name: Initialisation database
+  make:
+    chdir: "{{ database_directory }}"
+    target: create-db
+  tags:
+    - db_init
