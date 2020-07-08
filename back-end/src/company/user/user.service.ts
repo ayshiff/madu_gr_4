@@ -13,13 +13,11 @@ import { Challenge } from 'src/challenge/interfaces/challenge.interface';
 import { Poi } from 'src/poi/interfaces/poi.interface';
 import { Points } from './model/points.enum';
 import { Company } from '../interfaces/company.interface';
-import { CompanyService } from '../company.service';
 
 @Injectable()
 export class UserService {
   constructor(
     private readonly configService: ConfigService,
-    // private readonly companyService: CompanyService,
     @InjectModel('Company') private readonly companyModel: Model<Company>,
   ) {}
 

@@ -32,7 +32,7 @@ export class CompanyService {
     createdCompany.departments = createCompanyDto.departments.map(name => ({ name, points: 0}));
 
     await createdCompany.save();
-    return this.findByUuid(createdCompany.id);
+    return createdCompany;
   }
 
   async update(
