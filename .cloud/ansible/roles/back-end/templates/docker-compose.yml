@@ -5,3 +5,5 @@ services:
     image: "{{ back_end_docker_image }}:{{ back_end_docker_tag }}"
     ports:
       - "{{ back_end_port }}:3000"
+    environment:
+      MONGO_URI: "mongodb://{{ database_username }}:{{ database_password }}@{{ database_uri }}:{{ database_port }}/madu?authSource=admin"

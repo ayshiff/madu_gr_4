@@ -4,4 +4,9 @@ services:
   database:
     image: "{{ database_docker_image }}:{{ database_docker_tag }}"
     ports:
-      - "{{ database_port }}:3000"
+      - "{{ database_port }}:27017"
+    volumes:
+    - ./files:/data
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "{{ database_username }}"
+      MONGO_INITDB_ROOT_PASSWORD: "{{ database_password }}"

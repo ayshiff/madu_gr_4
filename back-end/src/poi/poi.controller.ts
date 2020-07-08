@@ -1,13 +1,10 @@
-import { Controller, Post, Body, Get, Put, Delete, Param, UseGuards, UseInterceptors, UploadedFiles, Res, Header } from '@nestjs/common';
+import { Controller, Post, Body, Get, Put, Delete, Param, UseGuards, UseInterceptors, UploadedFiles, Req } from '@nestjs/common';
 import { PoiService } from './poi.service';
-import { ApiTags, ApiResponse } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/auth/decorator/roles.decorator';
 import { UserRole } from 'src/auth/userRole.enum';
 import { CreatePoiDto } from './dto/create-poi.dto';
 import { UpdatePoiDto } from './dto/update-poi.dto';
-import { CreatePoiGreenscoreDto } from './dto/create-poi-greenscore.dto';
-import { AnswerPoiGreenscoreDto } from './dto/answer-poi-greenscore.dto';
-import { ValidatePoiGreenscoreDto } from './dto/validate-poi-greenscore.dto';
 import { Poi } from './interfaces/poi.interface';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
@@ -30,13 +27,13 @@ export class PoiController {
   }
 
   @Get()
-  @Roles(UserRole.Admin)
+  @Roles(UserRole.User)
   async findAll(): Promise<Poi[]> {
     return this.poiService.findAll();
   }
 
   @Get(':poi_id')
-  @Roles(UserRole.Admin)
+  @Roles(UserRole.User)
   async findOne(@Param('poi_id') id: string): Promise<Poi> {
     return await this.poiService.findByUuid(id);
   }
@@ -69,35 +66,17 @@ export class PoiController {
     return this.poiService.addImages(poi, images.map(file => file.filename));
   }
 
-  @Get('/images/:image_id')
-  @Header('Content-Type', 'image/jpeg')
-  @Roles(UserRole.Admin)
-  @ApiResponse({ description: 'An image in jpg format.'})
-  async getImage(@Param('image_id') id: string, @Res() res) {
-    return res.sendFile(id, { root: 'upload' });
+  @Post(':poi_id/visited')
+  @Roles(UserRole.User)
+  async visit(@Param('poi_id') id: string, @Req() req) {
+    const poi = await this.poiService.findByUuid(id);
+    return this.poiService.visit(poi, req.user);
   }
 
-  /*
-  // this will be used in V2
-  @Post(':poi_id/survey/send')
-  @Roles(UserRole.Admin)
-  async surveySend(@Param('poi_id') id: string, @Body() createPoiGreenscoreDto: CreatePoiGreenscoreDto) {
+  @Post(':poi_id/like')
+  @Roles(UserRole.User)
+  async like(@Param('poi_id') id: string, @Req() req) {
     const poi = await this.poiService.findByUuid(id);
-    return this.poiService.surveySend(poi, createPoiGreenscoreDto);
+    return this.poiService.like(poi, req.user);
   }
-
-  @Post(':poi_id/survey/answer')
-  @Roles(UserRole.Admin)
-  async surveyAnswer(@Param('poi_id') id: string, @Body() answerPoiGreenscoreDto: AnswerPoiGreenscoreDto) {
-    const poi = await this.poiService.findByUuid(id);
-    return this.poiService.surveyAnswer(poi, answerPoiGreenscoreDto);
-  }
-
-  @Post(':poi_id/survey/validate')
-  @Roles(UserRole.Admin)
-  async validate(@Param('poi_id') id: string, @Body() validatePoiGreenscoreDto: ValidatePoiGreenscoreDto) {
-    const poi = await this.poiService.findByUuid(id);
-    return this.poiService.surveyValidate(poi, validatePoiGreenscoreDto);
-  }
-  */
 }
