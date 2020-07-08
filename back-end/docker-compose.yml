@@ -2,20 +2,14 @@ version: '3.1'
 
 services:
 
-  server:
-    image: amauryfaveriel/madu-back-end:0.1
-    ports:
-      - 3000:3000
-    networks:
-      - host
-
   mongo:
+    container_name: madu-mongo
     image: mongo:latest
+    restart: always
     ports:
       - 27017:27017
-    # environment:
-    #   MONGO_INITDB_ROOT_USERNAME: root
-    #   MONGO_INITDB_ROOT_PASSWORD: root
-
-networks:
- host:
+    volumes:
+      - ./data:/data
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: username
+      MONGO_INITDB_ROOT_PASSWORD: password

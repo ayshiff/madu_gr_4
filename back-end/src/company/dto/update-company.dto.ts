@@ -9,15 +9,7 @@ export class UpdateCompanyDto {
 
   @IsOptional()
   @IsString()
-  lastName: string;
-
-  @IsOptional()
-  @IsString()
-  email: string;
-
-  @IsOptional()
-  @IsString()
-  companyName: string;
+  phoneNumber: string;
 
   @IsOptional()
   @IsFQDN()
