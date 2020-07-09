@@ -9,7 +9,5 @@ back_end_docker_image_tag: 0.6
 client_docker_image_name: madu-client
 client_docker_image_tag: 0.4
 
-back_end_uri: http://staging-madu-back-end-elb-1448654197.eu-west-2.elb.amazonaws.com
-
 database_uri: 172.31.6.43
 database_port: 27017
