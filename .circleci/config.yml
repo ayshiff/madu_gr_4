@@ -90,10 +90,10 @@ jobs:
           command: mkdir -p ~/repo/artifacts
       - run:
           name: Build client image
-          command: docker build -t "${DOCKER_CLIENT_IMAGE_NAME}:${DOCKER_CLIENT_IMAGE_TAG}" ~/repo/client
+          command: docker build -t "${REGISTRY_USERNAME}/${DOCKER_CLIENT_IMAGE_NAME}:${CIRCLE_SHA1}" ~/repo/client
       - run:
           name: Save image in artifacts directory
-          command: docker save "${DOCKER_CLIENT_IMAGE_NAME}:${DOCKER_CLIENT_IMAGE_TAG}" -o ~/repo/artifacts/image_client
+          command: docker save "${REGISTRY_USERNAME}/${DOCKER_CLIENT_IMAGE_NAME}:${CIRCLE_SHA1}" -o ~/repo/artifacts/image_client
       - persist_to_workspace:
           root: artifacts
           paths:
@@ -114,10 +114,10 @@ jobs:
           command: mkdir -p ~/repo/artifacts
       - run:
           name: Build back-end image
-          command: docker build -t "${DOCKER_BACK_END_IMAGE_NAME}:${DOCKER_BACK_END_IMAGE_TAG}" ~/repo/back-end
+          command: docker build -t "${REGISTRY_USERNAME}/${DOCKER_BACK_END_IMAGE_NAME}:${CIRCLE_SHA1}" ~/repo/back-end
       - run:
           name: Save image in artifacts directory
-          command: docker save "${DOCKER_BACK_END_IMAGE_NAME}:${DOCKER_BACK_END_IMAGE_TAG}" -o ~/repo/artifacts/image_back_end
+          command: docker save "${REGISTRY_USERNAME}/${DOCKER_BACK_END_IMAGE_NAME}:${CIRCLE_SHA1}" -o ~/repo/artifacts/image_back_end
       - persist_to_workspace:
           root: artifacts
           paths:
@@ -140,13 +140,13 @@ jobs:
           command: docker load -i artifacts/image_client
       - run:
           name: Push docker image client
-          command: docker push "${DOCKER_CLIENT_IMAGE_NAME}:${DOCKER_CLIENT_IMAGE_TAG}"
+          command: docker push "${REGISTRY_USERNAME}/${DOCKER_CLIENT_IMAGE_NAME}:${CIRCLE_SHA1}"
       - run:
           name: Load docker image back-end
           command: docker load -i artifacts/image_back_end
       - run:
           name: Push docker image back-end
-          command: docker push "${DOCKER_BACK_END_IMAGE_NAME}:${DOCKER_BACK_END_IMAGE_TAG}"
+          command: docker push "${REGISTRY_USERNAME}/${DOCKER_BACK_END_IMAGE_NAME}:${CIRCLE_SHA1}"
 
   push_image_back_end:
     docker:
@@ -165,7 +165,7 @@ jobs:
           command: docker load -i artifacts/image_back_end
       - run:
           name: Push docker image back-end
-          command: docker push "${DOCKER_BACK_END_IMAGE_NAME}:${DOCKER_BACK_END_IMAGE_TAG}"
+          command: docker push "${REGISTRY_USERNAME}/${DOCKER_BACK_END_IMAGE_NAME}:${CIRCLE_SHA1}"
 
   deploy:
     docker:
@@ -186,8 +186,8 @@ jobs:
       - run:
           name: Install roles for Ansible from galaxy
           command: |
-            cd ~/repo/cloud/ansible
-            ansible-galaxy install geerlingguy.docker
+            cd ~/repo/cloud
+            ansible-galaxy install -r requirement.yml
       - run:
           name: Add ansible.cfg
           command: export ANSIBLE_CONFIG=~/repo/cloud/ansible/ansible.cfg
@@ -201,7 +201,8 @@ jobs:
           name: Deploy on staging with Ansible
           command: |
             cd ~/repo/cloud/ansible
-            ansible-playbook -i inventory staging.yml --user ubuntu --key-file=~/.ssh/id_rsa --extra-vars="application_docker_tag=${DOCKER_IMAGE_TAG} application_docker_image=${DOCKER_IMAGE_NAME}"
+            echo -e ${VAULT_PASS} >> password.txt
+            ansible-playbook -i inventory staging.yml --user ubuntu --key-file=~/.ssh/id_rsa --tags deployment --skip-tags db_init --extra-vars="docker_username=${REGISTRY_USERNAME} back_end_docker_image_name=${DOCKER_BACK_END_IMAGE_NAME} back_end_docker_image_tag=${CIRCLE_SHA1} client_docker_image_name=${DOCKER_CLIENT_IMAGE_NAME} client_docker_image_tag=${CIRCLE_SHA1}"
 
 workflows:
   version: 2

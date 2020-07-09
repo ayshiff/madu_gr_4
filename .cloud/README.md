@@ -24,7 +24,7 @@ Rôles :
 - back-end: Importe le docker-compose du back-end et le lance
 - database: Importe le docker-compose de la database, la lance et initialise la base données
 
-# Déploiment du projet
+# Déploiement du projet
 
 Dépendances nécessaires :
 - [Python](https://www.python.org/) / [Pip](https://pypi.org/project/pip/)
@@ -39,10 +39,10 @@ Des dépendances Python et Ansible sont nécessaires.
 ```
 /.cloud
 $ pip install -r requirement.txt
-$ ansible-galaxy install geerlingguy.docker
+$ ansible-galaxy install -r requirement.yml
 ```
 
-## Déploiment des serveur
+## Déploiement des serveur
 
 Avant de déployer il faut [générer une clé ssh](https://confluence.atlassian.com/bitbucketserver/creating-ssh-keys-776639788.html).
 Pour l'utilisation de la pipeline CI/CD, il faut obligatoirement générer une clé rsa, il faut donc mettre l'option ```-t rsa``` au moment de la création de la clé.
@@ -60,7 +60,9 @@ Le serveur est déployé sur eu-west-2, déployer sur eu-west-3 n'est pas possib
 
 ## Installation et lancement
 
-Plusieurs options de déploiment sont possibles.
+Plusieurs options de déploiement sont possibles.
+
+**Si le déploiement continu (avec circleci) est utilisé, seul la partie 'Valeurs du vault' est utile ici.**
 
 ### Prérequis
 
@@ -68,11 +70,6 @@ Plusieurs options de déploiment sont possibles.
 
 Plusieurs variables doivent être modifiés avant de lancer le script ou même build les images
 
-```
-/client/Dockerfile
-ENV REACT_APP_API_BASE_URL=[url public du load balancer back-end]
-```
-**A modifier avant de build l'image client**
 
 ```
 /.cloud/ansible/inventory/all/all.yml
@@ -84,14 +81,17 @@ back_end_docker_image_tag: [Tag de l'image back-end]
 client_docker_image_name: [Nom de l'image client]
 client_docker_image_tag: [Tag de l'image client]
 
-back_end_uri: [url public du load balancer back-end]
-
 database_uri: [ip privée du serveur database]
 ```
 
 - ### Images docker
 
 Le script Ansible ne build pas les dockerfile, il faudra donc [le faire](https://docs.docker.com/engine/reference/commandline/build/) et [push les images](https://docs.docker.com/engine/reference/commandline/push/) sur un repo.
+
+Lors du build de l'image client, il est nécessaire de passer en argument l'adresse du load-balancer back-end.
+```
+--build-arg=API_BASE_URL=[url_du_load_balancer]
+```
 
 Il faut que les noms et tags d'images correspondent aux valeurs entrées dans la partie variables au dessus.
 
@@ -147,3 +147,32 @@ $ ansible-playbook staging.yml -i inventory --ask-vault-pass --user=ubuntu --tag
 .cloud/ansible
 ansible-playbook staging.yml -i inventory --ask-vault-pass --user=ubuntu --tags "[tag1], [tag2], [tag3]" --skip-tags "db_init" --key-file=[chemin_de_la_clé_ssh_générée]
 ```
+
+## Déploiement continu
+
+Pour utiliser le déploiement continu, la connexion à [circleci](https://circleci.com/) est nécessaire, il faut set up le projet ainsi que créer quelques variables d'environnement.
+
+Le déploiement se fait lors du push sur la branche master du repository, mais il faut installer docker sur les serveurs et initialiser la base de donnée avec la commande suivante:
+```
+.cloud/ansible
+ansible-playbook staging.yml -i inventory --ask-vault-pass --user=ubuntu --tags "installation, database" --key-file=[chemin_de_la_clé_ssh_générée]
+```
+
+Une fois la commande utilisée, le déploiement continu peut-être utilisé.
+
+### Variables d'environnement:
+
+- REGISTRY_USERNAME: L'identifiant de repository d'images docker
+- REGISTRY_PASSWORD: Le mot de passe de repository d'images docker
+- DOCKER_CLIENT_IMAGE_NAME: Le nom qu'aura l'image client
+- DOCKER_BACK_END_IMAGE_NAME: Le nom qu'aura l'image back-end
+- VAULT_PASS: Le mot de passe pour utilisé le vault ansible
+- COVERALLS_REPO_TOKEN: Le token de connexion à coveralls
+
+Cette dernière variables n'est utile que si l'on a besoin de connaître le coverage du code, si cela n'est pas nécessaire, il suffit de supprimer la dernière commande du job test_client. Sinon, il faut aussi set up le projet sur [coveralls](https://coveralls.io).
+
+Il faut aussi ajouter la clé ssh du projet, et changer le fingerprint dans le job deploy par celui de la clé ajoutée.
+
+Toutes les variables sont nécessaires pour que le déploiement puisse se faire.
+
+Les images docker créée lors du déploiement auront pour tag le hash du commit git.
