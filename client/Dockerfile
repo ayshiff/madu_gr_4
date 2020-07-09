@@ -4,7 +4,8 @@ WORKDIR /home/node
 
 COPY package.json .
 
-ENV REACT_APP_API_BASE_URL=http://staging-madu-back-end-elb-1448654197.eu-west-2.elb.amazonaws.com
+ARG API_BASE_URL
+ENV REACT_APP_API_BASE_URL=$API_BASE_URL
 
 RUN yarn install
 
