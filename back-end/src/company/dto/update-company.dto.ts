@@ -1,6 +1,6 @@
 import { IsString, ValidateNested, IsOptional, IsFQDN } from "class-validator";
 import { Type } from "class-transformer";
-import { Address } from "src/poi/dto/address.dto";
+import { Address } from "src/shared/dto/address.dto";
 
 export class UpdateCompanyDto {
   @IsOptional()
