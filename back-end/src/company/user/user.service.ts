@@ -23,7 +23,7 @@ export class UserService {
 
   async create(
     createUserDto: CreateUserDto,
-    company_id: string = null
+    company: Company
   ): Promise<User> {
     const createUser = {
       ...createUserDto,
@@ -44,7 +44,7 @@ export class UserService {
     console.log(
       `Send mail to ${createUser.email}: account created`
     );
-    this.companyModel.updateOne({ id: company_id }, createUser);
+    await this.companyModel.updateOne({ id: company.id }, { $push: { users: createUser } });
     return this.findByUuid(createUser.id);
   }
 

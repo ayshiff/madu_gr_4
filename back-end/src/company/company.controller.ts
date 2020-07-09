@@ -70,7 +70,7 @@ export class CompanyController {
   ) {
     const company = await this.companyService.findByUuid(id);
     this.companyService.denyAccessByEmail(createUserDto.email, company);
-    return this.userService.create(createUserDto, company.id);
+    return this.userService.create(createUserDto, company);
   }
 
   @Get(':company_id/users')
