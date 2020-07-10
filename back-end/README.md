@@ -9,23 +9,34 @@ Madu is a digital map that references ecoresponsible addresses (activities, rest
 
 # Argumentation file
 
-## Backend developer
-
-* Corentin Croizat
-
 ## Used technologies
 
 * **Node.js** is designed to build scalable network applications.
 * **TypeScript** is a typed superset of JavaScript that compiles to plain JavaScript.
 * **MongoDB** is a general purpose, document-based, distributed database built for modern application.
 
-## Deployment
+## Deployment on production
+
+### Environment
 
 The Backend needs to be run on an **Node.js** environment with access to a **MongoDB** database, correctly configure in the `.env` file or in the environment variables.
 
 For the deployment in a production environment, some values in the `.env` file must be edited :
 * **MONGO_URI** is the uri that the Backend use to connect to MongoDB.
 * **JWT_SECRET** is a secret to sign tokens. This is used in the **Passport** JWT strategy.
+
+### Build
+
+```bash
+# installation
+$ npm install
+
+# compile project
+$ npm run build
+
+# start server
+$ npm run start:prod
+```
 
 ## Database schema
 
@@ -35,13 +46,9 @@ For the deployment in a production environment, some values in the `.env` file m
 
 The **api** and **swagger's documentation** are deployed on [Madu's documentation](http://staging-madu-back-end-elb-1448654197.eu-west-2.elb.amazonaws.com).
 
+
+
 # Development
-
-## Installation
-
-```bash
-$ npm install
-```
 
 ## Running in local
 
@@ -61,14 +68,14 @@ $ make drop-db
 ### API
 
 ```bash
+# installation
+$ npm install
+
 # development
 $ npm run start
 
 # watch mode
 $ npm run start:dev
-
-# production mode
-$ npm run start:prod
 ```
 
 ## Documentation
