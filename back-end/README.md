@@ -9,19 +9,84 @@ Madu is a digital map that references ecoresponsible addresses (activities, rest
 
 # Argumentation file
 
-## Backend developer
-
-* Corentin Croizat
-
 ## Used technologies
 
 * **Node.js** is designed to build scalable network applications.
 * **TypeScript** is a typed superset of JavaScript that compiles to plain JavaScript.
 * **MongoDB** is a general purpose, document-based, distributed database built for modern application.
 
+## Deployment on production
+
+### Environment
+
+The Backend needs to be run on an **Node.js** environment with access to a **MongoDB** database, correctly configure in the `.env` file or in the environment variables.
+
+For the deployment in a production environment, some values in the `.env` file must be edited :
+* **MONGO_URI** is the uri that the Backend use to connect to MongoDB.
+* **JWT_SECRET** is a secret to sign tokens. This is used in the **Passport** JWT strategy.
+
+### Build
+
+```bash
+# installation
+$ npm install
+
+# compile project
+$ npm run build
+
+# start server
+$ npm run start:prod
+```
+
 ## Database schema
 
-<img src="./db-schema.jpg" alt="Database schema" />
+<img src="./madu-db-schema.jpg" alt="Database schema" />
+
+## The api's documentation
+
+The **api** and **swagger's documentation** are deployed on [Madu's documentation](http://staging-madu-back-end-elb-1448654197.eu-west-2.elb.amazonaws.com).
+
+
+
+# Development
+
+## Running in local
+
+### MongoDB
+
+```bash
+# start mongodb container
+$ make create-db
+
+# import data fixtures
+$ make import-db
+
+# drop database
+$ make drop-db
+```
+
+### API
+
+```bash
+# installation
+$ npm install
+
+# development
+$ npm run start
+
+# watch mode
+$ npm run start:dev
+```
+
+## Documentation
+
+- swagger
+
+While the application is running, open your browser and navigate to http://localhost:3000/.
+
+- Compodoc
+
+You can generate your documentation using the below command ``` npx compodoc -p tsconfig.json -s ``` . Then, open your browser and navigate to http://localhost:8080.
 
 ## Used libraries
 
@@ -49,50 +114,3 @@ Authentication is an essential part of most applications. **Passport** is the mo
 
 Now that our user is authenticated, we need to verify his credentials.
 **Guards** have a single responsibility. They determine whether a given request will be handled by the route handler or not, depending on certain conditions (like permissions, roles, ACLs, etc.) present at run-time. In our case, we use a guard that permits access only to users with a **specific role**, saved in the user.
-
-## Deployment
-
-The **api** and **swagger's documentation** are deployed on [Madu documentation](http://madu.mrfvrl.fr:3000).
-
-# Development
-
-## Installation
-
-```bash
-$ npm install
-```
-
-## Running MongoDB
-
-```bash
-# start mongodb container && import data fixtures
-$ make create-db
-
-# drop database
-$ make drop-db
-```
-
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-If your database is empty you can create an admin with `/users/admin`.
-After that, you can get a bearer token with `/auth/login`, then call all the routes with the token in Authorization header.
-
-## Documentation
-
-- swagger
-
-While the application is running, open your browser and navigate to http://localhost:3000/.
-
-- Compodoc
-
-You can generate your documentation using the below command ``` npx compodoc -p tsconfig.json -s ``` . Then, open your browser and navigate to http://localhost:8080.

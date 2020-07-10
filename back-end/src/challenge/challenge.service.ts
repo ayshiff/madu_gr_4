@@ -20,7 +20,7 @@ export class ChallengeService {
     let challenge = new this.challengeModel(challengeDto);
     challenge.id = uuidv4();
     await challenge.save();
-    return this.findByUuid(challenge.id);
+    return challenge;
   }
 
   async update(

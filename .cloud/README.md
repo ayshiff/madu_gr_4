@@ -42,7 +42,7 @@ $ pip install -r requirement.txt
 $ ansible-galaxy install -r requirement.yml
 ```
 
-## Déploiement des serveur
+## Déploiement des serveurs
 
 Avant de déployer il faut [générer une clé ssh](https://confluence.atlassian.com/bitbucketserver/creating-ssh-keys-776639788.html).
 Pour l'utilisation de la pipeline CI/CD, il faut obligatoirement générer une clé rsa, il faut donc mettre l'option ```-t rsa``` au moment de la création de la clé.
@@ -56,7 +56,9 @@ $ terraform init
 $ terraform apply
 ```
 
-Le serveur est déployé sur eu-west-2, déployer sur eu-west-3 n'est pas possible à cause de l'utilisation d'un inventaire dynamique avec Ansible.
+Pour changer le nombre de serveurs déployés, il faut modifié les variables client_instance_count pour le nombre de serveurs client et back_end_instance_count pour le nombre de serveurs back-end dans ```/.cloud/terraform/main.tf``` 
+
+Les serveurs sont déployés sur eu-west-2, déployer sur eu-west-3 n'est pas possible à cause de l'utilisation d'un inventaire dynamique avec Ansible.
 
 ## Installation et lancement
 

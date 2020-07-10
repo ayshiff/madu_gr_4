@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, UseGuards, Param, Put, Delete, UseInterceptors, UploadedFiles, UploadedFile, Req, } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, Param, Put, Delete, UseInterceptors, UploadedFile, } from '@nestjs/common';
 import { ChallengeDto } from './dto/challenge.dto';
 import { ChallengeService } from './challenge.service';
 import { Challenge } from './interfaces/challenge.interface';
@@ -9,7 +9,8 @@ import { ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { imageFileFilter, editFileName } from "../interceptor/multer.interceptor";
+import { imageFileFilter, editFileName } from "src/shared/interceptor/multer.interceptor";
+import { RequestUser } from 'src/shared/decorator/user.decorator';
 
 @ApiTags('Challenge')
 @Controller('challenges')
@@ -66,8 +67,8 @@ export class ChallengeController {
     }),
     fileFilter: imageFileFilter,
   }))
-  async validate(@Param('challenge_id') id: string, @UploadedFile() image, @Req() req) {
+  async validate(@Param('challenge_id') id: string, @UploadedFile() image, @RequestUser() user) {
     const challenge = await this.challengeService.findByUuid(id);
-    return this.challengeService.validate(challenge, req.user, image);
+    return this.challengeService.validate(challenge, user, image);
   }
 }

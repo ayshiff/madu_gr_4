@@ -1,8 +1,8 @@
 import { IsString, IsInt, ValidateNested, IsUrl, IsPhoneNumber, IsEmail, IsEnum, IsBoolean, IsOptional } from 'class-validator';
 import { Type } from 'class-transformer';
 import { PoiCategories } from '../model/poi-categories.enum';
-import { Address } from "./address.dto";
-import { Week } from "./week.dto";
+import { Address } from "src/shared/dto/address.dto";
+import { Week } from "src/shared/dto/week.dto";
 
 export class UpdatePoiDto {
   @IsOptional()

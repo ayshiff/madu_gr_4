@@ -24,7 +24,7 @@ export class PoiService {
     createdPoi.visits = 0;
     createdPoi.status = PoiStatus.Canvassing;
     await createdPoi.save();
-    return this.findByUuid(createdPoi.id);
+    return createdPoi;
   }
 
   async update(poi: Poi, updatePoiDto: UpdatePoiDto): Promise<Poi> {
