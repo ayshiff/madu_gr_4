@@ -4,9 +4,14 @@ WORKDIR /home/node
 
 COPY package.json .
 
+ARG API_BASE_URL
+ENV REACT_APP_API_BASE_URL=$API_BASE_URL
+
 RUN yarn install
 
 COPY . .
+
+RUN yarn upgrade
 
 RUN yarn run build
 
