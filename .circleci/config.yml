@@ -230,7 +230,7 @@ workflows:
       - push_image_back_end:
           requires:
             - build_back_end
-      #- deploy:
-      #   requires:
-      #      - push_image_client
-      #      - push_image_back_end
+      - deploy:
+         requires:
+            - push_image_client
+            - push_image_back_end
