@@ -6,11 +6,11 @@
     "startDate": "2020-07-05T00:00:00.000Z",
     "endDate": "2020-07-12T00:00:00.000Z",
     "title": "Lundi c'est veggie !",
-    "description": "Chaque français consomme 87kg de viande par an ...",
+    "description": "Chaque Français consomme 87 kg de viande et 34 kg de poisson par an. À lʼéchelle mondiale, lʼélevage représente près de 15 % des émissions de gaz à effet de serre dʼorigine humaine et lʼONU estime que la consommation de viande va grimper de 76 % dʼici 2050.",
     "content": "string",
     "category": "Alimentation",
     "points": 120,
-    "photo": "string",
+    "photo": "https://www.theballitomagazine.co.za/wp-content/uploads/edgar-castrejon-1SPu0KT-Ejg-unsplash-scaled-e1585303845552.jpg",
     "participants": [],
     "id": "56a65419-6be1-451c-8897-90e20a960b40",
     "__v": 0
