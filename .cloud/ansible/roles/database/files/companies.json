@@ -10,8 +10,8 @@
     "domainName": "madu.net",
     "address": {
       "value": "24 rue du progres Montreuil",
-      "lat": 2.412336,
-      "lng": 48.643817
+      "lat": 48.85171599507537,
+      "lng": 2.4205160266690617
     },
     "employees": "1 - 5",
     "departments": [
@@ -64,8 +64,8 @@
     "domainName": "hetic.net",
     "address": {
       "value": "24 rue du progres Montreuil",
-      "lat": 2.412336,
-      "lng": 48.643817
+      "lat": 48.85171599507537,
+      "lng": 2.4205160266690617
     },
     "employees": "300 - 400",
     "departments": [
