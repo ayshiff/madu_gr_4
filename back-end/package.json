@@ -31,7 +31,7 @@
     "@nestjs/swagger": "^4.2.3",
     "bcrypt": "^3.0.7",
     "class-transformer": "^0.2.3",
-    "class-validator": "^0.11.0",
+    "class-validator": "^0.14.0",
     "express-rate-limit": "^5.0.0",
     "helmet": "^3.21.2",
     "mongoose": "^5.8.10",
